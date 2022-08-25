@@ -54,7 +54,7 @@ function Register() {
           mobile: mobileNumber,
           username: username,
           password: password,
-          type: "ADOPTEE",
+          type: "USER",
         })
         .then(function (response) {
           if (response.data.statusCode == "OK") {
@@ -95,7 +95,7 @@ function Register() {
                 <Row>
                   <span
                     onClick={() => history.push("/auth/login")}
-                    className="pointer ml-2"
+                    className="pointer ml-5 h2"
                     title="Back to Sign In"
                     style={{ cursor: "pointer" }}
                   >
@@ -206,7 +206,7 @@ function Register() {
                           htmlFor="customCheckRegister"
                         >
                           <span className="text-muted">
-                            I agree with the
+                            I agree with the{" "}
                             <a href="null" onClick={(e) => e.preventDefault()}>
                               Privacy Policy
                             </a>

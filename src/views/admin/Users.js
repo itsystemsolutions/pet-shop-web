@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 
 // react-bootstrap components
-import { Card, Table, Container, Row, Col } from "react-bootstrap";
+import { Card, Table, Container, Button } from "react-bootstrap";
+
+import Swal from "sweetalert2";
 
 const axios = require("axios").default;
 
-function Approvers() {
+function Appointments() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("/user?type=APPROVER").then(response => {
-      console.log(response.data);
+    axios.get("/user?type=USER").then((response) => {
       setData(response.data);
     });
   }, []);
@@ -19,28 +21,23 @@ function Approvers() {
     <Container fluid>
       <Card className="strpied-tabled-with-hover">
         <Card.Header>
-          <Card.Title as="h4">Adopties List</Card.Title>
-          <p className="card-category">List of users who want to adopt a pet</p>
+          <Card.Title as="h4">Users Masterlist</Card.Title>
         </Card.Header>
         <Card.Body className="table-full-width table-responsive px-0">
           <Table className="table-hover table-striped">
             <thead>
               <tr>
-                <th className="border-0">ID</th>
                 <th className="border-0">Name</th>
-                <th className="border-0">Mobile Number</th>
-                <th className="border-0">Username</th>
+                <th className="border-0">Mobile</th>
                 <th className="border-0">Email</th>
               </tr>
             </thead>
             <tbody>
-              {data.map(entry => {
+              {data.map((entry) => {
                 return (
                   <tr>
-                    <td>{entry.id}</td>
                     <td>{entry.name}</td>
                     <td>{entry.mobile}</td>
-                    <td>{entry.username}</td>
                     <td>{entry.email}</td>
                   </tr>
                 );
@@ -53,4 +50,4 @@ function Approvers() {
   );
 }
 
-export default Approvers;
+export default Appointments;

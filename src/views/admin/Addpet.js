@@ -18,30 +18,40 @@ const axios = require("axios").default;
 function Addpet() {
   const history = useHistory();
 
-  const [name, setname] = useState("");
+  const [name, setName] = useState("");
   const [gender, setGender] = useState("");
   const [breed, setBreed] = useState("");
   const [age, setAge] = useState("");
   const [size, setSize] = useState("");
   const [residency, setResidency] = useState("");
+  const [image, setImage] = useState("");
 
   const handleAddpet = (e) => {
     e.preventDefault();
 
     axios
       .post("/pets", {
-        name: "name",
+        name: name,
         gender: gender,
         breed: breed,
         age: age,
         size: size,
-        shelterResidentYear: "residency",
+        shelterResidentYear: residency,
       })
       .then(function (response) {
         if (response.status == 200) {
+          console.log(response.data);
+          const formData = new FormData();
+          formData.append("file", image);
+          formData.append("code", response.data);
+
+          axios.put(`/pets/upload/image`, formData).catch((error) => {
+            console.log(error);
+          });
+
           Swal.fire({
             icon: "success",
-            text: response.data.message,
+            text: "The pet code is " + response.data,
             title: "Do you want to add another pet?",
             showCancelButton: true,
             cancelButtonText: "YES",
@@ -49,6 +59,13 @@ function Addpet() {
           }).then((result) => {
             if (result.isConfirmed) {
               history.push("/admin/adoptpet");
+            } else {
+              setName("");
+              setGender("");
+              setBreed("");
+              setAge("");
+              setSize("");
+              setResidency("");
             }
           });
         }
@@ -76,7 +93,7 @@ function Addpet() {
                     placeholder="Name"
                     required
                     value={name}
-                    onChange={(e) => setname(e.target.value)}
+                    onChange={(e) => setName(e.target.value)}
                   ></Input>
                 </FormGroup>
                 <FormGroup>
@@ -133,6 +150,14 @@ function Addpet() {
                     value={residency}
                     onChange={(e) => setResidency(e.target.value)}
                   ></Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="residensy">Image</Label>
+                  <Input
+                    type="file"
+                    required
+                    onChange={(e) => setImage(e.target.files[0])}
+                  />
                 </FormGroup>
                 <div className="text-center ">
                   <Button

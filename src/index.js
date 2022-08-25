@@ -9,11 +9,10 @@ import "./assets/scss/light-bootstrap-dashboard-react.scss?v=2.0.0";
 import "./assets/css/demo.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-import AdminLayout from "layouts/Admin.js";
-import AuthLayout from "layouts/Auth.js";
-import AdopteeLayout from "layouts/Adoptee.js";
-import ApproverLayout from "layouts/Approver.js";
-import Homepage from "views/Homepage";
+import AdminLayout from "views/admin/layout";
+import AuthLayout from "views/auth/layout";
+import UserLayout from "views/user/layout";
+import Homepage from "layouts/HomePage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -22,11 +21,8 @@ root.render(
     <Switch>
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
       <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
-      <Route path="/adoptee" render={(props) => <AdopteeLayout {...props} />} />
-      <Route
-        path="/approver"
-        render={(props) => <ApproverLayout {...props} />}
-      />
+      <Route path="/user" render={(props) => <UserLayout {...props} />} />
+      <Route path="/user" render={(props) => <UserLayout {...props} />} />
       <Route path="/" render={() => <Homepage />} />
       <Redirect from="/" to="/" />
     </Switch>

@@ -14,13 +14,13 @@ function Admin() {
   const [hasImage, setHasImage] = React.useState(true);
   const location = useLocation();
   const mainPanel = React.useRef(null);
-  const getRoutes = routes => {
+  const getRoutes = (routes) => {
     return routes.map((prop, key) => {
       if (prop.layout === "/admin") {
         return (
           <Route
             path={prop.layout + prop.path}
-            render={props => <prop.component {...props} />}
+            render={(props) => <prop.component {...props} />}
             key={key}
           />
         );
@@ -58,9 +58,9 @@ function Admin() {
         hasImage={hasImage}
         setHasImage={() => setHasImage(!hasImage)}
         color={color}
-        setColor={color => setColor(color)}
+        setColor={(color) => setColor(color)}
         image={image}
-        setImage={image => setImage(image)}
+        setImage={(image) => setImage(image)}
       />
     </>
   );

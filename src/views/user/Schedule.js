@@ -1,36 +1,67 @@
 import { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
+
 import {
   Card,
+  CardBody,
+  CardHeader,
   Col,
   Container,
-  Dropdown,
   FormGroup,
-  Placeholder,
   Row,
-} from "react-bootstrap";
-import {
   Input,
-  Button,
   Form,
-  CardHeader,
-  CardBody,
-  DropdownToggle,
+  Label,
+  Button,
 } from "reactstrap";
 
 const axios = require("axios").default;
+import Swal from "sweetalert2";
 
-function Zoom() {
+function Schedule() {
+  let { code } = useParams();
+
   const [name, setName] = useState([]);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [message, setMessage] = useState("");
+  const [meetingURL, setMeetingU] = useState("");
 
   useEffect(() => {
-    axios.get("/pets").then(response => {
+    axios.get("/pets?petCode=" + code).then((response) => {
       console.log(response.data);
-      setName(response.data);
+      setName(response.data[0].name);
     });
   }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    axios
+      .post("/pets", {
+        userId: localStorage.getItem("userId"),
+        date: date,
+        time: time,
+        message: message,
+        petCode: code,
+      })
+      .then((response) => {
+        Swal.fire({
+          icon: "success",
+          text: `Scheduled! Success one more step to adtop ${name}`,
+          title: `Please come to the petshop at this schedule \n Date: ${date} and Time @ ${time}`,
+        });
+
+        console.log(response.data);
+        setMessage(response.data.message);
+      });
+
+    console.log(name);
+    console.log(date);
+    console.log(time);
+    console.log(message);
+    console.log(code);
+  };
 
   return (
     <Container>
@@ -39,62 +70,59 @@ function Zoom() {
           <Card>
             <CardHeader>
               <h3 className="fw-normal text-secondary fs-4 text-uppercase mb-4 text-center">
-                ZOOM MEETING
+                Set a meeting to adopt '{name}'
+                <img
+                  src={`http://localhost:8081/PETSHOP/images/pets/${code}.jpg`}
+                  alt=""
+                  height={110}
+                  className="my-3"
+                />
               </h3>
             </CardHeader>
 
             <Form>
               <CardBody>
-                <FormGroup>
-                  <Placeholder>Name</Placeholder>
-                  <div className="App">
-                    <select className="form-control select-class">
-                      <option value="0">Name</option>
-                      {name.map(entry => {
-                        return <option>{entry.name}</option>;
-                      })}
-                    </select>
-                  </div>
-                </FormGroup>
-
                 <FormGroup className="mt-2">
-                  <Placeholder>Date</Placeholder>
+                  <Label>Date</Label>
                   <Input
                     type="date"
                     className="form-control"
                     placeholder="Enter Date"
                     value={date}
-                    onChange={e => setDate(e.target.value)}
+                    onChange={(e) => setDate(e.target.value)}
                   ></Input>
                 </FormGroup>
 
                 <FormGroup>
-                  <Placeholder>Time</Placeholder>
+                  <Label>Time</Label>
                   <Input
                     type="time"
                     className="form-control"
                     placeholder="Enter Email"
                     value={time}
-                    onChange={e => setTime(e.target.value)}
+                    onChange={(e) => setTime(e.target.value)}
                   ></Input>
                 </FormGroup>
 
                 <FormGroup>
-                  <Placeholder>Message</Placeholder>
+                  <Label>Message</Label>
                   <textarea
                     className="form-control"
                     placeholder="Message"
                     value={message}
-                    onChange={e => setMessage(e.target.value)}
+                    onChange={(e) => setMessage(e.target.value)}
                   ></textarea>
                 </FormGroup>
 
                 <div className="mt-2" style={{ display: "flex" }}>
                   <Button
+                    onClick={() => history.push("/user/interviewstatus")}
                     type="submit"
                     color="primary"
-                    style={{ marginLeft: "auto" }}
                   >
+                    Back
+                  </Button>
+                  <Button type="submit" color="primary" className="ml-auto">
                     Set Meeting
                   </Button>
                 </div>
@@ -107,4 +135,4 @@ function Zoom() {
   );
 }
 
-export default Zoom;
+export default Schedule;

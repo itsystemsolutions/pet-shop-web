@@ -1,40 +1,18 @@
-/*!
-
-=========================================================
-* Light Bootstrap Dashboard React - v2.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React, { Component } from "react";
+import React from "react";
 import { useLocation, Route, Switch } from "react-router-dom";
-
-import routes from "routes-auth.js";
-
-import sidebarImage from "assets/img/pexels-laura-stanley-2252316.jpg";
+import routes from "../routes-auth";
+import bgImage from "assets/img/login-bg.png";
 
 function Auth() {
-  const [image, setImage] = React.useState(sidebarImage);
-  const [color, setColor] = React.useState("black");
-  const [hasImage, setHasImage] = React.useState(true);
   const location = useLocation();
   const mainPanel = React.useRef(null);
-  const getRoutes = routes => {
+  const getRoutes = (routes) => {
     return routes.map((prop, key) => {
       if (prop.layout === "/auth") {
         return (
           <Route
             path={prop.layout + prop.path}
-            render={props => <prop.component {...props} />}
+            render={(props) => <prop.component {...props} />}
             key={key}
           />
         );
@@ -57,7 +35,16 @@ function Auth() {
     }
   }, [location]);
   return (
-    <div className="wrapper">
+    <div
+      className="wrapper"
+      style={{
+        backgroundImage: `url(${bgImage})`,
+        height: "59.2rem",
+        backgroundSize: "cover",
+        width: "100%",
+        paddingLeft: "15px",
+      }}
+    >
       <div className="container h-100">
         <div className="row h-100 justify-content-center align-items-center">
           <div className="auth-panel w-100" ref={mainPanel}>

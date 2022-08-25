@@ -42,34 +42,29 @@ function Login() {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    if (username === "admin" && password === "4dm1n") {
-      history.push("/admin/dashboard");
-    } else {
-      console.log("here");
-      axios
-        .post(`/user/login?username=${username}&password=${password}`)
-        .then(function (response) {
-          if (response.data !== 0) {
-            axios.get("/user/info/?id=" + response.data).then((response) => {
-              console.log("asdasldkasjdlkj");
-              if (response.data.type === "ADOPTEE") {
-                history.push("/adoptee/dashboard");
-              } else if (response.data.type === "APPROVER") {
-                history.push("/approver/dashboard");
-              }
-            });
-          } else {
-            Swal.fire({
-              icon: "error",
-              text: "Oops...",
-              title: "Invalid Credentials!",
-            });
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
+    axios
+      .post(`/user/login?username=${username}&password=${password}`)
+      .then(function (response) {
+        if (response.data !== 0) {
+          localStorage.setItem("user_id", response.data);
+          axios.get("/user/info/?id=" + response.data).then((response) => {
+            if (response.data.type === "USER") {
+              history.push("/user/dashboard");
+            } else if (response.data.type === "ADMIN") {
+              history.push("/admin/dashboard");
+            }
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            text: "Oops...",
+            title: "Invalid Credentials!",
+          });
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   return (
@@ -146,9 +141,9 @@ function Login() {
                 </div>
               </FormGroup>
               <span className="mt-2 font-italic">
-                Dont have account ?
+                Dont have account?
                 <a
-                  className="color-primary mt-3"
+                  className="color-primary ml-2 mt-3"
                   onClick={() => history.push("/auth/register")}
                   style={{ cursor: "pointer" }}
                 >
