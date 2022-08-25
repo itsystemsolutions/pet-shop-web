@@ -33,6 +33,20 @@ function HomePage() {
             >
               ADOPT NOW
             </Button>
+            <div>
+              <h4>STEPS ON HOW TO ADOPT A PET</h4>
+              <p>1. Find an available pet that you wish to adopt</p>
+              <p>
+                2. Answer all the following questions to be qualified to adopt a
+                pet
+              </p>
+              <p>3. Request zoom interview</p>
+              <p>4. Wait for the pet pick-up schedule</p>
+              <p>
+                5. Scan Gcash QR Code and Upload proof of Reciept for the
+                payment/donations
+              </p>
+            </div>
           </div>
         </div>
       </div>

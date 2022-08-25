@@ -13,6 +13,7 @@ import {
   CardHeader,
   Row,
   Col,
+  Label,
 } from "reactstrap";
 
 import { Card } from "react-bootstrap";
@@ -24,6 +25,14 @@ function AdoptForm() {
   let { code } = useParams();
   const history = useHistory();
 
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [date, setDate] = useState("");
+  const [address, setAddress] = useState("");
+  const [email, setEmail] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [occupation, setOccupation] = useState("");
+  const [social, setSocial] = useState("");
   const [image, setImage] = useState("");
 
   const [answer1, setAnswer1] = useState("");
@@ -47,7 +56,7 @@ function AdoptForm() {
   const [answer19, setAnswer19] = useState("");
   const [answer20, setAnswer20] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
 
     axios
@@ -78,14 +87,14 @@ function AdoptForm() {
           answer20: answer20,
         },
       })
-      .then((response) => {
+      .then(response => {
         if (response.data > 12) {
           Swal.fire({
             icon: "success",
             title: "Congratulations you passed the exam!",
             text: `Your score is ${response.data}`,
             confirmButtonText: "Check EligiblePets",
-          }).then((result) => {
+          }).then(result => {
             if (result.isConfirmed) {
               history.push("/user/eligible-pets");
             }
@@ -96,7 +105,7 @@ function AdoptForm() {
             text: `Oh no! You have failed the assesment questions`,
             text: `Your score was ${response.data}`,
             confirmButtonText: "Try again",
-          }).then((result) => {
+          }).then(result => {
             if (result.isConfirmed) {
               history.push("/user/adoptpet");
             }
@@ -116,11 +125,115 @@ function AdoptForm() {
     <Container>
       <Card>
         <CardHeader>
-          <h3>Adopt a pet qualification questions...</h3>
+          <h3 className="text-center">PERSONAL INFORMATIONS</h3>
+          <Col md="8">
+            <Row>
+              <FormGroup className="ml-2">
+                <Label for="Name">Name</Label>
+                <Input
+                  placeholder="Name"
+                  type="text"
+                  value={name}
+                  required
+                  onChange={e => setName(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup className="ml-2">
+                <Label for="Age">AGE</Label>
+                <Input
+                  placeholder="Age"
+                  type="text"
+                  value={age}
+                  required
+                  onChange={e => setAge(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup className="ml-2">
+                <Label for="Date">Date</Label>
+                <Input
+                  placeholder="Date"
+                  type="date"
+                  value={date}
+                  required
+                  onChange={e => setDate(e.target.value)}
+                />
+              </FormGroup>
+            </Row>
+            <FormGroup>
+              <Label for="Address">ADDRESS</Label>
+              <Input
+                placeholder="Address"
+                type="text"
+                value={address}
+                required
+                onChange={e => setAddress(e.target.value)}
+              />
+            </FormGroup>
+            <Row>
+              <FormGroup className="ml-2">
+                <Label for="Email">Email</Label>
+                <Input
+                  placeholder="Email"
+                  type="text"
+                  value={email}
+                  required
+                  onChange={e => setEmail(e.target.value)}
+                />
+              </FormGroup>
+
+              <FormGroup className="ml-2">
+                <Label for="mobile">Mobile Number</Label>
+                <Input
+                  placeholder="09XX-XXX-XXXX"
+                  type="number"
+                  pattern="[0-9]"
+                  required
+                  maxLength={11}
+                  value={mobileNumber}
+                  onChange={e => setMobileNumber(e.target.value)}
+                />
+              </FormGroup>
+            </Row>
+            <Row>
+              <FormGroup className="ml-2">
+                <Label for="Occupation">Occupation</Label>
+                <Input
+                  placeholder="Occupation"
+                  type="text"
+                  autoComplete="Occupation"
+                  value={occupation}
+                  required
+                  onChange={e => setOccupation(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup className="ml-2">
+                <Label for="FB/IG/TWITTER">FB/IG/TWITTER</Label>
+                <Input
+                  placeholder="FB/IG/TWITTER"
+                  type="text"
+                  autoComplete="FB/IG/TWITTER"
+                  value={social}
+                  required
+                  onChange={e => setSocial(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label for="residensy">Image</Label>
+                <Input
+                  type="file"
+                  required
+                  onChange={e => setImage(e.target.files[0])}
+                />
+              </FormGroup>
+            </Row>
+            <h4 className="text-center">
+              QUESTIONAIRE (passsing score - 60% above)
+            </h4>
+          </Col>
         </CardHeader>
         <CardBody>
           <Form>
-            <Row>
+            <Row className="ml-4">
               <Col md={12}>
                 1. Who will be responsible for feeding, grooming and generally
                 taking care for your pet?
@@ -151,7 +264,7 @@ function AdoptForm() {
                       Myself
                     </FormGroup>
                   </Col>
-                  <Col md={4}>
+                  <Col md={2}>
                     <FormGroup check inline>
                       <Input
                         style={{ cursor: "pointer" }}
@@ -163,11 +276,17 @@ function AdoptForm() {
                     </FormGroup>
                   </Col>
                 </Row>
+                <Col md={4}>
+                  -others/explain if necessary
+                  <Input
+                    style={{ cursor: "pointer" }}
+                    name="question1"
+                    type="textbox"
+                    onChange={() => setAnswer1("")}
+                  />
+                </Col>
               </Col>
-            </Row>
-          </Form>
-          <Form>
-            <Row>
+
               <Col md={12}>
                 2. Are there children below 18 yrs old in the house?
               </Col>
@@ -199,10 +318,7 @@ function AdoptForm() {
                   </Col>
                 </Row>
               </Col>
-            </Row>
-          </Form>
-          <Form>
-            <Row>
+
               <Col md={12}>3. Do you have other pets?</Col>
 
               <Col md={12}>
@@ -231,12 +347,17 @@ function AdoptForm() {
                     </FormGroup>
                   </Col>
                 </Row>
+                <Col md={4}>
+                  -if yes tell us about
+                  <Input
+                    style={{ cursor: "pointer" }}
+                    name="question1"
+                    type="textbox"
+                    onChange={() => setAnswer1("")}
+                  />
+                </Col>
               </Col>
-            </Row>
-          </Form>
 
-          <Form>
-            <Row>
               <Col md={12}>4. Who else do you live with?</Col>
 
               <Col md={12}>
@@ -264,7 +385,7 @@ function AdoptForm() {
                       Parents
                     </FormGroup>
                   </Col>
-                  <Col md={4}>
+                  <Col md={2}>
                     <FormGroup check inline>
                       <Input
                         style={{ cursor: "pointer" }}
@@ -276,11 +397,17 @@ function AdoptForm() {
                     </FormGroup>
                   </Col>
                 </Row>
+                <Col md={4}>
+                  -others
+                  <Input
+                    style={{ cursor: "pointer" }}
+                    name="question1"
+                    type="textbox"
+                    onChange={() => setAnswer1("")}
+                  />
+                </Col>
               </Col>
-            </Row>
-          </Form>
-          <Form>
-            <Row>
+
               <Col md={12}>
                 5. Are there any members of your household allergic to animals?
               </Col>
@@ -311,12 +438,17 @@ function AdoptForm() {
                     </FormGroup>
                   </Col>
                 </Row>
+                <Col md={4}>
+                  -if yes, how it will be manage?
+                  <Input
+                    style={{ cursor: "pointer" }}
+                    name="question1"
+                    type="textbox"
+                    onChange={() => setAnswer1("")}
+                  />
+                </Col>
               </Col>
-            </Row>
-          </Form>
 
-          <Form>
-            <Row>
               <Col md={12}>6. Have you had pets in the past?</Col>
 
               <Col md={12}>
@@ -346,11 +478,7 @@ function AdoptForm() {
                   </Col>
                 </Row>
               </Col>
-            </Row>
-          </Form>
 
-          <Form>
-            <Row>
               <Col md={12}>
                 7. Who will be financially responsible for your pet’s needs
                 (i,e.. food, vet bills, etc.)?
@@ -394,11 +522,7 @@ function AdoptForm() {
                   </Col>
                 </Row>
               </Col>
-            </Row>
-          </Form>
 
-          <Form>
-            <Row>
               <Col md={12}>
                 8. Who will be looking after your pet if you go on vacation or
                 in case of emergency?
@@ -442,10 +566,7 @@ function AdoptForm() {
                   </Col>
                 </Row>
               </Col>
-            </Row>
-          </Form>
-          <Form>
-            <Row>
+
               <Col md={12}>
                 9. How many hours in an average workday will your pet be left
                 alone?
@@ -488,12 +609,17 @@ function AdoptForm() {
                     </FormGroup>
                   </Col>
                 </Row>
+                <Col md={4}>
+                  -others
+                  <Input
+                    style={{ cursor: "pointer" }}
+                    name="question1"
+                    type="textbox"
+                    onChange={() => setAnswer1("")}
+                  />
+                </Col>
               </Col>
-            </Row>
-          </Form>
 
-          <Form>
-            <Row>
               <Col md={12}>
                 10. Does everyone in the family support your decision to adopt a
                 pet?
@@ -526,10 +652,7 @@ function AdoptForm() {
                   </Col>
                 </Row>
               </Col>
-            </Row>
-          </Form>
-          <Form>
-            <Row>
+
               <Col md={12}>
                 11. What steps will you take to familiarize your pet with
                 his/her new surroundings?
@@ -572,12 +695,17 @@ function AdoptForm() {
                     </FormGroup>
                   </Col>
                 </Row>
+                <Col md={4}>
+                  -other
+                  <Input
+                    style={{ cursor: "pointer" }}
+                    name="question1"
+                    type="textbox"
+                    onChange={() => setAnswer1("")}
+                  />
+                </Col>
               </Col>
-            </Row>
-          </Form>
 
-          <Form>
-            <Row>
               <Col md={12}>12. What type of building do you live in?</Col>
 
               <Col md={12}>
@@ -618,10 +746,7 @@ function AdoptForm() {
                   </Col>
                 </Row>
               </Col>
-            </Row>
-          </Form>
-          <Form>
-            <Row>
+
               <Col md={12}>13. Do you rent?</Col>
 
               <Col md={12}>
@@ -651,10 +776,7 @@ function AdoptForm() {
                   </Col>
                 </Row>
               </Col>
-            </Row>
-          </Form>
-          <Form>
-            <Row>
+
               <Col md={12}>
                 14. If renting or living in a shared building, can you provide a
                 copy of your building’s pet policy?
@@ -685,12 +807,20 @@ function AdoptForm() {
                       No
                     </FormGroup>
                   </Col>
+                  <Col md={4}>
+                    <FormGroup check inline>
+                      -if yes, please upload here.
+                    </FormGroup>
+                    <Input
+                      style={{ cursor: "pointer" }}
+                      name="question1"
+                      type="file"
+                      onChange={() => setAnswer1("")}
+                    />
+                  </Col>
                 </Row>
               </Col>
-            </Row>
-          </Form>
-          <Form>
-            <Row>
+
               <Col md={12}>
                 15. What happens to your pet if or when you move, will you take
                 your pet?
@@ -723,10 +853,7 @@ function AdoptForm() {
                   </Col>
                 </Row>
               </Col>
-            </Row>
-          </Form>
-          <Form>
-            <Row>
+
               <Col md={12}>16. What kind of pet us right for you?</Col>
 
               <Col md={12}>
@@ -768,11 +895,7 @@ function AdoptForm() {
                   </Col>
                 </Row>
               </Col>
-            </Row>
-          </Form>
 
-          <Form>
-            <Row>
               <Col md={12}>
                 17. Are you ready for long term commitment with your new pet?
               </Col>
@@ -804,11 +927,7 @@ function AdoptForm() {
                   </Col>
                 </Row>
               </Col>
-            </Row>
-          </Form>
 
-          <Form>
-            <Row>
               <Col md={12}>
                 18. Can you afford to care for your pets healthy and safety?
               </Col>
@@ -840,11 +959,7 @@ function AdoptForm() {
                   </Col>
                 </Row>
               </Col>
-            </Row>
-          </Form>
 
-          <Form>
-            <Row>
               <Col md={12}>19. Do you have time for pet?</Col>
 
               <Col md={12}>
@@ -874,10 +989,7 @@ function AdoptForm() {
                   </Col>
                 </Row>
               </Col>
-            </Row>
-          </Form>
-          <Form>
-            <Row>
+
               <Col md={12}>20. Are you willing to train your pet? How?</Col>
 
               <Col md={12}>
@@ -917,19 +1029,29 @@ function AdoptForm() {
                     </FormGroup>
                   </Col>
                 </Row>
+                <Col md={4}>
+                  -others,please explain
+                  <Input
+                    style={{ cursor: "pointer" }}
+                    name="question1"
+                    type="textbox"
+                    onChange={() => setAnswer1("")}
+                  />
+                </Col>
               </Col>
+
+              <Button
+                className="mt-2 font-italic"
+                color="primary"
+                type="submit"
+                block
+                onClick={handleSubmit}
+                style={{ cursor: "pointer" }}
+              >
+                Submit
+              </Button>
             </Row>
           </Form>
-          <Button
-            className="mt-2 font-italic"
-            color="primary"
-            type="submit"
-            block
-            onClick={handleSubmit}
-            style={{ cursor: "pointer" }}
-          >
-            Submit
-          </Button>
         </CardBody>
       </Card>
     </Container>

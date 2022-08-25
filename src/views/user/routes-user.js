@@ -4,7 +4,7 @@ import Adoptpet from "views/user/Adoptpet";
 import EligiblePets from "views/user/EligiblePets";
 
 import Appointments from "views/user/Appointments";
-
+import UserProfile from "views/user/UserProfile";
 import AdoptForm from "./AdoptForm";
 import Schedule from "./Schedule";
 
@@ -51,6 +51,13 @@ const dashboardRoutes = [
     icon: "nc-icon nc-notes",
     component: Schedule,
     hidden: true,
+    layout: "/user",
+  },
+  {
+    path: "/UserProfile",
+    name: "UserProfile",
+    icon: "nc-icon nc-circle-09",
+    component: UserProfile,
     layout: "/user",
   },
 ];
