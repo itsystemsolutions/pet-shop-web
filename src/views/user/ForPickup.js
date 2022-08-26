@@ -1,20 +1,22 @@
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 
 // react-bootstrap components
-import { Card, Table, Container, Button, Badge } from "react-bootstrap";
+import { Card, Table, Container, Button } from "react-bootstrap";
 
 import Swal from "sweetalert2";
+
 const axios = require("axios").default;
 
 function Appointments() {
+  let history = useHistory();
+
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("/schedule/for-interview?userId=" + localStorage.getItem("userId"))
-      .then((response) => {
-        setData(response.data);
-      });
+    axios.get("/schedule/for-pick-up").then((response) => {
+      setData(response.data);
+    });
   }, []);
 
   const handleApproveAppointment = (e, id) => {
@@ -53,35 +55,44 @@ function Appointments() {
     <Container fluid>
       <Card className="strpied-tabled-with-hover">
         <Card.Header>
-          <Card.Title as="h4">My Appointments</Card.Title>
-          <p className="card-category">List of interview set by admin</p>
+          <Card.Title as="h4">For PickUp</Card.Title>
+          <p className="card-category">List of interviews</p>
         </Card.Header>
         <Card.Body className="table-full-width table-responsive px-0">
           <Table className="table-hover table-striped">
             <thead>
               <tr>
+                <th className="border-0">Name</th>
                 <th className="border-0">Pet Code</th>
                 <th className="border-0">Date</th>
                 <th className="border-0">Time</th>
                 <th className="border-0">Message</th>
-                <th className="border-0">Interview LINK</th>
-                <th className="border-0">Status</th>
               </tr>
             </thead>
             <tbody>
               {data.map((entry) => {
                 return (
                   <tr>
+                    <td>{entry.name}</td>
                     <td>{entry.petCode}</td>
                     <td>{entry.date}</td>
                     <td>{entry.time}</td>
                     <td>{entry.message}</td>
                     <td>
-                      <a href={entry.zoomLink} target="_blank">
-                        {entry.zoomLink}
-                      </a>
+                      {entry.hasProofPayment ? (
+                        <>UPLOADED</>
+                      ) : (
+                        <Button
+                          onClick={() =>
+                            history.push(
+                              "/user/upload/proof-of-payment/" + entry.id
+                            )
+                          }
+                        >
+                          Upload Proof of Payment
+                        </Button>
+                      )}
                     </td>
-                    <td>{entry.status}</td>
                   </tr>
                 );
               })}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
 import Swal from "sweetalert2";
@@ -25,15 +25,19 @@ function AdoptForm() {
   let { code } = useParams();
   const history = useHistory();
 
-  const [name, setName] = useState("");
-  const [age, setAge] = useState("");
-  const [date, setDate] = useState("");
   const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [occupation, setOccupation] = useState("");
   const [social, setSocial] = useState("");
   const [image, setImage] = useState("");
+
+  const [data, setData] = useState({
+    name: "",
+    username: "",
+    email: "",
+    mobile: "",
+  });
 
   const [answer1, setAnswer1] = useState("");
   const [answer2, setAnswer2] = useState("");
@@ -56,7 +60,16 @@ function AdoptForm() {
   const [answer19, setAnswer19] = useState("");
   const [answer20, setAnswer20] = useState("");
 
-  const handleSubmit = e => {
+  useEffect(() => {
+    axios
+      .get("/user/info?id=" + localStorage.getItem("user_id"))
+      .then((response) => {
+        console.log(response.data);
+        setData(response.data);
+      });
+  }, []);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     axios
@@ -87,14 +100,14 @@ function AdoptForm() {
           answer20: answer20,
         },
       })
-      .then(response => {
+      .then((response) => {
         if (response.data > 12) {
           Swal.fire({
             icon: "success",
             title: "Congratulations you passed the exam!",
             text: `Your score is ${response.data}`,
             confirmButtonText: "Check EligiblePets",
-          }).then(result => {
+          }).then((result) => {
             if (result.isConfirmed) {
               history.push("/user/eligible-pets");
             }
@@ -105,7 +118,7 @@ function AdoptForm() {
             text: `Oh no! You have failed the assesment questions`,
             text: `Your score was ${response.data}`,
             confirmButtonText: "Try again",
-          }).then(result => {
+          }).then((result) => {
             if (result.isConfirmed) {
               history.push("/user/adoptpet");
             }
@@ -121,110 +134,128 @@ function AdoptForm() {
       });
   };
 
+  const date = new Date();
+  const defaultValue = date.toLocaleDateString("en-CA");
+
   return (
     <Container>
       <Card>
         <CardHeader>
           <h3 className="text-center">PERSONAL INFORMATIONS</h3>
-          <Col md="8">
+          <Col md="12">
             <Row>
-              <FormGroup className="ml-2">
-                <Label for="Name">Name</Label>
-                <Input
-                  placeholder="Name"
-                  type="text"
-                  value={name}
-                  required
-                  onChange={e => setName(e.target.value)}
-                />
-              </FormGroup>
-              <FormGroup className="ml-2">
-                <Label for="Age">AGE</Label>
-                <Input
-                  placeholder="Age"
-                  type="text"
-                  value={age}
-                  required
-                  onChange={e => setAge(e.target.value)}
-                />
-              </FormGroup>
-              <FormGroup className="ml-2">
-                <Label for="Date">Date</Label>
-                <Input
-                  placeholder="Date"
-                  type="date"
-                  value={date}
-                  required
-                  onChange={e => setDate(e.target.value)}
-                />
-              </FormGroup>
-            </Row>
-            <FormGroup>
-              <Label for="Address">ADDRESS</Label>
-              <Input
-                placeholder="Address"
-                type="text"
-                value={address}
-                required
-                onChange={e => setAddress(e.target.value)}
-              />
-            </FormGroup>
-            <Row>
-              <FormGroup className="ml-2">
-                <Label for="Email">Email</Label>
-                <Input
-                  placeholder="Email"
-                  type="text"
-                  value={email}
-                  required
-                  onChange={e => setEmail(e.target.value)}
-                />
-              </FormGroup>
+              <Col md={4}>
+                <FormGroup className="ml-2">
+                  <Label for="Name">Name</Label>
+                  <Input
+                    placeholder="Name"
+                    type="text"
+                    defaultValue={data.name}
+                    required
+                    disabled
+                  />
+                </FormGroup>
+              </Col>
+              <Col md={4}>
+                <FormGroup className="ml-2">
+                  <Label for="Name">Age</Label>
+                  <Input
+                    placeholder="Name"
+                    type="text"
+                    defaultValue={data.age}
+                    required
+                    disabled
+                  />
+                </FormGroup>
+              </Col>
+              <Col md={4}>
+                <FormGroup className="ml-2">
+                  <Label for="Date">Date</Label>
+                  <Input
+                    placeholder="Date"
+                    type="date"
+                    defaultValue={defaultValue}
+                    required
+                    disabled
+                    onChange={(e) => setDate(e.target.value)}
+                  />
+                </FormGroup>
+              </Col>
 
-              <FormGroup className="ml-2">
-                <Label for="mobile">Mobile Number</Label>
-                <Input
-                  placeholder="09XX-XXX-XXXX"
-                  type="number"
-                  pattern="[0-9]"
-                  required
-                  maxLength={11}
-                  value={mobileNumber}
-                  onChange={e => setMobileNumber(e.target.value)}
+              <Col md={12}>
+                <FormGroup className="ml-2">
+                  <Label for="Email">Address</Label>
+                  <Input
+                    placeholder="Email"
+                    type="text"
+                    defaultValue={data.address}
+                    required
+                    disabled
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </FormGroup>
+              </Col>
+              <Col md={4}>
+                <FormGroup className="ml-2">
+                  <Label for="Email">Email</Label>
+                  <Input
+                    placeholder="Email"
+                    type="text"
+                    defaultValue={data.email}
+                    required
+                    disabled
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </FormGroup>
+              </Col>
+              <Col md={4}>
+                <FormGroup className="ml-2">
+                  <Label for="mobile">Mobile Number</Label>
+                  <Input
+                    placeholder="09XX-XXX-XXXX"
+                    type="number"
+                    pattern="[0-9]"
+                    required
+                    disabled
+                    defaultValue={data.mobile}
+                    maxLength={11}
+                  />
+                </FormGroup>
+              </Col>
+              <Col md={4}>
+                <FormGroup className="ml-2">
+                  <Label for="Occupation">Occupation</Label>
+                  <Input
+                    placeholder="Occupation"
+                    type="text"
+                    disabled
+                    autoComplete="Occupation"
+                    defaultValue={data.occupation}
+                    required
+                  />
+                </FormGroup>
+              </Col>
+              <Col md={4}>
+                <FormGroup className="ml-2">
+                  <Label for="FB/IG/TWITTER">FB/IG/TWITTER</Label>
+                  <Input
+                    placeholder="FB/IG/TWITTER"
+                    type="text"
+                    autoComplete="FB/IG/TWITTER"
+                    defaultValue={data.social}
+                    required
+                    disabled
+                  />
+                </FormGroup>
+              </Col>
+              <Col md={4} style={{ flexBasis: "min-content" }}>
+                <Label for="residensy">Valid Id</Label>
+                <img
+                  src={`http://localhost:8081/PETSHOP/images/valid-id/${data.username}.jpg`}
+                  alt="example"
+                  height={150}
                 />
-              </FormGroup>
-            </Row>
-            <Row>
-              <FormGroup className="ml-2">
-                <Label for="Occupation">Occupation</Label>
-                <Input
-                  placeholder="Occupation"
-                  type="text"
-                  autoComplete="Occupation"
-                  value={occupation}
-                  required
-                  onChange={e => setOccupation(e.target.value)}
-                />
-              </FormGroup>
-              <FormGroup className="ml-2">
-                <Label for="FB/IG/TWITTER">FB/IG/TWITTER</Label>
-                <Input
-                  placeholder="FB/IG/TWITTER"
-                  type="text"
-                  autoComplete="FB/IG/TWITTER"
-                  value={social}
-                  required
-                  onChange={e => setSocial(e.target.value)}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="residensy">Image</Label>
-                <Input
-                  type="file"
-                  required
-                  onChange={e => setImage(e.target.files[0])}
-                />
-              </FormGroup>
+              </Col>
             </Row>
             <h4 className="text-center">
               QUESTIONAIRE (passsing score - 60% above)

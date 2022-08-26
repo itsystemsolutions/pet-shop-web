@@ -1,8 +1,11 @@
 import Dashboard from "views/Dashboard.js";
 import Appointments from "views/admin/Appointments";
+import ForPickup from "views/admin/ForPickup";
 import Users from "views/admin/Users";
 import Zoom from "views/admin/Zoom";
+import PickUpForm from "views/admin/PickUpForm";
 import Addpet from "views/admin/Addpet";
+import ProofPayment from "views/admin/ProofPayment";
 
 // Pages
 import Adopties from "views/admin/Adopties";
@@ -37,6 +40,13 @@ const dashboardRoutes = [
     layout: "/admin",
   },
   {
+    path: "/for-pickup",
+    name: "For Pickup",
+    icon: "nc-icon nc-notes",
+    component: ForPickup,
+    layout: "/admin",
+  },
+  {
     path: "/users",
     name: "Users",
     icon: "nc-icon nc-single-02",
@@ -49,6 +59,22 @@ const dashboardRoutes = [
     icon: "nc-icon nc-notes",
     hidden: true,
     component: Zoom,
+    layout: "/admin",
+  },
+  {
+    path: "/pick-up/:id/:code",
+    name: "Pick Up",
+    icon: "nc-icon nc-notes",
+    hidden: true,
+    component: PickUpForm,
+    layout: "/admin",
+  },
+  {
+    path: "/proof-of-payment/:id",
+    name: "Proof Of Payment",
+    icon: "nc-icon nc-notes",
+    hidden: true,
+    component: ProofPayment,
     layout: "/admin",
   },
 ];

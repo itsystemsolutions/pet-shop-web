@@ -1,12 +1,14 @@
-import Dashboard from "views/Dashboard.js";
+import Dashboard from "views/user/Dashboard.js";
 import Adoptpet from "views/user/Adoptpet";
 
 import EligiblePets from "views/user/EligiblePets";
 
 import Appointments from "views/user/Appointments";
+import ForPickup from "views/user/ForPickup";
 import UserProfile from "views/user/UserProfile";
 import AdoptForm from "./AdoptForm";
 import Schedule from "./Schedule";
+import UploadQR from "./UploadQR";
 
 const dashboardRoutes = [
   {
@@ -38,6 +40,20 @@ const dashboardRoutes = [
     layout: "/user",
   },
   {
+    path: "/pick-up",
+    name: "For Pick Up",
+    icon: "nc-icon nc-notes",
+    component: ForPickup,
+    layout: "/user",
+  },
+  {
+    path: "/UserProfile",
+    name: "UserProfile",
+    icon: "nc-icon nc-circle-09",
+    component: UserProfile,
+    layout: "/user",
+  },
+  {
     path: "/adopt-form/:code",
     name: "Adopt Form",
     icon: "nc-icon nc-notes",
@@ -54,10 +70,11 @@ const dashboardRoutes = [
     layout: "/user",
   },
   {
-    path: "/UserProfile",
-    name: "UserProfile",
-    icon: "nc-icon nc-circle-09",
-    component: UserProfile,
+    path: "/upload/proof-of-payment/:id",
+    name: "schedule",
+    icon: "nc-icon nc-notes",
+    component: UploadQR,
+    hidden: true,
     layout: "/user",
   },
 ];

@@ -28,8 +28,12 @@ function Appointments() {
             <thead>
               <tr>
                 <th className="border-0">Name</th>
+                <th className="border-0">Age</th>
+                <th className="border-0">Address</th>
                 <th className="border-0">Mobile</th>
                 <th className="border-0">Email</th>
+                <th className="border-0">Occupation</th>
+                <th className="border-0">Social</th>
               </tr>
             </thead>
             <tbody>
@@ -37,8 +41,12 @@ function Appointments() {
                 return (
                   <tr>
                     <td>{entry.name}</td>
+                    <td>{entry.age}</td>
+                    <td>{entry.address}</td>
                     <td>{entry.mobile}</td>
                     <td>{entry.email}</td>
+                    <td>{entry.occupation}</td>
+                    <td>{entry.social}</td>
                   </tr>
                 );
               })}

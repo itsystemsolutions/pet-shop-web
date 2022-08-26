@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 
 // react-bootstrap components
-import { Card, Table, Container, Button } from "react-bootstrap";
+import { Card, Table, Container, Button, Badge } from "react-bootstrap";
 
 import Swal from "sweetalert2";
 
@@ -19,17 +19,17 @@ function Appointments() {
     });
   }, []);
 
-  const handleApproveAppointment = (e, id) => {
+  const handleApproveAppointment = (e, data) => {
     e.preventDefault();
 
-    axios.put("/schedule/" + id + "?decision=PASSED").then(() => {
+    axios.put("/schedule/" + data.id + "?decision=PASSED").then(() => {
       Swal.fire({
         icon: "success",
         title: `SUCCESS! `,
-        text: `Record is updated!`,
+        text: `Record approved! We will redirect you now to PICK-UP form`,
       }).then((result) => {
         if (result.isConfirmed) {
-          window.location.reload();
+          history.push(`/admin/pick-up/${data.userId}/${data.petCode}`);
         }
       });
     });
@@ -68,7 +68,7 @@ function Appointments() {
                 <th className="border-0">Time</th>
                 <th className="border-0">Message</th>
                 <th className="border-0">Interview LINK</th>
-                <th className="border-0">Actions</th>
+                <th className="border-0">Status</th>
               </tr>
             </thead>
             <tbody>
@@ -86,18 +86,24 @@ function Appointments() {
                       </a>
                     </td>
                     <td>
-                      <Button
-                        className="btn btn-success mr-2"
-                        onClick={(e) => handleApproveAppointment(e, entry.id)}
-                      >
-                        PASSED
-                      </Button>
-                      <Button
-                        className="btn btn-danger"
-                        onClick={(e) => handleDenyAppointment(e, entry.id)}
-                      >
-                        FAILED
-                      </Button>
+                      {entry.status === "PASSED" ? (
+                        <Badge className="bg-success text-white">Passed</Badge>
+                      ) : (
+                        <>
+                          <Button
+                            className="btn btn-success mr-2"
+                            onClick={(e) => handleApproveAppointment(e, entry)}
+                          >
+                            PASSED
+                          </Button>
+                          <Button
+                            className="btn btn-danger"
+                            onClick={(e) => handleDenyAppointment(e, entry.id)}
+                          >
+                            FAILED
+                          </Button>
+                        </>
+                      )}
                     </td>
                   </tr>
                 );
