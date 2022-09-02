@@ -59,7 +59,6 @@ function EligiblePets() {
             <thead>
               <tr>
                 <th className="border-0">ID</th>
-                <th className="border-0">Request Interview</th>
                 <th className="border-0">Name</th>
                 <th className="border-0">Date And Time</th>
                 <th className="border-0">Status</th>
@@ -69,13 +68,6 @@ function EligiblePets() {
               {data.map((item) => (
                 <tr>
                   <td>{item.id}</td>
-                  <td>
-                    <Button
-                      onClick={(e) => handleRequestInterviews(e, item.petCode)}
-                    >
-                      Request Interview
-                    </Button>
-                  </td>
                   <td>
                     <img
                       src={`http://localhost:8081/PETSHOP/images/pets/${item.petCode}.jpg`}

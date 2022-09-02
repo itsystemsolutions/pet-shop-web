@@ -21,8 +21,8 @@ import { Card } from "react-bootstrap";
 // axios API library
 const axios = require("axios").default;
 
-function AdoptForm() {
-  let { code } = useParams();
+function QualificationForm() {
+  let { username } = useParams();
   const history = useHistory();
 
   const [address, setAddress] = useState("");
@@ -60,45 +60,53 @@ function AdoptForm() {
   const [answer19, setAnswer19] = useState("");
   const [answer20, setAnswer20] = useState("");
 
+  const [q1Other, setQ1Other] = useState("");
+  const [q3Other, setQ3Other] = useState("");
+  const [q4Other, setQ4Other] = useState("");
+  const [q5Other, setQ5Other] = useState("");
+  const [q9Other, setQ9Other] = useState("");
+  const [q11Other, setQ11Other] = useState("");
+  const [q20Other, setQ20Other] = useState("");
+
   useEffect(() => {
-    axios
-      .get("/user/info?id=" + localStorage.getItem("user_id"))
-      .then((response) => {
-        console.log(response.data);
-        setData(response.data);
-      });
+    axios.get("/user/data?username=" + username).then((response) => {
+      setData(response.data);
+    });
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     axios
-      .post("/adopt-form", {
-        userId: localStorage.getItem("user_id"),
-        validIdUrl: "URL",
-        petCode: code,
-        formAnswer: {
-          answer1: answer1,
-          answer2: answer2,
-          answer3: answer3,
-          answer4: answer4,
-          answer5: answer5,
-          answer6: answer6,
-          answer7: answer7,
-          answer8: answer8,
-          answer9: answer9,
-          answer10: answer10,
-          answer11: answer11,
-          answer12: answer12,
-          answer13: answer13,
-          answer14: answer14,
-          answer15: answer15,
-          answer16: answer16,
-          answer17: answer17,
-          answer18: answer18,
-          answer19: answer19,
-          answer20: answer20,
-        },
+      .put("/user/qualification-form?username=" + username, {
+        answer1: answer1,
+        answer2: answer2,
+        answer3: answer3,
+        answer4: answer4,
+        answer5: answer5,
+        answer6: answer6,
+        answer7: answer7,
+        answer8: answer8,
+        answer9: answer9,
+        answer10: answer10,
+        answer11: answer11,
+        answer12: answer12,
+        answer13: answer13,
+        answer14: answer14,
+        answer15: answer15,
+        answer16: answer16,
+        answer17: answer17,
+        answer18: answer18,
+        answer19: answer19,
+        answer20: answer20,
+
+        q1OtherAnswer: q1Other,
+        q3OtherAnswer: q3Other,
+        q4OtherAnswer: q4Other,
+        q5OtherAnswer: q5Other,
+        q9OtherAnswer: q9Other,
+        q11OtherAnswer: q11Other,
+        q20OtherAnswer: q20Other,
       })
       .then((response) => {
         if (response.data > 12) {
@@ -106,10 +114,10 @@ function AdoptForm() {
             icon: "success",
             title: "Congratulations you passed the exam!",
             text: `Your score is ${response.data}`,
-            confirmButtonText: "Check EligiblePets",
+            confirmButtonText: "Cool",
           }).then((result) => {
             if (result.isConfirmed) {
-              history.push("/user/eligible-pets");
+              history.push("/auth/login");
             }
           });
         } else {
@@ -117,10 +125,10 @@ function AdoptForm() {
             icon: "error",
             text: `Oh no! You have failed the assesment questions`,
             text: `Your score was ${response.data}`,
-            confirmButtonText: "Try again",
+            confirmButtonText: "Confirm",
           }).then((result) => {
             if (result.isConfirmed) {
-              history.push("/user/adoptpet");
+              history.push("/auth/login");
             }
           });
         }
@@ -138,7 +146,7 @@ function AdoptForm() {
   const defaultValue = date.toLocaleDateString("en-CA");
 
   return (
-    <Container>
+    <Container className="my-5">
       <Card>
         <CardHeader>
           <h3 className="text-center">PERSONAL INFORMATIONS</h3>
@@ -311,9 +319,9 @@ function AdoptForm() {
                   -others/explain if necessary
                   <Input
                     style={{ cursor: "pointer" }}
+                    onChange={(e) => setQ1Other(e.target.value)}
                     name="question1"
                     type="textbox"
-                    onChange={() => setAnswer1("")}
                   />
                 </Col>
               </Col>
@@ -384,7 +392,7 @@ function AdoptForm() {
                     style={{ cursor: "pointer" }}
                     name="question1"
                     type="textbox"
-                    onChange={() => setAnswer1("")}
+                    onChange={(e) => setQ3Other(e.target.value)}
                   />
                 </Col>
               </Col>
@@ -434,7 +442,7 @@ function AdoptForm() {
                     style={{ cursor: "pointer" }}
                     name="question1"
                     type="textbox"
-                    onChange={() => setAnswer1("")}
+                    onChange={(e) => setQ4Other(e.target.value)}
                   />
                 </Col>
               </Col>
@@ -475,7 +483,7 @@ function AdoptForm() {
                     style={{ cursor: "pointer" }}
                     name="question1"
                     type="textbox"
-                    onChange={() => setAnswer1("")}
+                    onChange={(e) => setQ5Other(e.target.value)}
                   />
                 </Col>
               </Col>
@@ -646,7 +654,7 @@ function AdoptForm() {
                     style={{ cursor: "pointer" }}
                     name="question1"
                     type="textbox"
-                    onChange={() => setAnswer1("")}
+                    onChange={(e) => setQ9Other(e.target.value)}
                   />
                 </Col>
               </Col>
@@ -732,7 +740,7 @@ function AdoptForm() {
                     style={{ cursor: "pointer" }}
                     name="question1"
                     type="textbox"
-                    onChange={() => setAnswer1("")}
+                    onChange={(e) => setQ11Other(e.target.value)}
                   />
                 </Col>
               </Col>
@@ -1066,7 +1074,7 @@ function AdoptForm() {
                     style={{ cursor: "pointer" }}
                     name="question1"
                     type="textbox"
-                    onChange={() => setAnswer1("")}
+                    onChange={(e) => setQ20Other(e.target.value)}
                   />
                 </Col>
               </Col>
@@ -1089,4 +1097,4 @@ function AdoptForm() {
   );
 }
 
-export default AdoptForm;
+export default QualificationForm;

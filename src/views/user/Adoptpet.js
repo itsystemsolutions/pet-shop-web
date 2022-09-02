@@ -12,6 +12,7 @@ import {
   Card,
   Button,
 } from "reactstrap";
+import Swal from "sweetalert2";
 
 const axios = require("axios").default;
 
@@ -26,7 +27,26 @@ function Adoptpet() {
     });
   }, []);
 
-  console.log(data);
+  const handleAdopt = (e, petCode) => {
+    e.preventDefault();
+
+    console.log("klh;lkjh");
+    axios
+      .post("/adopt-form", {
+        userId: localStorage.getItem("user_id"),
+        petCode: petCode,
+      })
+      .then((response) => {
+        if (response.status === 204) {
+          Swal.fire({
+            icon: "success",
+            title: `SUCCESS! `,
+            text: `We will schedule a interview for you!`,
+          });
+          history.push("/user/eligible-pets");
+        }
+      });
+  };
 
   return (
     <Card>
@@ -51,9 +71,7 @@ function Adoptpet() {
                     ></Card>
                     <CardTitle className="text-center" tag="h3">
                       <Button
-                        onClick={() =>
-                          history.push("/user/adopt-form/" + pet.petCode)
-                        }
+                        onClick={(e) => handleAdopt(e, pet.petCode)}
                         color="info"
                         className="mb-2"
                       >

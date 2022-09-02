@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 // alert prompt
 import Swal from "sweetalert2";
@@ -25,7 +25,6 @@ import { Container } from "react-bootstrap";
 const axios = require("axios").default;
 
 function Register() {
-  let {} = useParams();
   const history = useHistory();
 
   const [name, setName] = useState("");
@@ -87,11 +86,11 @@ function Register() {
             console.log(error);
           });
 
-          history.push("/auth/login");
-          Swal.fire({
-            icon: "success",
-            text: `New user: ${name} is now registered`,
-          });
+          history.push("/auth/qualification-form/" + username);
+          // Swal.fire({
+          //   icon: "success",
+          //   text: `New user: ${name} is now registered`,
+          // });
         } else {
           Swal.fire({
             icon: "error",

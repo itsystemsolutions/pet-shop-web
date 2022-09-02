@@ -57,8 +57,8 @@ function Login() {
         } else {
           Swal.fire({
             icon: "error",
-            text: "Oops...",
-            title: "Invalid Credentials!",
+            text: "Accoount is invalid",
+            title: "Invalid Credentials",
           });
         }
       })

@@ -23,6 +23,9 @@ function Dashboard() {
   return (
     <Container fluid>
       <Row>
+        <Col md={12}>
+          <h3>STEPS ON HOW TO ADOPT A PET</h3>
+        </Col>
         <Col lg="3" sm="6">
           <Card className="card-stats">
             <Card.Body>
@@ -143,39 +146,6 @@ function Dashboard() {
             </Card.Footer>
           </Card>
         </Col>
-        {/* <Col md={4}>
-          <Card className="card-stats">
-            <Card.Body>
-              <div>1.) Find an available pet that you whish to adopt. </div>
-              <div>
-                2.) Answer all the following questions to be qualified to adopt
-                a pet
-              </div>
-              <div>3.) Request zoom interview</div>
-              <div>4.) Wait for the pet pick-up schedule</div>
-              <div>
-                5.) Scan Gcash QR Code and upload proof of receipt for the
-                payment/donations.
-              </div>
-            </Card.Body>
-          </Card>
-        </Col><Col md={4}>
-          <Card className="card-stats">
-            <Card.Body>
-              <div>1.) Find an available pet that you whish to adopt. </div>
-              <div>
-                2.) Answer all the following questions to be qualified to adopt
-                a pet
-              </div>
-              <div>3.) Request zoom interview</div>
-              <div>4.) Wait for the pet pick-up schedule</div>
-              <div>
-                5.) Scan Gcash QR Code and upload proof of receipt for the
-                payment/donations.
-              </div>
-            </Card.Body>
-          </Card>
-        </Col> */}
       </Row>
     </Container>
   );

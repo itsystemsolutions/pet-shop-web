@@ -6,7 +6,7 @@ import EligiblePets from "views/user/EligiblePets";
 import Appointments from "views/user/Appointments";
 import ForPickup from "views/user/ForPickup";
 import UserProfile from "views/user/UserProfile";
-import AdoptForm from "./AdoptForm";
+import QualificationForm from "../auth/QualificationForm";
 import Schedule from "./Schedule";
 import UploadQR from "./UploadQR";
 
@@ -51,14 +51,6 @@ const dashboardRoutes = [
     name: "UserProfile",
     icon: "nc-icon nc-circle-09",
     component: UserProfile,
-    layout: "/user",
-  },
-  {
-    path: "/adopt-form/:code",
-    name: "Adopt Form",
-    icon: "nc-icon nc-notes",
-    component: AdoptForm,
-    hidden: true,
     layout: "/user",
   },
   {
