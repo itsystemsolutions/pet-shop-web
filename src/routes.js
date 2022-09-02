@@ -9,6 +9,7 @@ import ProofPayment from "views/admin/ProofPayment";
 
 // Pages
 import Adopties from "views/admin/Adopties";
+import Lostpet from "views/admin/Lostpet";
 
 const dashboardRoutes = [
   {
@@ -44,6 +45,13 @@ const dashboardRoutes = [
     name: "For Pickup",
     icon: "nc-icon nc-notes",
     component: ForPickup,
+    layout: "/admin",
+  },
+  {
+    path: "/lostpet",
+    name: "Lostpet",
+    icon: "nc-icon nc-notes",
+    component: Lostpet,
     layout: "/admin",
   },
   {

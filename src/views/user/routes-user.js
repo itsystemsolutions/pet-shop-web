@@ -9,6 +9,7 @@ import UserProfile from "views/user/UserProfile";
 import QualificationForm from "../auth/QualificationForm";
 import Schedule from "./Schedule";
 import UploadQR from "./UploadQR";
+import Missing from "views/user/Missing";
 
 const dashboardRoutes = [
   {
@@ -51,6 +52,14 @@ const dashboardRoutes = [
     name: "UserProfile",
     icon: "nc-icon nc-circle-09",
     component: UserProfile,
+    layout: "/user",
+  },
+  {
+    path: "/adopt-form/:code",
+    name: "Adopt Form",
+    icon: "nc-icon nc-notes",
+    component: AdoptForm,
+    hidden: true,
     layout: "/user",
   },
   {
