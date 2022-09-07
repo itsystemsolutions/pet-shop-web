@@ -37,10 +37,10 @@ function Addpet() {
         age: age,
         size: size,
         shelterResidentYear: residency,
+        status: "IN_HOUSE",
       })
       .then(function (response) {
         if (response.status == 200) {
-          console.log(response.data);
           const formData = new FormData();
           formData.append("file", image);
           formData.append("code", response.data);

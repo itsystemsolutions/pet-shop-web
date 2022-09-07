@@ -61,6 +61,7 @@ function Appointments() {
               <tr>
                 <th className="border-0">Name</th>
                 <th className="border-0">Pet Code</th>
+                <th className="border-0">Pet Type</th>
                 <th className="border-0">Date</th>
                 <th className="border-0">Time</th>
                 <th className="border-0">Message</th>
@@ -73,7 +74,17 @@ function Appointments() {
                 return (
                   <tr>
                     <td>{entry.name}</td>
-                    <td>{entry.petCode}</td>
+                    <td>
+                      <img
+                        src={`http://localhost:8081/PETSHOP/images/pets/${entry.petCode}.jpg`}
+                        alt=""
+                        height={110}
+                        className="mb-3"
+                      />
+                      <div>Name: {entry.petName}</div>
+                      <div>Code: {entry.petCode}</div>
+                    </td>
+                    <td>{entry.petType}</td>
                     <td>{entry.date}</td>
                     <td>{entry.time}</td>
                     <td>{entry.message}</td>

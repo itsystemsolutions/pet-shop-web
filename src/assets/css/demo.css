@@ -821,3 +821,7 @@
   display: block;
   width: 100%;
 }
+
+.min-vh-15 {
+  min-height: 15vh !important;
+}

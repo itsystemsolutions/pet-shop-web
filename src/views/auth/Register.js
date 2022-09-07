@@ -86,11 +86,8 @@ function Register() {
             console.log(error);
           });
 
-          history.push("/auth/qualification-form/" + username);
-          // Swal.fire({
-          //   icon: "success",
-          //   text: `New user: ${name} is now registered`,
-          // });
+          // history.push("/auth/qualification-form/" + username);
+          history.push("/auth/login");
         } else {
           Swal.fire({
             icon: "error",
@@ -143,7 +140,9 @@ function Register() {
             <Row>
               <Col>
                 <FormGroup>
-                  <Label for="Name">Name</Label>
+                  <Label for="Name">
+                    Name <span className="text-danger">*</span>
+                  </Label>
                   <Input
                     placeholder="Name"
                     type="text"
@@ -154,7 +153,9 @@ function Register() {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="Email">Email</Label>
+                  <Label for="Email">
+                    Email <span className="text-danger">*</span>
+                  </Label>
                   <Input
                     placeholder="Email"
                     type="text"
@@ -165,7 +166,9 @@ function Register() {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="username">Username</Label>
+                  <Label for="username">
+                    Username <span className="text-danger">*</span>
+                  </Label>
                   <Input
                     placeholder="Username"
                     type="text"
@@ -177,7 +180,9 @@ function Register() {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="mobile">Mobile Number</Label>
+                  <Label for="mobile">
+                    Mobile Number <span className="text-danger">*</span>
+                  </Label>
                   <Input
                     placeholder="09XX-XXX-XXXX"
                     type="number"
@@ -189,7 +194,9 @@ function Register() {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="mobile">Age</Label>
+                  <Label for="mobile">
+                    Age <span className="text-danger">*</span>
+                  </Label>
                   <Input
                     placeholder="18"
                     type="number"
@@ -201,7 +208,9 @@ function Register() {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="residensy">Valid Id</Label>
+                  <Label for="residensy">
+                    Valid Id <span className="text-danger">*</span>
+                  </Label>
                   <Input
                     type="file"
                     required
@@ -211,7 +220,9 @@ function Register() {
               </Col>
               <Col>
                 <FormGroup>
-                  <Label for="mobile">Address</Label>
+                  <Label for="mobile">
+                    Address <span className="text-danger">*</span>
+                  </Label>
                   <Input
                     type="text"
                     required
@@ -223,7 +234,6 @@ function Register() {
                   <Label for="mobile">Occupation</Label>
                   <Input
                     type="text"
-                    required
                     value={occupation}
                     onChange={(e) => setOccupation(e.target.value)}
                   />
@@ -232,14 +242,14 @@ function Register() {
                   <Label for="mobile">Social Media</Label>
                   <Input
                     type="text"
-                    required
                     value={social}
                     onChange={(e) => setSocial(e.target.value)}
                   />
                 </FormGroup>
                 <FormGroup>
                   <Label for="password">
-                    Password (must have atleast 4 characters)
+                    Password (must have atleast 4 characters){" "}
+                    <span className="text-danger">*</span>
                   </Label>
                   <Input
                     placeholder="Password"
@@ -251,7 +261,9 @@ function Register() {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="confirm">Confirm password</Label>
+                  <Label for="confirm">
+                    Confirm password <span className="text-danger">*</span>
+                  </Label>
                   <Input
                     placeholder="Confirm password."
                     type={setshowhide}
@@ -293,6 +305,7 @@ function Register() {
                       <a href="null" onClick={(e) => e.preventDefault()}>
                         Privacy Policy
                       </a>
+                      <span className="text-danger">*</span>
                     </span>
                   </label>
                 </div>

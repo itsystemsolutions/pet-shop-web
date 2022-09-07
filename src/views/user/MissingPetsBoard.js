@@ -16,13 +16,12 @@ import Swal from "sweetalert2";
 
 const axios = require("axios").default;
 
-function Adoptpet() {
+function MissingPetsBoard() {
   const history = useHistory();
-
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("/pets").then((response) => {
+    axios.get("/pets/missing/approved").then((response) => {
       setData(response.data);
     });
   }, []);
@@ -30,9 +29,8 @@ function Adoptpet() {
   const handleAdopt = (e, petCode) => {
     e.preventDefault();
 
-    console.log("klh;lkjh");
     axios
-      .post("/adopt-form", {
+      .post("/adopt-form/missing", {
         userId: localStorage.getItem("user_id"),
         petCode: petCode,
       })
@@ -41,17 +39,24 @@ function Adoptpet() {
           Swal.fire({
             icon: "success",
             title: `SUCCESS! `,
-            text: `We will schedule a interview for you!`,
+            text: `Missing Pet onboard!`,
           });
           history.push("/user/eligible-pets");
         }
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "danger",
+          title: `FAILED `,
+          text: `Pet already on board!`,
+        });
       });
   };
 
   return (
     <Card>
       <CardHeader className="text-center">
-        <h3>AVAILABLE PER TO ADOPT</h3>
+        <h3>LOST AND FOUND PETS</h3>
       </CardHeader>
       <CardBody className="mt-3">
         <Row>
@@ -71,17 +76,15 @@ function Adoptpet() {
                     ></Card>
                     <CardTitle className="text-center" tag="h3">
                       <Button
-                        onClick={() =>
-                          history.push("/user/adopt-form/" + pet.petCode)
-                        }
+                        onClick={(e) => handleAdopt(e, pet.petCode)}
                         color="info"
                         className="mb-2"
                         block
                       >
-                        ADOPT PET
+                        REPORT MISSING PET
                       </Button>
                     </CardTitle>
-                    <CardText>They need a home as much as we did</CardText>
+                    <CardTitle className="text-center" tag="h3"></CardTitle>
                     <div>
                       <p className="text-center h3">
                         <b>{pet.name}</b>
@@ -90,24 +93,16 @@ function Adoptpet() {
                         <b>Pet Code:</b> {pet.petCode}
                       </p>
                       <p>
-                        <b>Pet Name:</b> {pet.name}
-                      </p>
-                      <p>
-                        <b>Gender:</b> {pet.gender}
+                        <b>Last Seen Location:</b> {pet.lastSeen}
                       </p>
                       <p>
                         <b>Breed:</b> {pet.breed}
                       </p>
                       <p>
-                        <b>Age:</b> {pet.age}
+                        <b>Gender:</b> {pet.gender}
                       </p>
                       <p>
-                        <b>Size:</b> {pet.size}
-                      </p>
-                      <p>
-                        <b>
-                          Shelter residence since {pet.shelterResidentYear}{" "}
-                        </b>
+                        <b>Description:</b> {pet.description}
                       </p>
                     </div>
                   </CardBody>
@@ -121,4 +116,4 @@ function Adoptpet() {
   );
 }
 
-export default Adoptpet;
+export default MissingPetsBoard;

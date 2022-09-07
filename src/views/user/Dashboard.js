@@ -24,124 +24,97 @@ function Dashboard() {
     <Container fluid>
       <Row>
         <Col md={12}>
-          <h3>STEPS ON HOW TO ADOPT A PET</h3>
+          <h3 className="my-3">STEPS ON HOW TO ADOPT A PET</h3>
         </Col>
         <Col lg="3" sm="6">
-          <Card className="card-stats">
-            <Card.Body>
-              <Row>
-                <Col xs="5">
-                  <div className="icon-big text-center icon-warning">
-                    <i className="fa-solid fa-dog text-warning"></i>
-                  </div>
-                </Col>
-                <Col xs="7">
-                  <div className="numbers">
-                    <p className="card-category">Total Pets</p>
-                    <Card.Title as="h4">150</Card.Title>
-                  </div>
-                </Col>
-              </Row>
-            </Card.Body>
+          <Card className="card-stats min-vh-15">
+            <Card.Header>
+              <h4 className="mt-1">
+                Find an available pet that you whish to adopt.
+              </h4>
+            </Card.Header>
             <Card.Footer>
               <hr></hr>
               <div
                 className="stats"
-                onClick={() => history.push("/admin/Adoptpet")}
+                onClick={() => history.push("/user/adoptpet")}
                 style={{ cursor: "pointer" }}
               >
-                <i className="fa fa-arrow-left  mr-1"></i>
-                more info
+                Step 1 <i className="fa fa-arrow-right  mr-1"></i>
               </div>
             </Card.Footer>
           </Card>
         </Col>
         <Col lg="3" sm="6">
-          <Card className="card-stats">
-            <Card.Body>
-              <Row>
-                <Col xs="5">
-                  <div className="icon-big text-center icon-warning">
-                    <i className="nc-icon nc-light-3 text-success"></i>
-                  </div>
-                </Col>
-                <Col xs="7">
-                  <div className="numbers">
-                    <p className="card-category">Total pet Products</p>
-                    <Card.Title as="h4">Comming Soon</Card.Title>
-                  </div>
-                </Col>
-              </Row>
-            </Card.Body>
+          <Card className="card-stats min-vh-15">
+            <Card.Header>
+              <h4 className="mt-1">
+                Answer all the following questions to be qualified to adopt a
+                pet
+              </h4>
+            </Card.Header>
             <Card.Footer>
               <hr></hr>
               <div
                 className="stats"
-                onClick={() => history.push("/admin/Adoptpet")}
+                onClick={() => history.push("/user/adoptpet")}
                 style={{ cursor: "pointer" }}
               >
-                <i className="fa fa-arrow-left  mr-1"></i>
-                more info
+                Step 2 <i className="fa fa-arrow-right  mr-1"></i>
               </div>
             </Card.Footer>
           </Card>
         </Col>
         <Col lg="3" sm="6">
-          <Card className="card-stats">
-            <Card.Body>
-              <Row>
-                <Col xs="5">
-                  <div className="icon-big text-center icon-warning">
-                    <i className="nc-icon nc-vector text-danger"></i>
-                  </div>
-                </Col>
-                <Col xs="7">
-                  <div className="numbers">
-                    <p className="card-category">Total Vendors</p>
-                    <Card.Title as="h4">23</Card.Title>
-                  </div>
-                </Col>
-              </Row>
-            </Card.Body>
+          <Card className="card-stats min-vh-15">
+            <Card.Header>
+              <h4 className="mt-1">Request zoom interview</h4>
+            </Card.Header>
             <Card.Footer>
               <hr></hr>
               <div
                 className="stats"
-                onClick={() => history.push("/admin/Adoptpet")}
+                onClick={() => history.push("/user/adoptpet")}
                 style={{ cursor: "pointer" }}
               >
-                <i className="fa fa-arrow-left mr-1"></i>
-                more info
+                Step 3 <i className="fa fa-arrow-right  mr-1"></i>
               </div>
             </Card.Footer>
           </Card>
         </Col>
         <Col lg="3" sm="6">
-          <Card className="card-stats">
-            <Card.Body>
-              <Row>
-                <Col xs="5">
-                  <div className="icon-big text-center icon-warning">
-                    <i className="nc-icon nc-favourite-28 text-primary"></i>
-                  </div>
-                </Col>
-                <Col xs="7">
-                  <div className="numbers">
-                    <p className="card-category">Followers</p>
-                    <Card.Title as="h4">+45K</Card.Title>
-                  </div>
-                </Col>
-              </Row>
-            </Card.Body>
+          <Card className="card-stats min-vh-15">
+            <Card.Header>
+              <h4 className="mt-1">Wait for the pet pick-up schedule</h4>
+            </Card.Header>
             <Card.Footer>
               <hr></hr>
               <div
                 className="stats"
-                onClick={() => history.push("/admin/Adoptpet")}
+                onClick={() => history.push("/user/adoptpet")}
                 style={{ cursor: "pointer" }}
               >
-                <i className="fa fa-arrow-left  mr-1"></i>
-                more info
+                Step 4 <i className="fa fa-arrow-right  mr-1"></i>
+              </div>
+            </Card.Footer>
+          </Card>
+        </Col>
+        <Col lg="3" sm="6">
+          <Card className="card-stats min-vh-15">
+            <Card.Header>
+              <h4 className="mt-1">
+                Scan Gcash QR Code and upload proof of receipt for the
+                payment/donations.
+              </h4>
+            </Card.Header>
+            <Card.Footer>
+              <hr></hr>
+              <div
+                className="stats"
+                onClick={() => history.push("/user/adoptpet")}
+                style={{ cursor: "pointer" }}
+              >
+                Step 5 <i className="fa fa-arrow-right  mr-1"></i>
               </div>
             </Card.Footer>
           </Card>

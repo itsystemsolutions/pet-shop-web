@@ -22,15 +22,8 @@ import { Card } from "react-bootstrap";
 const axios = require("axios").default;
 
 function QualificationForm() {
-  let { username } = useParams();
+  let { code } = useParams();
   const history = useHistory();
-
-  const [address, setAddress] = useState("");
-  const [email, setEmail] = useState("");
-  const [mobileNumber, setMobileNumber] = useState("");
-  const [occupation, setOccupation] = useState("");
-  const [social, setSocial] = useState("");
-  const [image, setImage] = useState("");
 
   const [data, setData] = useState({
     name: "",
@@ -61,63 +54,95 @@ function QualificationForm() {
   const [answer20, setAnswer20] = useState("");
 
   const [q1Other, setQ1Other] = useState("");
+  const [showQ1_other, setShowQ1_other] = useState(false);
+
   const [q3Other, setQ3Other] = useState("");
+  const [showQ3_other, setShowQ3_other] = useState(false);
+
   const [q4Other, setQ4Other] = useState("");
+  const [showQ4_other, setShowQ4_other] = useState(false);
+
   const [q5Other, setQ5Other] = useState("");
+  const [showQ5_other, setShowQ5_other] = useState(false);
+
   const [q9Other, setQ9Other] = useState("");
+  const [showQ9_other, setShowQ9_other] = useState(false);
+
   const [q11Other, setQ11Other] = useState("");
+  const [showQ11_other, setShowQ11_other] = useState(false);
+
+  const [showQ14_other, setShowQ14_other] = useState(false);
+
   const [q20Other, setQ20Other] = useState("");
+  const [showQ20_other, setShowQ20_other] = useState(false);
+
+  const [image, setImage] = useState("");
 
   useEffect(() => {
-    axios.get("/user/data?username=" + username).then((response) => {
-      setData(response.data);
-    });
+    axios
+      .get("/user/info?id=" + localStorage.getItem("user_id"))
+      .then((response) => {
+        setData(response.data);
+      });
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     axios
-      .put("/user/qualification-form?username=" + username, {
-        answer1: answer1,
-        answer2: answer2,
-        answer3: answer3,
-        answer4: answer4,
-        answer5: answer5,
-        answer6: answer6,
-        answer7: answer7,
-        answer8: answer8,
-        answer9: answer9,
-        answer10: answer10,
-        answer11: answer11,
-        answer12: answer12,
-        answer13: answer13,
-        answer14: answer14,
-        answer15: answer15,
-        answer16: answer16,
-        answer17: answer17,
-        answer18: answer18,
-        answer19: answer19,
-        answer20: answer20,
+      .post("/adopt-form", {
+        userId: localStorage.getItem("user_id"),
+        validIdUrl: "URL",
+        petCode: code,
+        formAnswer: {
+          answer1: answer1,
+          answer2: answer2,
+          answer3: answer3,
+          answer4: answer4,
+          answer5: answer5,
+          answer6: answer6,
+          answer7: answer7,
+          answer8: answer8,
+          answer9: answer9,
+          answer10: answer10,
+          answer11: answer11,
+          answer12: answer12,
+          answer13: answer13,
+          answer14: answer14,
+          answer15: answer15,
+          answer16: answer16,
+          answer17: answer17,
+          answer18: answer18,
+          answer19: answer19,
+          answer20: answer20,
 
-        q1OtherAnswer: q1Other,
-        q3OtherAnswer: q3Other,
-        q4OtherAnswer: q4Other,
-        q5OtherAnswer: q5Other,
-        q9OtherAnswer: q9Other,
-        q11OtherAnswer: q11Other,
-        q20OtherAnswer: q20Other,
+          q1OtherAnswer: q1Other,
+          q3OtherAnswer: q3Other,
+          q4OtherAnswer: q4Other,
+          q5OtherAnswer: q5Other,
+          q9OtherAnswer: q9Other,
+          q11OtherAnswer: q11Other,
+          q20OtherAnswer: q20Other,
+        },
       })
       .then((response) => {
+        const formData = new FormData();
+        formData.append("file", image);
+        formData.append("code", code);
+
+        axios.put(`/adopt-form/upload/image`, formData).catch((error) => {
+          console.log(error);
+        });
+
         if (response.data > 12) {
           Swal.fire({
             icon: "success",
             title: "Congratulations you passed the exam!",
             text: `Your score is ${response.data}`,
-            confirmButtonText: "Cool",
+            confirmButtonText: "Check EligiblePets",
           }).then((result) => {
             if (result.isConfirmed) {
-              history.push("/auth/login");
+              history.push("/user/eligible-pets");
             }
           });
         } else {
@@ -125,10 +150,10 @@ function QualificationForm() {
             icon: "error",
             text: `Oh no! You have failed the assesment questions`,
             text: `Your score was ${response.data}`,
-            confirmButtonText: "Confirm",
+            confirmButtonText: "Try again",
           }).then((result) => {
             if (result.isConfirmed) {
-              history.push("/auth/login");
+              history.push("/user/adoptpet");
             }
           });
         }
@@ -199,7 +224,6 @@ function QualificationForm() {
                     defaultValue={data.address}
                     required
                     disabled
-                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </FormGroup>
               </Col>
@@ -212,7 +236,6 @@ function QualificationForm() {
                     defaultValue={data.email}
                     required
                     disabled
-                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </FormGroup>
               </Col>
@@ -271,7 +294,7 @@ function QualificationForm() {
           </Col>
         </CardHeader>
         <CardBody>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <Row className="ml-4">
               <Col md={12}>
                 1. Who will be responsible for feeding, grooming and generally
@@ -285,7 +308,11 @@ function QualificationForm() {
                       <Input
                         style={{ cursor: "pointer" }}
                         name="question1"
-                        onChange={() => setAnswer1("FRIENDS")}
+                        required
+                        onChange={() => {
+                          setAnswer1("FRIENDS");
+                          setShowQ1_other(false);
+                        }}
                         type="radio"
                       />
                       Friends
@@ -298,7 +325,11 @@ function QualificationForm() {
                         style={{ cursor: "pointer" }}
                         name="question1"
                         type="radio"
-                        onChange={() => setAnswer1("MYSELF")}
+                        required
+                        onChange={() => {
+                          setAnswer1("MYSELF");
+                          setShowQ1_other(false);
+                        }}
                       />
                       Myself
                     </FormGroup>
@@ -309,21 +340,42 @@ function QualificationForm() {
                         style={{ cursor: "pointer" }}
                         name="question1"
                         type="radio"
-                        onChange={() => setAnswer1("FAMILY")}
+                        required
+                        onChange={() => {
+                          setAnswer1("FAMILY");
+                          setShowQ1_other(false);
+                        }}
                       />
                       Family
                     </FormGroup>
                   </Col>
+                  <Col md={2}>
+                    <FormGroup check inline>
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="question1"
+                        type="radio"
+                        onChange={() => {
+                          setAnswer1("OTHER");
+                          setShowQ1_other(true);
+                        }}
+                      />
+                      Other
+                    </FormGroup>
+                  </Col>
                 </Row>
-                <Col md={4}>
-                  -others/explain if necessary
-                  <Input
-                    style={{ cursor: "pointer" }}
-                    onChange={(e) => setQ1Other(e.target.value)}
-                    name="question1"
-                    type="textbox"
-                  />
-                </Col>
+                {showQ1_other ? (
+                  <Col md={4}>
+                    -others/explain if necessary
+                    <Input
+                      required={showQ11_other}
+                      style={{ cursor: "pointer" }}
+                      onChange={(e) => setQ1Other(e.target.value)}
+                      name="question1"
+                      type="textbox"
+                    />
+                  </Col>
+                ) : null}
               </Col>
 
               <Col md={12}>
@@ -337,6 +389,7 @@ function QualificationForm() {
                       <Input
                         style={{ cursor: "pointer" }}
                         name="question2"
+                        required
                         type="radio"
                         onChange={() => setAnswer2("YES")}
                       />
@@ -349,6 +402,7 @@ function QualificationForm() {
                       <Input
                         style={{ cursor: "pointer" }}
                         name="question2"
+                        required
                         type="radio"
                         onChange={() => setAnswer2("NO")}
                       />
@@ -368,7 +422,11 @@ function QualificationForm() {
                         style={{ cursor: "pointer" }}
                         name="question3"
                         type="radio"
-                        onChange={() => setAnswer3("YES")}
+                        required
+                        onChange={() => {
+                          setShowQ3_other(true);
+                          setAnswer3("YES");
+                        }}
                       />
                       Yes
                     </FormGroup>
@@ -379,22 +437,29 @@ function QualificationForm() {
                       <Input
                         style={{ cursor: "pointer" }}
                         name="question3"
-                        onChange={() => setAnswer3("NO")}
+                        required
+                        onChange={() => {
+                          setShowQ3_other(false);
+                          setAnswer3("NO");
+                        }}
                         type="radio"
                       />
                       No
                     </FormGroup>
                   </Col>
                 </Row>
-                <Col md={4}>
-                  -if yes tell us about
-                  <Input
-                    style={{ cursor: "pointer" }}
-                    name="question1"
-                    type="textbox"
-                    onChange={(e) => setQ3Other(e.target.value)}
-                  />
-                </Col>
+                {showQ3_other ? (
+                  <Col md={4}>
+                    -if YES tell us about
+                    <Input
+                      required={showQ3_other}
+                      style={{ cursor: "pointer" }}
+                      name="question3"
+                      type="textbox"
+                      onChange={(e) => setQ3Other(e.target.value)}
+                    />
+                  </Col>
+                ) : null}
               </Col>
 
               <Col md={12}>4. Who else do you live with?</Col>
@@ -406,7 +471,11 @@ function QualificationForm() {
                       <Input
                         style={{ cursor: "pointer" }}
                         name="question4"
-                        onChange={() => setAnswer4("SPOUSE")}
+                        required
+                        onChange={() => {
+                          setShowQ4_other(false);
+                          setAnswer4("SPOUSE");
+                        }}
                         type="radio"
                       />
                       Spouse
@@ -418,8 +487,12 @@ function QualificationForm() {
                       <Input
                         style={{ cursor: "pointer" }}
                         name="question4"
+                        required
                         type="radio"
-                        onChange={() => setAnswer4("PARENTS")}
+                        onChange={() => {
+                          setShowQ4_other(false);
+                          setAnswer4("PARENTS");
+                        }}
                       />
                       Parents
                     </FormGroup>
@@ -429,22 +502,43 @@ function QualificationForm() {
                       <Input
                         style={{ cursor: "pointer" }}
                         name="question4"
+                        required
                         type="radio"
-                        onChange={() => setAnswer4("ROOMMATES")}
+                        onChange={() => {
+                          setShowQ4_other(false);
+                          setAnswer4("ROOMMATES");
+                        }}
                       />
                       Roommates
                     </FormGroup>
                   </Col>
+                  <Col md={2}>
+                    <FormGroup check inline>
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="question4"
+                        type="radio"
+                        onChange={() => {
+                          setShowQ4_other(true);
+                          setAnswer4("OTHER");
+                        }}
+                      />
+                      Other
+                    </FormGroup>
+                  </Col>
                 </Row>
-                <Col md={4}>
-                  -others
-                  <Input
-                    style={{ cursor: "pointer" }}
-                    name="question1"
-                    type="textbox"
-                    onChange={(e) => setQ4Other(e.target.value)}
-                  />
-                </Col>
+                {showQ4_other ? (
+                  <Col md={4}>
+                    -others
+                    <Input
+                      required={showQ4_other}
+                      style={{ cursor: "pointer" }}
+                      name="question1"
+                      type="textbox"
+                      onChange={(e) => setQ4Other(e.target.value)}
+                    />
+                  </Col>
+                ) : null}
               </Col>
 
               <Col md={12}>
@@ -459,7 +553,11 @@ function QualificationForm() {
                         style={{ cursor: "pointer" }}
                         name="question5"
                         type="radio"
-                        onChange={() => setAnswer5("YES")}
+                        required
+                        onChange={() => {
+                          setShowQ5_other(true);
+                          setAnswer5("YES");
+                        }}
                       />
                       Yes
                     </FormGroup>
@@ -470,22 +568,29 @@ function QualificationForm() {
                       <Input
                         style={{ cursor: "pointer" }}
                         name="question5"
+                        required
                         type="radio"
-                        onChange={() => setAnswer5("NO")}
+                        onChange={() => {
+                          setShowQ5_other(false);
+                          setAnswer5("NO");
+                        }}
                       />
                       No
                     </FormGroup>
                   </Col>
                 </Row>
-                <Col md={4}>
-                  -if yes, how it will be manage?
-                  <Input
-                    style={{ cursor: "pointer" }}
-                    name="question1"
-                    type="textbox"
-                    onChange={(e) => setQ5Other(e.target.value)}
-                  />
-                </Col>
+                {showQ5_other ? (
+                  <Col md={4}>
+                    -if yes, how it will be manage?
+                    <Input
+                      required={showQ5_other}
+                      style={{ cursor: "pointer" }}
+                      name="question5"
+                      type="textbox"
+                      onChange={(e) => setQ5Other(e.target.value)}
+                    />
+                  </Col>
+                ) : null}
               </Col>
 
               <Col md={12}>6. Have you had pets in the past?</Col>
@@ -497,6 +602,7 @@ function QualificationForm() {
                       <Input
                         style={{ cursor: "pointer" }}
                         name="question6"
+                        required
                         type="radio"
                         onChange={() => setAnswer6("YES")}
                       />
@@ -509,6 +615,7 @@ function QualificationForm() {
                       <Input
                         style={{ cursor: "pointer" }}
                         name="question6"
+                        required
                         type="radio"
                         onChange={() => setAnswer6("NO")}
                       />
@@ -530,6 +637,7 @@ function QualificationForm() {
                       <Input
                         style={{ cursor: "pointer" }}
                         name="question7"
+                        required
                         type="radio"
                         onChange={() => setAnswer7("MYSELF")}
                       />
@@ -542,6 +650,7 @@ function QualificationForm() {
                       <Input
                         style={{ cursor: "pointer" }}
                         name="question7"
+                        required
                         type="radio"
                         onChange={() => setAnswer7("FAMILY")}
                       />
@@ -553,6 +662,7 @@ function QualificationForm() {
                       <Input
                         style={{ cursor: "pointer" }}
                         name="question7"
+                        required
                         onChange={() => setAnswer7("FRIENDS")}
                         type="radio"
                       />
@@ -574,6 +684,7 @@ function QualificationForm() {
                       <Input
                         style={{ cursor: "pointer" }}
                         name="question8"
+                        required
                         type="radio"
                         onChange={() => setAnswer8("MYSELF")}
                       />
@@ -586,6 +697,7 @@ function QualificationForm() {
                       <Input
                         style={{ cursor: "pointer" }}
                         name="question8"
+                        required
                         type="radio"
                         onChange={() => setAnswer8("FAMILY")}
                       />
@@ -597,6 +709,7 @@ function QualificationForm() {
                       <Input
                         style={{ cursor: "pointer" }}
                         name="question8"
+                        required
                         type="radio"
                         onChange={() => setAnswer8("FRIENDS")}
                       />
@@ -618,8 +731,12 @@ function QualificationForm() {
                       <Input
                         style={{ cursor: "pointer" }}
                         name="question9"
+                        required
                         type="radio"
-                        onChange={() => setAnswer9("8HRS")}
+                        onChange={() => {
+                          setShowQ9_other(false);
+                          setAnswer9("8HRS");
+                        }}
                       />
                       8 hours
                     </FormGroup>
@@ -629,9 +746,13 @@ function QualificationForm() {
                     <FormGroup check inline className="ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question9"
                         type="radio"
-                        onChange={() => setAnswer9("9HRS")}
+                        onChange={() => {
+                          setShowQ9_other(false);
+                          setAnswer9("9HRS");
+                        }}
                       />
                       9 hours
                     </FormGroup>
@@ -640,23 +761,45 @@ function QualificationForm() {
                     <FormGroup check inline>
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question9"
                         type="radio"
-                        onChange={() => setAnswer9("10HRS")}
+                        onChange={() => {
+                          setShowQ9_other(false);
+                          setAnswer9("10HRS");
+                        }}
                       />
                       Above 10 hours
                     </FormGroup>
                   </Col>
+                  <Col md={2}>
+                    <FormGroup check inline>
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        required
+                        name="question9"
+                        type="radio"
+                        onChange={() => {
+                          setShowQ9_other(true);
+                          setAnswer9("OTHER");
+                        }}
+                      />
+                      Other
+                    </FormGroup>
+                  </Col>
                 </Row>
-                <Col md={4}>
-                  -others
-                  <Input
-                    style={{ cursor: "pointer" }}
-                    name="question1"
-                    type="textbox"
-                    onChange={(e) => setQ9Other(e.target.value)}
-                  />
-                </Col>
+                {showQ9_other ? (
+                  <Col md={4}>
+                    -others
+                    <Input
+                      required={showQ9_other}
+                      style={{ cursor: "pointer" }}
+                      name="question1"
+                      type="textbox"
+                      onChange={(e) => setQ9Other(e.target.value)}
+                    />
+                  </Col>
+                ) : null}
               </Col>
 
               <Col md={12}>
@@ -670,6 +813,7 @@ function QualificationForm() {
                     <FormGroup check inline>
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question10"
                         type="radio"
                         onChange={() => setAnswer10("YES")}
@@ -682,6 +826,7 @@ function QualificationForm() {
                     <FormGroup check inline className="ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question10"
                         type="radio"
                         onChange={() => setAnswer10("NO")}
@@ -703,9 +848,13 @@ function QualificationForm() {
                     <FormGroup check inline>
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question11"
                         type="radio"
-                        onChange={() => setAnswer11("PROPER_TRAINING")}
+                        onChange={() => {
+                          setShowQ11_other(false);
+                          setAnswer11("PROPER_TRAINING");
+                        }}
                       />
                       Proper Training
                     </FormGroup>
@@ -715,9 +864,13 @@ function QualificationForm() {
                     <FormGroup check inline className="ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question11"
                         type="radio"
-                        onChange={() => setAnswer11("HOUSE_TOUR")}
+                        onChange={() => {
+                          setShowQ11_other(false);
+                          setAnswer11("HOUSE_TOUR");
+                        }}
                       />
                       House Tour
                     </FormGroup>
@@ -726,23 +879,45 @@ function QualificationForm() {
                     <FormGroup check inline className="ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question11"
                         type="radio"
-                        onChange={() => setAnswer11("LET_THEM")}
+                        onChange={() => {
+                          setShowQ11_other(false);
+                          setAnswer11("LET_THEM");
+                        }}
                       />
                       Let Them Familiarize
                     </FormGroup>
                   </Col>
+                  <Col md={3}>
+                    <FormGroup check inline className="ml-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        required
+                        name="question11"
+                        type="radio"
+                        onChange={() => {
+                          setShowQ11_other(true);
+                          setAnswer11("OTHER");
+                        }}
+                      />
+                      Other
+                    </FormGroup>
+                  </Col>
                 </Row>
-                <Col md={4}>
-                  -other
-                  <Input
-                    style={{ cursor: "pointer" }}
-                    name="question1"
-                    type="textbox"
-                    onChange={(e) => setQ11Other(e.target.value)}
-                  />
-                </Col>
+                {showQ11_other ? (
+                  <Col md={4}>
+                    -other
+                    <Input
+                      required={showQ11_other}
+                      style={{ cursor: "pointer" }}
+                      name="question1"
+                      type="textbox"
+                      onChange={(e) => setQ11Other(e.target.value)}
+                    />
+                  </Col>
+                ) : null}
               </Col>
 
               <Col md={12}>12. What type of building do you live in?</Col>
@@ -753,6 +928,7 @@ function QualificationForm() {
                     <FormGroup check inline>
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question12"
                         type="radio"
                         onChange={() => setAnswer12("HOUSE")}
@@ -765,6 +941,7 @@ function QualificationForm() {
                     <FormGroup check inline className="ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question12"
                         type="radio"
                         onChange={() => setAnswer12("APARTMENT")}
@@ -776,6 +953,7 @@ function QualificationForm() {
                     <FormGroup check inline className="ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question12"
                         type="radio"
                         onChange={() => setAnswer12("CONDO")}
@@ -794,6 +972,7 @@ function QualificationForm() {
                     <FormGroup check inline>
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question13"
                         type="radio"
                         onChange={() => setAnswer13("YES")}
@@ -806,6 +985,7 @@ function QualificationForm() {
                     <FormGroup check inline className="ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question13"
                         onChange={() => setAnswer13("NO")}
                         type="radio"
@@ -827,9 +1007,13 @@ function QualificationForm() {
                     <FormGroup check inline>
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question14"
                         type="radio"
-                        onChange={() => setAnswer14("YES")}
+                        onChange={() => {
+                          setShowQ14_other(true);
+                          setAnswer14("YES");
+                        }}
                       />
                       Yes
                     </FormGroup>
@@ -839,24 +1023,31 @@ function QualificationForm() {
                     <FormGroup check inline className="ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question14"
                         type="radio"
-                        onChange={() => setAnswer14("NO")}
+                        onChange={() => {
+                          setShowQ14_other(false);
+                          setAnswer14("NO");
+                        }}
                       />
                       No
                     </FormGroup>
                   </Col>
-                  <Col md={4}>
-                    <FormGroup check inline>
-                      -if yes, please upload here.
-                    </FormGroup>
-                    <Input
-                      style={{ cursor: "pointer" }}
-                      name="question1"
-                      type="file"
-                      onChange={() => setAnswer1("")}
-                    />
-                  </Col>
+                  {showQ14_other ? (
+                    <Col md={4}>
+                      <FormGroup check inline>
+                        -if yes, please upload here.
+                      </FormGroup>
+                      <Input
+                        required={showQ14_other}
+                        style={{ cursor: "pointer" }}
+                        name="question1"
+                        type="file"
+                        onChange={(e) => setImage(e.target.files[0])}
+                      />
+                    </Col>
+                  ) : null}
                 </Row>
               </Col>
 
@@ -871,6 +1062,7 @@ function QualificationForm() {
                     <FormGroup check inline>
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question15"
                         type="radio"
                         onChange={() => setAnswer15("YES")}
@@ -883,6 +1075,7 @@ function QualificationForm() {
                     <FormGroup check inline className="ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question15"
                         type="radio"
                         onChange={() => setAnswer15("NO")}
@@ -901,9 +1094,10 @@ function QualificationForm() {
                     <FormGroup check inline>
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question16"
                         type="radio"
-                        onChange={() => setAnswer16("NON_")}
+                        onChange={() => setAnswer16("RACIAL_PET")}
                       />
                       Racial Pet
                     </FormGroup>
@@ -914,8 +1108,9 @@ function QualificationForm() {
                       <Input
                         style={{ cursor: "pointer" }}
                         name="question16"
+                        required
                         type="radio"
-                        onChange={() => setAnswer16("NON_")}
+                        onChange={() => setAnswer16("NON_RACIAL_PET")}
                       />
                       Non-Racial Pet
                     </FormGroup>
@@ -925,6 +1120,7 @@ function QualificationForm() {
                     <FormGroup check inline className="ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question16"
                         type="radio"
                         onChange={() => setAnswer16("NOT_A_BIG_DEAL")}
@@ -945,6 +1141,7 @@ function QualificationForm() {
                     <FormGroup check inline>
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question17"
                         type="radio"
                         onChange={() => setAnswer17("YES")}
@@ -957,6 +1154,7 @@ function QualificationForm() {
                     <FormGroup check inline className="ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question17"
                         type="radio"
                         onChange={() => setAnswer17("NO")}
@@ -977,6 +1175,7 @@ function QualificationForm() {
                     <FormGroup check inline>
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question18"
                         type="radio"
                         onChange={() => setAnswer18("YES")}
@@ -989,6 +1188,7 @@ function QualificationForm() {
                     <FormGroup check inline className="ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question18"
                         type="radio"
                         onChange={() => setAnswer18("NO")}
@@ -1007,6 +1207,7 @@ function QualificationForm() {
                     <FormGroup check inline>
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question19"
                         type="radio"
                         onChange={() => setAnswer19("YES")}
@@ -1019,6 +1220,7 @@ function QualificationForm() {
                     <FormGroup check inline className="ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question19"
                         type="radio"
                         onChange={() => setAnswer19("NO")}
@@ -1037,9 +1239,13 @@ function QualificationForm() {
                     <FormGroup check inline>
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question20"
                         type="radio"
-                        onChange={() => setAnswer20("HIRE_PROFESSIONAL")}
+                        onChange={() => {
+                          setAnswer20("HIRE_PROFESSIONAL");
+                          setShowQ20_other(false);
+                        }}
                       />
                       Hire Professional Trainer
                     </FormGroup>
@@ -1049,9 +1255,13 @@ function QualificationForm() {
                     <FormGroup check inline className="ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question20"
                         type="radio"
-                        onChange={() => setAnswer20("WATCH_YOUTUBE")}
+                        onChange={() => {
+                          setAnswer20("WATCH_YOUTUBE");
+                          setShowQ20_other(false);
+                        }}
                       />
                       Watch Youtube Videos
                     </FormGroup>
@@ -1060,23 +1270,45 @@ function QualificationForm() {
                     <FormGroup check inline className="ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
+                        required
                         name="question20"
                         type="radio"
-                        onChange={() => setAnswer20("ASK_FRIENDS")}
+                        onChange={() => {
+                          setAnswer20("ASK_FRIENDS");
+                          setShowQ20_other(false);
+                        }}
                       />
                       Ask Help To Your Friends, Family etc.
                     </FormGroup>
                   </Col>
+                  <Col md={4}>
+                    <FormGroup check inline className="ml-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="question20"
+                        required
+                        type="radio"
+                        onChange={() => {
+                          setAnswer20("OTHER");
+                          setShowQ20_other(true);
+                        }}
+                      />
+                      Other
+                    </FormGroup>
+                  </Col>
                 </Row>
-                <Col md={4}>
-                  -others,please explain
-                  <Input
-                    style={{ cursor: "pointer" }}
-                    name="question1"
-                    type="textbox"
-                    onChange={(e) => setQ20Other(e.target.value)}
-                  />
-                </Col>
+                {showQ20_other ? (
+                  <Col md={4}>
+                    -others,please explain
+                    <Input
+                      required={showQ20_other}
+                      style={{ cursor: "pointer" }}
+                      name="question1"
+                      type="textbox"
+                      onChange={(e) => setQ20Other(e.target.value)}
+                    />
+                  </Col>
+                ) : null}
               </Col>
 
               <Button
@@ -1084,7 +1316,6 @@ function QualificationForm() {
                 color="primary"
                 type="submit"
                 block
-                onClick={handleSubmit}
                 style={{ cursor: "pointer" }}
               >
                 Submit

@@ -6,10 +6,13 @@ import EligiblePets from "views/user/EligiblePets";
 import Appointments from "views/user/Appointments";
 import ForPickup from "views/user/ForPickup";
 import UserProfile from "views/user/UserProfile";
-import QualificationForm from "../auth/QualificationForm";
+import QualificationForm from "./QualificationForm";
 import Schedule from "./Schedule";
 import UploadQR from "./UploadQR";
 import Missing from "views/user/Missing";
+
+import MyMissingPets from "./MyMissingpPets";
+import MissingPetsBoard from "./MissingPetsBoard";
 
 const dashboardRoutes = [
   {
@@ -24,6 +27,13 @@ const dashboardRoutes = [
     name: "Browse Pet",
     icon: "nc-icon nc-chart-pie-35",
     component: Adoptpet,
+    layout: "/user",
+  },
+  {
+    path: "/missing/board",
+    name: "Browse Missing Pet",
+    icon: "nc-icon nc-chart-pie-35",
+    component: MissingPetsBoard,
     layout: "/user",
   },
   {
@@ -58,7 +68,7 @@ const dashboardRoutes = [
     path: "/adopt-form/:code",
     name: "Adopt Form",
     icon: "nc-icon nc-notes",
-    component: AdoptForm,
+    component: QualificationForm,
     hidden: true,
     layout: "/user",
   },
@@ -76,6 +86,20 @@ const dashboardRoutes = [
     icon: "nc-icon nc-notes",
     component: UploadQR,
     hidden: true,
+    layout: "/user",
+  },
+  {
+    path: "/missing-add",
+    name: "Add Lost and Found",
+    icon: "nc-icon nc-chart-pie-35",
+    component: Missing,
+    layout: "/user",
+  },
+  {
+    path: "/pets/my-missing",
+    name: "My Lost and Found Pets",
+    icon: "nc-icon nc-chart-pie-35",
+    component: MyMissingPets,
     layout: "/user",
   },
 ];

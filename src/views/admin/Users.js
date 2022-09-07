@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router";
 
 // react-bootstrap components
-import { Card, Table, Container, Button } from "react-bootstrap";
-
-import Swal from "sweetalert2";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardTitle,
+  Table,
+  Container,
+} from "reactstrap";
 
 const axios = require("axios").default;
 
-function Appointments() {
+function Users() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -20,10 +24,10 @@ function Appointments() {
   return (
     <Container fluid>
       <Card className="strpied-tabled-with-hover">
-        <Card.Header>
-          <Card.Title as="h4">Users Masterlist</Card.Title>
-        </Card.Header>
-        <Card.Body className="table-full-width table-responsive px-0">
+        <CardHeader>
+          <CardTitle as="h4">Users Masterlist</CardTitle>
+        </CardHeader>
+        <CardBody className="table-full-width table-responsive px-0">
           <Table className="table-hover table-striped">
             <thead>
               <tr>
@@ -52,10 +56,10 @@ function Appointments() {
               })}
             </tbody>
           </Table>
-        </Card.Body>
+        </CardBody>
       </Card>
     </Container>
   );
 }
 
-export default Appointments;
+export default Users;

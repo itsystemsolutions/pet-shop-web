@@ -6,34 +6,49 @@ import { Card, Table, Container, Button, Badge } from "react-bootstrap";
 import Swal from "sweetalert2";
 const axios = require("axios").default;
 
-function Appointments() {
+function MyMissingPets() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     axios
-      .get("/schedule/for-interview?userId=" + localStorage.getItem("user_id"))
+      .get("/pets/missing?userId=" + localStorage.getItem("user_id"))
       .then((response) => {
         setData(response.data);
       });
   }, []);
 
+  const handleFound = (e, petCode, decision) => {
+    e.preventDefault();
+
+    axios.put("/pets/approve/" + petCode + "?decision=" + decision).then(() => {
+      Swal.fire({
+        icon: "success",
+        title: `SUCCESS! `,
+        text: `Record updated!`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+        }
+      });
+    });
+  };
+
   return (
     <Container fluid>
       <Card className="strpied-tabled-with-hover">
         <Card.Header>
-          <Card.Title as="h4">My Appointments</Card.Title>
-          <p className="card-category">List of interview set by admin</p>
+          <Card.Title as="h4">My Missing Pets</Card.Title>
         </Card.Header>
         <Card.Body className="table-full-width table-responsive px-0">
           <Table className="table-hover table-striped">
             <thead>
               <tr>
+                <th className="border-0">Image</th>
                 <th className="border-0">Pet Code</th>
-                <th className="border-0">Pet Type</th>
-                <th className="border-0">Date</th>
-                <th className="border-0">Time</th>
-                <th className="border-0">Message</th>
-                <th className="border-0">Interview LINK</th>
+                <th className="border-0">Gender</th>
+                <th className="border-0">Breed</th>
+                <th className="border-0">Description</th>
+                <th className="border-0">Last Seen</th>
                 <th className="border-0">Status</th>
               </tr>
             </thead>
@@ -48,19 +63,13 @@ function Appointments() {
                         height={110}
                         className="mb-3"
                       />
-                      <div>Name: {entry.petName}</div>
-                      <div>Code: {entry.petCode}</div>
                     </td>
-                    <td>{entry.petType}</td>
-                    <td>{entry.date}</td>
-                    <td>{entry.time}</td>
-                    <td>{entry.message}</td>
-                    <td>
-                      <a href={entry.zoomLink} target="_blank">
-                        {entry.zoomLink}
-                      </a>
-                    </td>
-                    <td>{entry.status}</td>
+                    <td>{entry.petCode}</td>
+                    <td>{entry.gender}</td>
+                    <td>{entry.breed}</td>
+                    <td>{entry.description}</td>
+                    <td>{entry.lastSeen}</td>
+                    <td>{entry.approvalStatus}</td>
                   </tr>
                 );
               })}
@@ -72,4 +81,4 @@ function Appointments() {
   );
 }
 
-export default Appointments;
+export default MyMissingPets;

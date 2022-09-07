@@ -15,15 +15,16 @@ import {
 
 import { Card } from "react-bootstrap";
 
+import Swal from "sweetalert2";
+
 const axios = require("axios").default;
 
 function Missing() {
-  const [email, setEmail] = useState("");
-  const [mobileNumber, setMobileNumber] = useState("");
-  const [address, setAddress] = useState("");
-  const [breed, setBreed] = useState("");
-  const [message, setMessage] = useState("");
+  const [lastSeen, setLastSeen] = useState("");
   const [image, setImage] = useState("");
+  const [breed, setBreed] = useState("");
+  const [gender, setGender] = useState("");
+  const [description, setDescription] = useState("");
 
   const [data, setData] = useState({
     name: "",
@@ -32,19 +33,51 @@ function Missing() {
     mobile: "",
   });
 
-  const [answer, setAnswer] = useState("");
-
   useEffect(() => {
     axios
       .get("/user/info?id=" + localStorage.getItem("user_id"))
-      .then(response => {
+      .then((response) => {
         console.log(response.data);
         setData(response.data);
       });
   }, []);
 
-  const handleSubmit = e => {
+  const handleAddpet = (e) => {
     e.preventDefault();
+
+    axios
+      .post("/pets", {
+        ownerId: localStorage.getItem("user_id"),
+        lastSeen: lastSeen,
+        breed: breed,
+        gender: gender,
+        description: description,
+        status: "MISSING",
+      })
+      .then(function (response) {
+        if (response.status == 200) {
+          const formData = new FormData();
+          formData.append("file", image);
+          formData.append("code", response.data);
+
+          axios.put(`/pets/upload/image`, formData).catch((error) => {
+            console.log(error);
+          });
+
+          console.log(response);
+          Swal.fire({
+            icon: "success",
+            title: "This added pet code is " + response.data,
+            text: "Please wait for admin to approve it",
+            showCancelButton: true,
+            confirmButtonText: "OKAY",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload();
+            }
+          });
+        }
+      });
   };
 
   return (
@@ -52,6 +85,7 @@ function Missing() {
       <Card>
         <CardHeader>
           <Col md="12">
+            <h4>Your Infomation</h4>
             <Row>
               <Col md={4}>
                 <FormGroup className="ml-2">
@@ -75,7 +109,7 @@ function Missing() {
                     defaultValue={data.email}
                     required
                     disabled
-                    onChange={e => setEmail(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </FormGroup>
               </Col>
@@ -94,13 +128,13 @@ function Missing() {
                 </FormGroup>
               </Col>
               <Col>
+                <h4>Pet Information</h4>
                 <FormGroup>
                   <Label for="mobile">Set Last seen Location.</Label>
                   <Input
                     type="text"
                     required
-                    value={address}
-                    onChange={e => setAddress(e.target.value)}
+                    onChange={(e) => setLastSeen(e.target.value)}
                   />
                 </FormGroup>
               </Col>
@@ -110,7 +144,7 @@ function Missing() {
                   <Input
                     type="file"
                     required
-                    onChange={e => setImage(e.target.files[0])}
+                    onChange={(e) => setImage(e.target.files[0])}
                   />
                 </FormGroup>
               </Col>
@@ -121,7 +155,7 @@ function Missing() {
                     type="text"
                     required
                     value={breed}
-                    onChange={e => setBreed(e.target.value)}
+                    onChange={(e) => setBreed(e.target.value)}
                   />
                 </FormGroup>
               </Col>
@@ -135,7 +169,7 @@ function Missing() {
                         style={{ cursor: "pointer" }}
                         name="question8"
                         type="radio"
-                        onChange={() => setAnswer("")}
+                        onChange={() => setGender("MALE")}
                       />
                       MALE
                     </FormGroup>
@@ -147,7 +181,7 @@ function Missing() {
                         style={{ cursor: "pointer" }}
                         name="question8"
                         type="radio"
-                        onChange={() => setAnswer("")}
+                        onChange={() => setGender("FEMALE")}
                       />
                       FEMALE
                     </FormGroup>
@@ -158,7 +192,7 @@ function Missing() {
                         style={{ cursor: "pointer" }}
                         name="question8"
                         type="radio"
-                        onChange={() => setAnswer("")}
+                        onChange={() => setGender("UNSURE")}
                       />
                       UNSURE
                     </FormGroup>
@@ -171,17 +205,16 @@ function Missing() {
                   <Input
                     type="textarea"
                     required
-                    value={message}
-                    onChange={e => setMessage(e.target.value)}
+                    onChange={(e) => setDescription(e.target.value)}
                   />
                 </FormGroup>
               </Col>
               <Button
-                className="mt-2 font-italic"
+                className="my-2 font-italic"
                 color="primary"
                 type="submit"
                 block
-                onClick={handleSubmit}
+                onClick={handleAddpet}
                 style={{ cursor: "pointer" }}
               >
                 Submit
