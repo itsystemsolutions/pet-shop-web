@@ -30,7 +30,7 @@ function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
-  const [mobileNumber, setMobileNumber] = useState("");
+  const [mobileNumber, setMobileNumber] = useState();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -43,7 +43,7 @@ function Register() {
   const [setshowhide, setShowHide] = useState("password");
   const [eye, seteye] = useState(true);
 
-  const handleRegister = (e) => {
+  const handleRegister = e => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -76,13 +76,13 @@ function Register() {
         social: social,
         type: "USER",
       })
-      .then((response) => {
+      .then(response => {
         if (response.data.statusCode == "OK") {
           const formData = new FormData();
           formData.append("file", image);
           formData.append("username", username);
 
-          axios.put(`/user/upload/image`, formData).catch((error) => {
+          axios.put(`/user/upload/image`, formData).catch(error => {
             console.log(error);
           });
 
@@ -113,6 +113,16 @@ function Register() {
       setShowHide("password");
       seteye(true);
     }
+  };
+
+  const handleMobileNumberChange = e => {
+    const limit = 11;
+    setMobileNumber(e.target.value.slice(0, limit));
+  };
+
+  const handleAgeChange = e => {
+    const limit = 2;
+    setAge(e.target.value.slice(0, limit));
   };
 
   return (
@@ -149,7 +159,7 @@ function Register() {
                     minLength={5}
                     value={name}
                     required
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={e => setName(e.target.value)}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -162,7 +172,7 @@ function Register() {
                     minLength={5}
                     value={email}
                     required
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={e => setEmail(e.target.value)}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -176,21 +186,20 @@ function Register() {
                     autoComplete="new-username"
                     value={username}
                     required
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={e => setUsername(e.target.value)}
                   />
                 </FormGroup>
                 <FormGroup>
                   <Label for="mobile">
                     Mobile Number <span className="text-danger">*</span>
                   </Label>
+
                   <Input
-                    placeholder="09XX-XXX-XXXX"
                     type="number"
-                    pattern="[0-9]"
                     required
-                    maxLength={11}
+                    pattern="[0-9]"
                     value={mobileNumber}
-                    onChange={(e) => setMobileNumber(e.target.value)}
+                    onChange={handleMobileNumberChange}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -202,9 +211,8 @@ function Register() {
                     type="number"
                     pattern="[0-9]"
                     required
-                    maxLength={2}
                     value={age}
-                    onChange={(e) => setAge(e.target.value)}
+                    onChange={handleAgeChange}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -214,7 +222,7 @@ function Register() {
                   <Input
                     type="file"
                     required
-                    onChange={(e) => setImage(e.target.files[0])}
+                    onChange={e => setImage(e.target.files[0])}
                   />
                 </FormGroup>
               </Col>
@@ -227,7 +235,7 @@ function Register() {
                     type="text"
                     required
                     value={address}
-                    onChange={(e) => setAddress(e.target.value)}
+                    onChange={e => setAddress(e.target.value)}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -235,7 +243,7 @@ function Register() {
                   <Input
                     type="text"
                     value={occupation}
-                    onChange={(e) => setOccupation(e.target.value)}
+                    onChange={e => setOccupation(e.target.value)}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -243,7 +251,7 @@ function Register() {
                   <Input
                     type="text"
                     value={social}
-                    onChange={(e) => setSocial(e.target.value)}
+                    onChange={e => setSocial(e.target.value)}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -257,7 +265,7 @@ function Register() {
                     minLength={4}
                     required
                     type={setshowhide}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={e => setPassword(e.target.value)}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -268,7 +276,7 @@ function Register() {
                     placeholder="Confirm password."
                     type={setshowhide}
                     required
-                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    onChange={e => setConfirmPassword(e.target.value)}
                   />
                   <FormFeedback>Password did not matched</FormFeedback>
                   <FormText onClick={handleEye} className="pointer">
@@ -302,7 +310,7 @@ function Register() {
                   >
                     <span className="text-muted">
                       I agree with the{" "}
-                      <a href="null" onClick={(e) => e.preventDefault()}>
+                      <a href="null" onClick={e => e.preventDefault()}>
                         Privacy Policy
                       </a>
                       <span className="text-danger">*</span>

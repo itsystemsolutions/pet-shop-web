@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
-import emailjs from "@emailjs/browser";
 import { Button, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 import { Form, Input, Label, Spinner } from "reactstrap";
 
@@ -13,38 +12,18 @@ function ForgetPassword() {
 
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  // const sendEmail = (e) => {
-  //   e.preventDefault();
 
-  //   emailjs
-  //     .sendForm(
-  //       "service_t52p73h",
-  //       "template_5nv17fq",
-  //       form.current,
-  //       "4BPwQt3w8poIUZCwB"
-  //     )
-  //     .then(
-  //       (result) => {
-  //         console.log(result.text);
-  //         console.log("message send");
-  //       },
-  //       (error) => {
-  //         console.log(error.text);
-  //       }
-  //     );
-  // };
-
-  const sendEmail = (e) => {
+  const sendEmail = e => {
     e.preventDefault();
 
     setIsLoading(true);
-    axios.get("/user/forgot-password?email=" + email).then((response) => {
+    axios.get("/user/forgot-password?email=" + email).then(response => {
       if (response.data.statusCode === "OK") {
         Swal.fire({
           icon: "success",
           title: `SUCCESS! `,
           text: `We have sent new password on your email!`,
-        }).then((result) => {
+        }).then(result => {
           if (result.isConfirmed) {
             window.location.reload();
           }
@@ -53,7 +32,7 @@ function ForgetPassword() {
         Swal.fire({
           icon: "danger",
           title: `Email did not exists on our records! `,
-        }).then((result) => {
+        }).then(result => {
           if (result.isConfirmed) {
             window.location.reload();
           }
@@ -92,7 +71,7 @@ function ForgetPassword() {
                 type="email"
                 name="user_email"
                 required
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={e => setEmail(e.target.value)}
               />
               <Button
                 onClick={sendEmail}
