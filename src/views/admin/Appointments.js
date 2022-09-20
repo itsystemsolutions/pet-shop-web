@@ -4,6 +4,7 @@ import { useHistory } from "react-router";
 // react-bootstrap components
 import { Card, Table, Container, Button, Badge } from "react-bootstrap";
 
+// Alert Dialogs
 import Swal from "sweetalert2";
 
 const axios = require("axios").default;
@@ -85,7 +86,13 @@ function Appointments() {
                         className="mb-3"
                       />
                       <div>Name: {entry.petName}</div>
-                      <div>Code: {entry.petCode}</div>
+                      <div>
+                        Code:{" "}
+                        <a
+                          href={`http://localhost:3000/pets/${entry.petCode}`}
+                          target="_blank"
+                        ></a>
+                      </div>
                     </td>
                     <td>{entry.petType}</td>
                     <td>{entry.date}</td>

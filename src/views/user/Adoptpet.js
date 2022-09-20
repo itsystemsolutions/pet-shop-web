@@ -20,17 +20,25 @@ function Adoptpet() {
   const history = useHistory();
 
   const [data, setData] = useState([]);
+  const [isUserValidToAdopt, setIsUserValidForAdopt] = useState(false);
 
   useEffect(() => {
     axios.get("/pets").then((response) => {
       setData(response.data);
     });
+
+    axios
+      .get("/user/info?id=" + localStorage.getItem("user_id"))
+      .then((response) => {
+        if (response.data.userValid !== null) {
+          setIsUserValidForAdopt(response.data.userValid);
+        }
+      });
   }, []);
 
   const handleAdopt = (e, petCode) => {
     e.preventDefault();
 
-    console.log("klh;lkjh");
     axios
       .post("/adopt-form", {
         userId: localStorage.getItem("user_id"),
@@ -55,66 +63,75 @@ function Adoptpet() {
       </CardHeader>
       <CardBody className="mt-3">
         <Row>
-          {data.map((pet) => {
-            return (
-              <Col md={3}>
-                <Card>
-                  <CardBody>
-                    <Card
-                      style={{
-                        backgroundImage: `url(
+          {isUserValidToAdopt &&
+            data.map((pet) => {
+              return (
+                <Col md={3}>
+                  <Card>
+                    <CardBody>
+                      <Card
+                        style={{
+                          backgroundImage: `url(
                     http://localhost:8081/PETSHOP/images/pets/${pet.petCode}.jpg)`,
-                        minHeight: "250px",
-                        backgroundSize: "cover",
-                        backgroundRepeat: "no-repeat",
-                      }}
-                    ></Card>
-                    <CardTitle className="text-center" tag="h3">
-                      <Button
-                        onClick={() =>
-                          history.push("/user/adopt-form/" + pet.petCode)
-                        }
-                        color="info"
-                        className="mb-2"
-                        block
-                      >
-                        ADOPT PET
-                      </Button>
-                    </CardTitle>
-                    <CardText>They need a home as much as we did</CardText>
-                    <div>
-                      <p className="text-center h3">
-                        <b>{pet.name}</b>
-                      </p>
-                      <p>
-                        <b>Pet Code:</b> {pet.petCode}
-                      </p>
-                      <p>
-                        <b>Pet Name:</b> {pet.name}
-                      </p>
-                      <p>
-                        <b>Gender:</b> {pet.gender}
-                      </p>
-                      <p>
-                        <b>Breed:</b> {pet.breed}
-                      </p>
-                      <p>
-                        <b>Age:</b> {pet.age}
-                      </p>
-                      <p>
-                        <b>Size:</b> {pet.size}
-                      </p>
-                      <p>
-                        <b>
-                          Shelter residence since {pet.shelterResidentYear}{" "}
-                        </b>
-                      </p>
-                    </div>
-                  </CardBody>
-                </Card>
-              </Col>
-            );
-          })}
+                          minHeight: "250px",
+                          backgroundSize: "cover",
+                          backgroundRepeat: "no-repeat",
+                        }}
+                      ></Card>
+                      <CardTitle className="text-center" tag="h3">
+                        <Button
+                          onClick={() => {
+                            if (isUserValidToAdopt) {
+                              history.push("/user/adopt-form/" + pet.petCode);
+                            } else {
+                              Swal.fire({
+                                icon: "warning",
+                                title: `Your account needs to be approved by admin! `,
+                              });
+                            }
+                          }}
+                          color="info"
+                          className="mb-2"
+                          block
+                        >
+                          ADOPT PET
+                        </Button>
+                      </CardTitle>
+
+                      <CardText>They need a home as much as we did</CardText>
+                      <div>
+                        <p className="text-center h3">
+                          <b>{pet.name}</b>
+                        </p>
+                        <p>
+                          <b>Pet Code:</b> {pet.petCode}
+                        </p>
+                        <p>
+                          <b>Pet Name:</b> {pet.name}
+                        </p>
+                        <p>
+                          <b>Gender:</b> {pet.gender}
+                        </p>
+                        <p>
+                          <b>Breed:</b> {pet.breed}
+                        </p>
+                        <p>
+                          <b>Age:</b> {pet.age}
+                        </p>
+                        <p>
+                          <b>Size:</b> {pet.size}
+                        </p>
+                        <p>
+                          <b>
+                            Shelter residence since {pet.shelterResidentYear}{" "}
+                          </b>
+                        </p>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </Col>
+              );
+            })}
         </Row>
       </CardBody>
     </Card>

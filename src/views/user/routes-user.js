@@ -13,6 +13,7 @@ import Missing from "views/user/Missing";
 
 import MyMissingPets from "./MyMissingpPets";
 import MissingPetsBoard from "./MissingPetsBoard";
+import PetInformation from "./PetInformation";
 
 const dashboardRoutes = [
   {
@@ -100,6 +101,14 @@ const dashboardRoutes = [
     name: "My Lost and Found Pets",
     icon: "nc-icon nc-chart-pie-35",
     component: MyMissingPets,
+    layout: "/user",
+  },
+  {
+    path: "/pet/info/:code",
+    name: "My Lost and Found Pets",
+    icon: "nc-icon nc-chart-pie-35",
+    hidden: true,
+    component: PetInformation,
     layout: "/user",
   },
 ];

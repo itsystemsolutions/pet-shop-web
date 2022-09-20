@@ -49,7 +49,15 @@ function Appointments() {
                         className="mb-3"
                       />
                       <div>Name: {entry.petName}</div>
-                      <div>Code: {entry.petCode}</div>
+                      <div>
+                        Code:{" "}
+                        <a
+                          href={`http://localhost:3000/user/pet/info/${entry.petCode}`}
+                          target="_blank"
+                        >
+                          {entry.petCode}
+                        </a>
+                      </div>
                     </td>
                     <td>{entry.petType}</td>
                     <td>{entry.date}</td>

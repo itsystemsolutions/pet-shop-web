@@ -5,12 +5,15 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Col,
   Container,
   FormGroup,
   Input,
   Label,
+  Progress,
   Row,
+  Col,
+  CardTitle,
+  CardText,
 } from "reactstrap";
 
 import Swal from "sweetalert2";
@@ -36,12 +39,21 @@ function User() {
   const [address, setAddress] = useState();
   const [occupation, setOccupation] = useState();
   const [social, setSocial] = useState();
+  const [accountStatusColor, setAccountStatusColor] = useState();
 
   useEffect(() => {
     axios
       .get("/user/info?id=" + localStorage.getItem("user_id"))
       .then((response) => {
         setData(response.data);
+
+        if (response.data.userValid === null) {
+          setAccountStatusColor("warning");
+        } else if (response.data.userValid) {
+          setAccountStatusColor("success");
+        } else if (!response.data.userValid) {
+          setAccountStatusColor("danger");
+        }
       });
   }, []);
 
@@ -81,87 +93,117 @@ function User() {
           <h3 className="text-center">PROFILE</h3>
         </CardHeader>
         <CardBody>
-          <Col>
-            <FormGroup>
-              <Label for="username">UserName</Label>
-              <Input defaultValue={data.username} disabled />
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Label>Name</Label>
-              <Input
-                defaultValue={data.name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </FormGroup>
-          </Col>
+          <Row>
+            <Col>
+              <Col>
+                <FormGroup>
+                  <Label for="username">UserName</Label>
+                  <Input defaultValue={data.username} disabled />
+                </FormGroup>
+              </Col>
+              <Col>
+                <FormGroup>
+                  <Label>Name</Label>
+                  <Input
+                    defaultValue={data.name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </FormGroup>
+              </Col>
 
-          <Col>
-            <FormGroup>
-              <Label for="email">Email</Label>
-              <Input
-                defaultValue={data.email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Label for="Mobile">Mobile</Label>
-              <Input
-                defaultValue={data.mobile}
-                onChange={(e) => setMobile(e.target.value)}
-              />
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Label for="Mobile">Age</Label>
-              <Input
-                defaultValue={data.age}
-                onChange={(e) => setAge(e.target.value)}
-              />
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Label for="Mobile">Address</Label>
-              <Input
-                defaultValue={data.address}
-                onChange={(e) => setAddress(e.target.value)}
-              />
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Label for="Mobile">Occupation</Label>
-              <Input
-                defaultValue={data.occupation}
-                onChange={(e) => setOccupation(e.target.value)}
-              />
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Label for="Mobile">Social</Label>
-              <Input
-                defaultValue={data.social}
-                onChange={(e) => setSocial(e.target.value)}
-              />
-            </FormGroup>
-          </Col>
-          <div className="mt-2">
-            <Button
-              className="btn-fill pull-end"
-              type="submit"
-              variant="info"
-              color="primary"
-              onClick={handleUpdate}
-            >
-              Update Profile
-            </Button>
-          </div>
+              <Col>
+                <FormGroup>
+                  <Label for="email">Email</Label>
+                  <Input
+                    defaultValue={data.email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </FormGroup>
+              </Col>
+              <Col>
+                <FormGroup>
+                  <Label for="Mobile">Mobile</Label>
+                  <Input
+                    defaultValue={data.mobile}
+                    onChange={(e) => setMobile(e.target.value)}
+                  />
+                </FormGroup>
+              </Col>
+              <Col>
+                <FormGroup>
+                  <Label for="Mobile">Age</Label>
+                  <Input
+                    defaultValue={data.age}
+                    onChange={(e) => setAge(e.target.value)}
+                  />
+                </FormGroup>
+              </Col>
+              <Col>
+                <FormGroup>
+                  <Label for="Mobile">Address</Label>
+                  <Input
+                    defaultValue={data.address}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </FormGroup>
+              </Col>
+              <Col>
+                <FormGroup>
+                  <Label for="Mobile">Occupation</Label>
+                  <Input
+                    defaultValue={data.occupation}
+                    onChange={(e) => setOccupation(e.target.value)}
+                  />
+                </FormGroup>
+              </Col>
+              <Col>
+                <FormGroup>
+                  <Label for="Mobile">Social</Label>
+                  <Input
+                    defaultValue={data.social}
+                    onChange={(e) => setSocial(e.target.value)}
+                  />
+                </FormGroup>
+              </Col>
+              <div className="mt-2">
+                <Button
+                  className="btn-fill pull-end"
+                  type="submit"
+                  variant="info"
+                  color="primary"
+                  onClick={handleUpdate}
+                >
+                  Update Profile
+                </Button>
+              </div>
+            </Col>
+            <Col>
+              <div className="text-center">Your Account Status</div>
+              <Progress multi>
+                <Progress bar color="warning" value="33.33">
+                  Pending
+                </Progress>
+                <Progress bar color="success" value="33.33">
+                  Approved
+                </Progress>
+                <Progress bar color="danger" value="33.33">
+                  Denied
+                </Progress>
+              </Progress>
+              <div className="mt-2">
+                <Row className="justify-content-center mt-4">
+                  <Col md={3}>
+                    <Card
+                      className={`rounded-circle bg-${accountStatusColor}`}
+                      style={{ height: "10rem", width: "10rem" }}
+                    >
+                      <CardBody></CardBody>
+                    </Card>
+                  </Col>
+                </Row>
+              </div>
+            </Col>
+          </Row>
         </CardBody>
       </Card>
     </Container>

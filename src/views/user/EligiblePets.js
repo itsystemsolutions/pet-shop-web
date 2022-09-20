@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router";
 
 import {
   Card,
@@ -131,26 +132,27 @@ function EligiblePets() {
                           Request Interview
                         </Button>
                       </Col>
-                      {item.type === "MISSING" && item.hasProofOwnerShip ? (
-                        <Col className="mt-3" md={12}>
-                          Proof Ownership{" "}
-                          <i className="fa fa-check text-success"></i>
-                        </Col>
-                      ) : (
-                        <Col md={12} className="mt-2">
-                          <Button
-                            onClick={(e) => {
-                              toggle();
-                              setSelectedCode(item.petCode);
-                            }}
-                            block
-                            className="w-50"
-                            color="primary"
-                          >
-                            Upload Proof of Ownership
-                          </Button>
-                        </Col>
-                      )}
+                      {item.type === "MISSING" &&
+                        (item.hasProofOwnerShip ? (
+                          <Col className="mt-3" md={12}>
+                            Proof Ownership{" "}
+                            <i className="fa fa-check text-success"></i>
+                          </Col>
+                        ) : (
+                          <Col md={12} className="mt-2">
+                            <Button
+                              onClick={(e) => {
+                                toggle();
+                                setSelectedCode(item.petCode);
+                              }}
+                              block
+                              className="w-50"
+                              color="primary"
+                            >
+                              Upload Proof of Ownership
+                            </Button>
+                          </Col>
+                        ))}
                     </Row>
                   </td>
                   <td>
@@ -161,7 +163,15 @@ function EligiblePets() {
                       className="mb-3"
                     />
                     <div>Name: {item.petName}</div>
-                    <div>Code: {item.petCode}</div>
+                    <div>
+                      Code:{" "}
+                      <a
+                        href={`http://localhost:3000/user/pet/info/${item.petCode}`}
+                        target="_blank"
+                      >
+                        {item.petCode}
+                      </a>
+                    </div>
                   </td>
                   <td>{item.timestamp}</td>
                   <td>{item.type}</td>

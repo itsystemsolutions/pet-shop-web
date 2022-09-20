@@ -1,24 +1,22 @@
-import React from "react";
+import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import ChartistGraph from "react-chartist";
 // react-bootstrap components
-import {
-  Badge,
-  Button,
-  Card,
-  Navbar,
-  Nav,
-  Table,
-  Container,
-  Row,
-  Col,
-  Form,
-  OverlayTrigger,
-  Tooltip,
-} from "react-bootstrap";
+import { Card, Container, Row, Col } from "react-bootstrap";
+
+const axios = require("axios").default;
 
 function Dashboard() {
   const history = useHistory();
+
+  useEffect(() => {
+    axios
+      .get("/user/info?id=" + localStorage.getItem("user_id"))
+      .then((response) => {
+        if (response.data.qualificationAnswers === null) {
+          history.push("/auth/quiz");
+        }
+      });
+  }, []);
 
   return (
     <Container fluid>

@@ -17,6 +17,10 @@ import {
   Label,
   FormFeedback,
   FormText,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
 } from "reactstrap";
 
 import { Container } from "react-bootstrap";
@@ -25,6 +29,10 @@ import { Container } from "react-bootstrap";
 const axios = require("axios").default;
 
 function Register() {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggle = () => setDropdownOpen((prevState) => !prevState);
+
   const history = useHistory();
 
   const [name, setName] = useState("");
@@ -39,11 +47,12 @@ function Register() {
   const [occupation, setOccupation] = useState("");
   const [social, setSocial] = useState("");
   const [image, setImage] = useState("");
+  const [validId, setValidId] = useState("Dropdown");
 
   const [setshowhide, setShowHide] = useState("password");
   const [eye, seteye] = useState(true);
 
-  const handleRegister = e => {
+  const handleRegister = (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -62,6 +71,14 @@ function Register() {
       });
       return;
     }
+    if (validId === "Dropdown") {
+      Swal.fire({
+        icon: "error",
+        title: "Register Failed!",
+        text: "Please select a valid id",
+      });
+      return;
+    }
 
     axios
       .post("/user", {
@@ -74,20 +91,21 @@ function Register() {
         address: address,
         occupation: occupation,
         social: social,
+        validId: validId,
         type: "USER",
       })
-      .then(response => {
+      .then((response) => {
         if (response.data.statusCode == "OK") {
           const formData = new FormData();
           formData.append("file", image);
           formData.append("username", username);
 
-          axios.put(`/user/upload/image`, formData).catch(error => {
+          axios.put(`/user/upload/image`, formData).catch((error) => {
             console.log(error);
           });
 
           // history.push("/auth/qualification-form/" + username);
-          history.push("/auth/login");
+          history.push("/auth/email/otp/" + email);
         } else {
           Swal.fire({
             icon: "error",
@@ -115,12 +133,12 @@ function Register() {
     }
   };
 
-  const handleMobileNumberChange = e => {
+  const handleMobileNumberChange = (e) => {
     const limit = 11;
     setMobileNumber(e.target.value.slice(0, limit));
   };
 
-  const handleAgeChange = e => {
+  const handleAgeChange = (e) => {
     const limit = 2;
     setAge(e.target.value.slice(0, limit));
   };
@@ -159,7 +177,7 @@ function Register() {
                     minLength={5}
                     value={name}
                     required
-                    onChange={e => setName(e.target.value)}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -172,7 +190,7 @@ function Register() {
                     minLength={5}
                     value={email}
                     required
-                    onChange={e => setEmail(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -186,7 +204,7 @@ function Register() {
                     autoComplete="new-username"
                     value={username}
                     required
-                    onChange={e => setUsername(e.target.value)}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -215,15 +233,62 @@ function Register() {
                     onChange={handleAgeChange}
                   />
                 </FormGroup>
-                <FormGroup>
-                  <Label for="residensy">
+
+                <FormGroup row>
+                  <Label md={12} for="residensy">
                     Valid Id <span className="text-danger">*</span>
                   </Label>
-                  <Input
-                    type="file"
-                    required
-                    onChange={e => setImage(e.target.files[0])}
-                  />
+                  <Col md={12} className="ml-2">
+                    <Dropdown
+                      isOpen={dropdownOpen}
+                      toggle={toggle}
+                      onChange={(e) => console.log(e.target.value)}
+                    >
+                      <DropdownToggle caret>{validId}</DropdownToggle>
+                      <DropdownMenu>
+                        <DropdownItem header>Select Id Type</DropdownItem>
+                        <DropdownItem
+                          name="SSS"
+                          onClick={(e) => setValidId(e.target.name)}
+                        >
+                          SSS
+                        </DropdownItem>
+                        <DropdownItem
+                          name="PAGIBIG"
+                          onClick={(e) => setValidId(e.target.name)}
+                        >
+                          PAGIBIG
+                        </DropdownItem>
+                        <DropdownItem
+                          name="PHILHEALTH"
+                          onClick={(e) => setValidId(e.target.name)}
+                        >
+                          PHILHEALTH
+                        </DropdownItem>
+                        <DropdownItem
+                          name="DRIVERSLICENSE"
+                          onClick={(e) => setValidId(e.target.name)}
+                        >
+                          DRIVERSLICENSE
+                        </DropdownItem>
+                        <DropdownItem
+                          name="OTHER"
+                          onClick={(e) => setValidId(e.target.name)}
+                        >
+                          OTHER
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                  </Col>
+                  {validId !== "Dropdown" && (
+                    <Col md={12} className="ml-2">
+                      <Input
+                        type="file"
+                        required
+                        onChange={(e) => setImage(e.target.files[0])}
+                      />
+                    </Col>
+                  )}
                 </FormGroup>
               </Col>
               <Col>
@@ -235,7 +300,7 @@ function Register() {
                     type="text"
                     required
                     value={address}
-                    onChange={e => setAddress(e.target.value)}
+                    onChange={(e) => setAddress(e.target.value)}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -243,7 +308,7 @@ function Register() {
                   <Input
                     type="text"
                     value={occupation}
-                    onChange={e => setOccupation(e.target.value)}
+                    onChange={(e) => setOccupation(e.target.value)}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -251,7 +316,7 @@ function Register() {
                   <Input
                     type="text"
                     value={social}
-                    onChange={e => setSocial(e.target.value)}
+                    onChange={(e) => setSocial(e.target.value)}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -265,7 +330,7 @@ function Register() {
                     minLength={4}
                     required
                     type={setshowhide}
-                    onChange={e => setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -276,7 +341,7 @@ function Register() {
                     placeholder="Confirm password."
                     type={setshowhide}
                     required
-                    onChange={e => setConfirmPassword(e.target.value)}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                   />
                   <FormFeedback>Password did not matched</FormFeedback>
                   <FormText onClick={handleEye} className="pointer">
@@ -310,7 +375,7 @@ function Register() {
                   >
                     <span className="text-muted">
                       I agree with the{" "}
-                      <a href="null" onClick={e => e.preventDefault()}>
+                      <a href="null" onClick={(e) => e.preventDefault()}>
                         Privacy Policy
                       </a>
                       <span className="text-danger">*</span>

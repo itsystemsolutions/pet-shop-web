@@ -33,7 +33,9 @@ function Quiz() {
   const [quiz5, setQuiz5] = useState("");
   const [quiz6, setQuiz6] = useState("");
   const [quiz7, setQuiz7] = useState("");
+  const [quiz7Explain, setQuiz7Explain] = useState("");
   const [quiz8, setQuiz8] = useState("");
+  const [quiz8Explain, setQuiz8Explain] = useState("");
   const [quiz9, setQuiz9] = useState("");
   const [quiz10, setQuiz10] = useState("");
   const [quiz11, setQuiz11] = useState("");
@@ -42,63 +44,57 @@ function Quiz() {
   const [quiz14, setQuiz14] = useState("");
   const [quiz15, setQuiz15] = useState("");
 
-  const [image, setImage] = useState("");
-
   useEffect(() => {
     axios
       .get("/user/info?id=" + localStorage.getItem("user_id"))
-      .then(response => {
+      .then((response) => {
         setData(response.data);
       });
   }, []);
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     axios
-      .post("/adopt-form", {
-        userId: localStorage.getItem("user_id"),
-        validIdUrl: "URL",
-        petCode: code,
-        formAnswer: {
-          answer4: answer4,
-          answer5: answer5,
-          answer6: answer6,
-          answer7: answer7,
-          answer8: answer8,
-          answer9: answer9,
-          answer10: answer10,
-        },
+      .put("/user/quiz-answer/" + localStorage.getItem("user_id"), {
+        quiz1: data.age,
+        quiz2: data.occupation,
+        quiz3: "",
+        quiz4: quiz4,
+        quiz5: quiz5,
+        quiz6: quiz6,
+        quiz7: quiz7,
+        quiz7Explain: quiz7Explain,
+        quiz8: quiz8,
+        quiz8Explain: quiz8Explain,
+        quiz9: quiz9,
+        quiz10: quiz10,
+        quiz11: quiz11,
+        quiz12: quiz12,
+        quiz13: quiz13,
+        quiz14: quiz14,
+        quiz15: quiz15,
       })
-      .then(response => {
-        const formData = new FormData();
-        formData.append("file", image);
-        formData.append("code", code);
-
-        axios.put(`/adopt-form/upload/image`, formData).catch(error => {
-          console.log(error);
-        });
-
-        if (response.data > 12) {
+      .then((response) => {
+        if (response.data.statusCode === "OK") {
           Swal.fire({
             icon: "success",
-            title: "Congratulations you passed the exam!",
-            text: `Your score is ${response.data}`,
+            title: "Quiz submitted!",
+            text: `Please wait for the admin to approve the quiz before adopting a pet`,
             confirmButtonText: "Check EligiblePets",
-          }).then(result => {
+          }).then((result) => {
             if (result.isConfirmed) {
-              history.push("/user/eligible-pets");
+              history.push("/user/dashboard");
             }
           });
         } else {
           Swal.fire({
             icon: "error",
-            text: `Oh no! You have failed the assesment questions`,
-            text: `Your score was ${response.data}`,
+            text: `Oh no! Something went wrong!`,
             confirmButtonText: "Try again",
-          }).then(result => {
+          }).then((result) => {
             if (result.isConfirmed) {
-              history.push("/user/adoptpet");
+              history.push("/user/dashboard");
             }
           });
         }
@@ -172,7 +168,8 @@ function Quiz() {
                   style={{ cursor: "pointer" }}
                   name="quiz4"
                   type="textbox"
-                  onChange={() => setQuiz4()}
+                  required
+                  onChange={(e) => setQuiz4(e.target.value)}
                 />
               </Col>
 
@@ -191,7 +188,7 @@ function Quiz() {
                         name="quiz5"
                         type="radio"
                         required
-                        onChange={() => setQuiz5()}
+                        onChange={(e) => setQuiz5("Agree")}
                       />
                       Agree
                     </FormGroup>
@@ -204,7 +201,7 @@ function Quiz() {
                         name="quiz5"
                         required
                         type="radio"
-                        onChange={() => setQuiz5()}
+                        onChange={(e) => setQuiz5("Disagree")}
                       />
                       Disagree
                     </FormGroup>
@@ -222,7 +219,8 @@ function Quiz() {
                   style={{ cursor: "pointer" }}
                   name="quiz6"
                   type="textbox"
-                  onChange={() => setQuiz6()}
+                  required
+                  onChange={(e) => setQuiz6(e.target.value)}
                 />
               </Col>
 
@@ -237,7 +235,7 @@ function Quiz() {
                         required
                         name="quiz7"
                         type="radio"
-                        onChange={() => setQuiz7("YES")}
+                        onChange={(e) => setQuiz7("YES")}
                       />
                       Yes
                     </FormGroup>
@@ -250,7 +248,7 @@ function Quiz() {
                         required
                         name="quiz7"
                         type="radio"
-                        onChange={() => setQuiz7("NO")}
+                        onChange={(e) => setQuiz7("NO")}
                       />
                       No
                     </FormGroup>
@@ -264,6 +262,7 @@ function Quiz() {
                   style={{ cursor: "pointer" }}
                   name="question1"
                   type="textbox"
+                  onChange={(e) => setQuiz7Explain(e.target.value)}
                 />
               </Col>
 
@@ -278,7 +277,7 @@ function Quiz() {
                         required
                         name="quiz8"
                         type="radio"
-                        onChange={() => setQuiz8()}
+                        onChange={(e) => setQuiz8("YES")}
                       />
                       Yes
                     </FormGroup>
@@ -291,7 +290,7 @@ function Quiz() {
                         required
                         name="quiz8"
                         type="radio"
-                        onChange={() => setQuiz8()}
+                        onChange={(e) => setQuiz8("NO")}
                       />
                       No
                     </FormGroup>
@@ -305,7 +304,7 @@ function Quiz() {
                   style={{ cursor: "pointer" }}
                   name="quiz8"
                   type="textbox"
-                  onChange={() => setQuiz8()}
+                  onChange={(e) => setQuiz8Explain(e.target.value)}
                 />
               </Col>
 
@@ -318,7 +317,7 @@ function Quiz() {
                   style={{ cursor: "pointer" }}
                   name="quiz9"
                   type="textbox"
-                  onChange={() => setQuiz9()}
+                  onChange={(e) => setQuiz9(e.target.value)}
                 />
               </Col>
 
@@ -331,7 +330,7 @@ function Quiz() {
                   style={{ cursor: "pointer" }}
                   name="quiz10"
                   type="textbox"
-                  onChange={() => setQuiz10()}
+                  onChange={(e) => setQuiz10(e.target.value)}
                 />
               </Col>
               <Col md={12}>11. Do we have permission to visit your home?</Col>
@@ -340,7 +339,7 @@ function Quiz() {
                   style={{ cursor: "pointer" }}
                   name="quiz11"
                   type="textbox"
-                  onChange={() => setQuiz11()}
+                  onChange={(e) => setQuiz11(e.target.value)}
                 />
               </Col>
               <Col md={12}>12. Please describe your household.</Col>
@@ -353,7 +352,7 @@ function Quiz() {
                         name="quiz12"
                         type="radio"
                         required
-                        onChange={() => setQuiz12()}
+                        onChange={(e) => setQuiz12("Active")}
                       />
                       Active
                     </FormGroup>
@@ -366,7 +365,7 @@ function Quiz() {
                         name="quiz12"
                         required
                         type="radio"
-                        onChange={() => setQuiz12()}
+                        onChange={(e) => setQuiz12("Noisy")}
                       />
                       Noisy
                     </FormGroup>
@@ -378,7 +377,7 @@ function Quiz() {
                         name="quiz12"
                         required
                         type="radio"
-                        onChange={() => setQuiz12()}
+                        onChange={(e) => setQuiz12("Quiet")}
                       />
                       Quiet
                     </FormGroup>
@@ -390,7 +389,7 @@ function Quiz() {
                         name="quiz12"
                         required
                         type="radio"
-                        onChange={() => setQuiz12()}
+                        onChange={(e) => setQuiz12("Average")}
                       />
                       Average
                     </FormGroup>
@@ -403,7 +402,7 @@ function Quiz() {
                   style={{ cursor: "pointer" }}
                   name="quiz13"
                   type="textbox"
-                  onChange={() => setQuiz13()}
+                  onChange={(e) => setQuiz13(e.target.value)}
                 />
               </Col>
               <Col md={12}>14. Have you ever lost a pet?</Col>
@@ -412,7 +411,7 @@ function Quiz() {
                   style={{ cursor: "pointer" }}
                   name="quiz14"
                   type="textbox"
-                  onChange={() => setQuiz14()}
+                  onChange={(e) => setQuiz14(e.target.value)}
                 />
               </Col>
               <Col md={12}>
@@ -423,7 +422,7 @@ function Quiz() {
                   style={{ cursor: "pointer" }}
                   name="quiz15"
                   type="textbox"
-                  onChange={() => setQuiz15()}
+                  onChange={(e) => setQuiz15(e.target.value)}
                 />
               </Col>
 

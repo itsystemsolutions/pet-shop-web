@@ -19,15 +19,31 @@ const axios = require("axios").default;
 function MissingPetsBoard() {
   const history = useHistory();
   const [data, setData] = useState([]);
+  const [isUserValidToAdopt, setIsUserValidForAdopt] = useState(false);
 
   useEffect(() => {
     axios.get("/pets/missing/approved").then((response) => {
       setData(response.data);
     });
+    axios
+      .get("/user/info?id=" + localStorage.getItem("user_id"))
+      .then((response) => {
+        if (response.data.userValid !== null) {
+          setIsUserValidForAdopt(response.data.userValid);
+        }
+      });
   }, []);
 
   const handleAdopt = (e, petCode) => {
     e.preventDefault();
+
+    if (!isUserValidToAdopt) {
+      Swal.fire({
+        icon: "warning",
+        title: `Your account needs to be approved by admin! `,
+      });
+      return;
+    }
 
     axios
       .post("/adopt-form/missing", {
