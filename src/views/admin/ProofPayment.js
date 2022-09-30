@@ -27,7 +27,7 @@ function ProofPayment() {
 
             <CardBody className="text-center">
               <img
-                src={`http://localhost:8081/PETSHOP/images/payment/${id}.jpg`}
+                src={`http://16.163.143.49:8081/PETSHOP/images/payment/${id}.jpg`}
                 alt="example"
                 height={500}
               />

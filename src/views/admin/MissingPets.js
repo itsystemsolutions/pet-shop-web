@@ -22,25 +22,35 @@ function MissingPets() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("/pets/missing").then((response) => {
-      setData(response.data);
-    });
+    axios
+      .get(process.env.REACT_APP_API_URL + "/pets/missing")
+      .then((response) => {
+        setData(response.data);
+      });
   }, []);
 
   const handleApprove = (e, petCode, decision) => {
     e.preventDefault();
 
-    axios.put("/pets/approve/" + petCode + "?decision=" + decision).then(() => {
-      Swal.fire({
-        icon: "success",
-        title: `SUCCESS! `,
-        text: `Record approved!`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.reload();
-        }
+    axios
+      .put(
+        process.env.REACT_APP_API_URL +
+          "/pets/approve/" +
+          petCode +
+          "?decision=" +
+          decision
+      )
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: `SUCCESS! `,
+          text: `Record approved!`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
+        });
       });
-    });
   };
 
   return (
@@ -69,7 +79,7 @@ function MissingPets() {
                   <tr>
                     <td>
                       <img
-                        src={`http://localhost:8081/PETSHOP/images/pets/${entry.petCode}.jpg`}
+                        src={`http://16.163.143.49:8081/PETSHOP/images/pets/${entry.petCode}.jpg`}
                         alt=""
                         height={110}
                         className="mb-3"

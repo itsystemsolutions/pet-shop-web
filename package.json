@@ -1,7 +1,6 @@
 {
   "name": "petshop",
   "version": "2.0.1",
-  "proxy": "http://localhost:8081/PETSHOP",
   "dependencies": {
     "@emailjs/browser": "^3.6.2",
     "@fortawesome/fontawesome-free": "5.15.2",
@@ -52,5 +51,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://16.163.143.49:8081/PETSHOP"
 }

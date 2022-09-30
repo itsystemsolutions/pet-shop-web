@@ -15,41 +15,54 @@ function Appointments() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("/schedule/for-interview").then((response) => {
-      setData(response.data);
-    });
+    axios
+      .get(process.env.REACT_APP_API_URL + "/schedule/for-interview")
+      .then((response) => {
+        setData(response.data);
+      });
   }, []);
 
   const handleApproveAppointment = (e, data) => {
     e.preventDefault();
 
-    axios.put("/schedule/" + data.id + "?decision=PASSED").then(() => {
-      Swal.fire({
-        icon: "success",
-        title: `SUCCESS! `,
-        text: `Record approved! We will redirect you now to PICK-UP form`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          history.push(`/admin/pick-up/${data.userId}/${data.petCode}`);
-        }
+    axios
+      .put(
+        process.env.REACT_APP_API_URL +
+          "/schedule/" +
+          data.id +
+          "?decision=PASSED"
+      )
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: `SUCCESS! `,
+          text: `Record approved! We will redirect you now to PICK-UP form`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            history.push(`/admin/pick-up/${data.userId}/${data.petCode}`);
+          }
+        });
       });
-    });
   };
 
   const handleDenyAppointment = (e, id) => {
     e.preventDefault();
 
-    axios.put("/schedule/" + id + "?decision=FAILED").then(() => {
-      Swal.fire({
-        icon: "success",
-        title: `SUCCESS! `,
-        text: `Record is updated!`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.reload();
-        }
+    axios
+      .put(
+        process.env.REACT_APP_API_URL + "/schedule/" + id + "?decision=FAILED"
+      )
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: `SUCCESS! `,
+          text: `Record is updated!`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
+        });
       });
-    });
   };
 
   return (
@@ -80,7 +93,7 @@ function Appointments() {
                     <td>{entry.name}</td>
                     <td>
                       <img
-                        src={`http://localhost:8081/PETSHOP/images/pets/${entry.petCode}.jpg`}
+                        src={`http://16.163.143.49:8081/PETSHOP/images/pets/${entry.petCode}.jpg`}
                         alt=""
                         height={110}
                         className="mb-3"
@@ -89,7 +102,7 @@ function Appointments() {
                       <div>
                         Code:{" "}
                         <a
-                          href={`http://localhost:3000/pets/${entry.petCode}`}
+                          href={`http://16.163.143.49:3000//pets/${entry.petCode}`}
                           target="_blank"
                         ></a>
                       </div>

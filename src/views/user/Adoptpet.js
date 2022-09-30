@@ -23,12 +23,16 @@ function Adoptpet() {
   const [isUserValidToAdopt, setIsUserValidForAdopt] = useState(false);
 
   useEffect(() => {
-    axios.get("/pets").then((response) => {
+    axios.get(process.env.REACT_APP_API_URL + "/pets").then((response) => {
       setData(response.data);
     });
 
     axios
-      .get("/user/info?id=" + localStorage.getItem("user_id"))
+      .get(
+        process.env.REACT_APP_API_URL +
+          "/user/info?id=" +
+          localStorage.getItem("user_id")
+      )
       .then((response) => {
         if (response.data.userValid !== null) {
           setIsUserValidForAdopt(response.data.userValid);
@@ -40,7 +44,7 @@ function Adoptpet() {
     e.preventDefault();
 
     axios
-      .post("/adopt-form", {
+      .post(process.env.REACT_APP_API_URL + "/adopt-form", {
         userId: localStorage.getItem("user_id"),
         petCode: petCode,
       })
@@ -59,7 +63,7 @@ function Adoptpet() {
   return (
     <Card>
       <CardHeader className="text-center">
-        <h3>AVAILABLE PER TO ADOPT</h3>
+        <h3>AVAILABLE PETS TO ADOPT</h3>
       </CardHeader>
       <CardBody className="mt-3">
         <Row>
@@ -72,7 +76,7 @@ function Adoptpet() {
                       <Card
                         style={{
                           backgroundImage: `url(
-                    http://localhost:8081/PETSHOP/images/pets/${pet.petCode}.jpg)`,
+                    http://16.163.143.49:8081/PETSHOP/images/pets/${pet.petCode}.jpg)`,
                           minHeight: "250px",
                           backgroundSize: "cover",
                           backgroundRepeat: "no-repeat",

@@ -22,7 +22,6 @@ import { Card } from "react-bootstrap";
 const axios = require("axios").default;
 
 function Quiz() {
-  let { code } = useParams();
   const history = useHistory();
 
   const [data, setData] = useState({
@@ -46,7 +45,11 @@ function Quiz() {
 
   useEffect(() => {
     axios
-      .get("/user/info?id=" + localStorage.getItem("user_id"))
+      .get(
+        process.env.REACT_APP_API_URL +
+          "/user/info?id=" +
+          localStorage.getItem("user_id")
+      )
       .then((response) => {
         setData(response.data);
       });
@@ -56,25 +59,30 @@ function Quiz() {
     e.preventDefault();
 
     axios
-      .put("/user/quiz-answer/" + localStorage.getItem("user_id"), {
-        quiz1: data.age,
-        quiz2: data.occupation,
-        quiz3: "",
-        quiz4: quiz4,
-        quiz5: quiz5,
-        quiz6: quiz6,
-        quiz7: quiz7,
-        quiz7Explain: quiz7Explain,
-        quiz8: quiz8,
-        quiz8Explain: quiz8Explain,
-        quiz9: quiz9,
-        quiz10: quiz10,
-        quiz11: quiz11,
-        quiz12: quiz12,
-        quiz13: quiz13,
-        quiz14: quiz14,
-        quiz15: quiz15,
-      })
+      .put(
+        process.env.REACT_APP_API_URL +
+          "/user/quiz-answer/" +
+          localStorage.getItem("user_id"),
+        {
+          quiz1: data.age,
+          quiz2: data.occupation,
+          quiz3: "",
+          quiz4: quiz4,
+          quiz5: quiz5,
+          quiz6: quiz6,
+          quiz7: quiz7,
+          quiz7Explain: quiz7Explain,
+          quiz8: quiz8,
+          quiz8Explain: quiz8Explain,
+          quiz9: quiz9,
+          quiz10: quiz10,
+          quiz11: quiz11,
+          quiz12: quiz12,
+          quiz13: quiz13,
+          quiz14: quiz14,
+          quiz15: quiz15,
+        }
+      )
       .then((response) => {
         if (response.data.statusCode === "OK") {
           Swal.fire({
@@ -151,7 +159,7 @@ function Quiz() {
                 3.VALID ID
                 <Col md={4}>
                   <img
-                    src={`http://localhost:8081/PETSHOP/images/valid-id/${data.username}.jpg`}
+                    src={`http://16.163.143.49:8081/PETSHOP/images/valid-id/${data.username}.jpg`}
                     alt="example"
                     height={150}
                   />

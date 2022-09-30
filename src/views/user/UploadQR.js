@@ -31,7 +31,10 @@ function PickUpForm() {
     formData.append("id", id);
 
     axios
-      .put(`/schedule/upload/proof-payment`, formData)
+      .put(
+        process.env.REACT_APP_API_URL + `/schedule/upload/proof-payment`,
+        formData
+      )
       .then(() => {
         Swal.fire({
           icon: "success",
@@ -65,7 +68,7 @@ function PickUpForm() {
             <Form onSubmit={handleSubmit}>
               <CardBody>
                 <img
-                  src="http://localhost:8081/PETSHOP/images/qr/admin-qr.jpg"
+                  src="http://16.163.143.49:8081/PETSHOP/images/qr/admin-qr.jpg"
                   alt="example"
                   height={700}
                 />

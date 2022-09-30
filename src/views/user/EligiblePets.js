@@ -35,7 +35,11 @@ function EligiblePets() {
 
   useEffect(() => {
     axios
-      .get("/adopt-form/" + localStorage.getItem("user_id"))
+      .get(
+        process.env.REACT_APP_API_URL +
+          "/adopt-form/" +
+          localStorage.getItem("user_id")
+      )
       .then((response) => {
         setData(response.data);
       });
@@ -46,7 +50,8 @@ function EligiblePets() {
 
     axios
       .get(
-        "/adopt-form/request-interview?id=" +
+        process.env.REACT_APP_API_URL +
+          "/adopt-form/request-interview?id=" +
           localStorage.getItem("user_id") +
           "&petCode=" +
           petCode
@@ -157,7 +162,7 @@ function EligiblePets() {
                   </td>
                   <td>
                     <img
-                      src={`http://localhost:8081/PETSHOP/images/pets/${item.petCode}.jpg`}
+                      src={`http://16.163.143.49:8081/PETSHOP/images/pets/${item.petCode}.jpg`}
                       alt=""
                       height={110}
                       className="mb-3"
@@ -166,7 +171,7 @@ function EligiblePets() {
                     <div>
                       Code:{" "}
                       <a
-                        href={`http://localhost:3000/user/pet/info/${item.petCode}`}
+                        href={`http://16.163.143.49:3000/user/pet/info/${item.petCode}`}
                         target="_blank"
                       >
                         {item.petCode}
@@ -200,7 +205,7 @@ function EligiblePets() {
         <Form onSubmit={handleSubmit}>
           <ModalBody>
             <img
-              src={`http://localhost:8081/PETSHOP/images/pets/${selectedPetCode}.jpg`}
+              src={`http://16.163.143.49:8081/PETSHOP/images/pets/${selectedPetCode}.jpg`}
               alt=""
               height={200}
               className="mb-3"

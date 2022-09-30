@@ -10,7 +10,11 @@ function Dashboard() {
 
   useEffect(() => {
     axios
-      .get("/user/info?id=" + localStorage.getItem("user_id"))
+      .get(
+        process.env.REACT_APP_API_URL +
+          "/user/info?id=" +
+          localStorage.getItem("user_id")
+      )
       .then((response) => {
         if (response.data.qualificationAnswers === null) {
           history.push("/auth/quiz");

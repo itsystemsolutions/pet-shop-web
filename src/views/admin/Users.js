@@ -41,25 +41,35 @@ function Users() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("/user?type=USER").then((response) => {
-      setData(response.data);
-    });
+    axios
+      .get(process.env.REACT_APP_API_URL + "/user?type=USER")
+      .then((response) => {
+        setData(response.data);
+      });
   }, []);
 
   const handleAccountEligibility = (e, id, decision) => {
     e.preventDefault();
 
-    axios.put("/user/valid/" + id + "?decision=" + decision).then(() => {
-      Swal.fire({
-        icon: "success",
-        title: `SUCCESS! `,
-        text: `Record is updated!`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.reload();
-        }
+    axios
+      .put(
+        process.env.REACT_APP_API_URL +
+          "/user/valid/" +
+          id +
+          "?decision=" +
+          decision
+      )
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: `SUCCESS! `,
+          text: `Record is updated!`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
+        });
       });
-    });
   };
 
   return (
@@ -173,7 +183,7 @@ function Users() {
               <Col md={12}>
                 <h3>Valid Id</h3>
                 <img
-                  src={`http://localhost:8081/PETSHOP/images/valid-id/${userName}.jpg`}
+                  src={`http://16.163.143.49:8081/PETSHOP/images/valid-id/${userName}.jpg`}
                   alt="example"
                   height={150}
                 />

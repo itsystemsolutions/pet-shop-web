@@ -80,17 +80,21 @@ function QualificationForm() {
 
   useEffect(() => {
     axios
-      .get("/user/info?id=" + localStorage.getItem("user_id"))
-      .then(response => {
+      .get(
+        process.env.REACT_APP_API_URL +
+          "/user/info?id=" +
+          localStorage.getItem("user_id")
+      )
+      .then((response) => {
         setData(response.data);
       });
   }, []);
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     axios
-      .post("/adopt-form", {
+      .post(process.env.REACT_APP_API_URL + "/adopt-form", {
         userId: localStorage.getItem("user_id"),
         validIdUrl: "URL",
         petCode: code,
@@ -125,14 +129,19 @@ function QualificationForm() {
           q20OtherAnswer: q20Other,
         },
       })
-      .then(response => {
+      .then((response) => {
         const formData = new FormData();
         formData.append("file", image);
         formData.append("code", code);
 
-        axios.put(`/adopt-form/upload/image`, formData).catch(error => {
-          console.log(error);
-        });
+        axios
+          .put(
+            process.env.REACT_APP_API_URL + `/adopt-form/upload/image`,
+            formData
+          )
+          .catch((error) => {
+            console.log(error);
+          });
 
         if (response.data > 12) {
           Swal.fire({
@@ -140,7 +149,7 @@ function QualificationForm() {
             title: "Congratulations you passed the exam!",
             text: `Your score is ${response.data}`,
             confirmButtonText: "Check EligiblePets",
-          }).then(result => {
+          }).then((result) => {
             if (result.isConfirmed) {
               history.push("/user/eligible-pets");
             }
@@ -151,7 +160,7 @@ function QualificationForm() {
             text: `Oh no! You have failed the assesment questions`,
             text: `Your score was ${response.data}`,
             confirmButtonText: "Try again",
-          }).then(result => {
+          }).then((result) => {
             if (result.isConfirmed) {
               history.push("/user/adoptpet");
             }
@@ -210,7 +219,7 @@ function QualificationForm() {
                     defaultValue={defaultValue}
                     required
                     disabled
-                    onChange={e => setDate(e.target.value)}
+                    onChange={(e) => setDate(e.target.value)}
                   />
                 </FormGroup>
               </Col>
@@ -282,7 +291,7 @@ function QualificationForm() {
               <Col md={4} style={{ flexBasis: "min-content" }}>
                 <Label for="residensy">Valid Id</Label>
                 <img
-                  src={`http://localhost:8081/PETSHOP/images/valid-id/${data.username}.jpg`}
+                  src={`http://16.163.143.49:8081/PETSHOP/images/valid-id/${data.username}.jpg`}
                   alt="example"
                   height={150}
                 />
@@ -370,7 +379,7 @@ function QualificationForm() {
                     <Input
                       required={showQ11_other}
                       style={{ cursor: "pointer" }}
-                      onChange={e => setQ1Other(e.target.value)}
+                      onChange={(e) => setQ1Other(e.target.value)}
                       name="question1"
                       type="textbox"
                     />
@@ -456,7 +465,7 @@ function QualificationForm() {
                       style={{ cursor: "pointer" }}
                       name="question3"
                       type="textbox"
-                      onChange={e => setQ3Other(e.target.value)}
+                      onChange={(e) => setQ3Other(e.target.value)}
                     />
                   </Col>
                 ) : null}
@@ -535,7 +544,7 @@ function QualificationForm() {
                       style={{ cursor: "pointer" }}
                       name="question1"
                       type="textbox"
-                      onChange={e => setQ4Other(e.target.value)}
+                      onChange={(e) => setQ4Other(e.target.value)}
                     />
                   </Col>
                 ) : null}
@@ -587,7 +596,7 @@ function QualificationForm() {
                       style={{ cursor: "pointer" }}
                       name="question5"
                       type="textbox"
-                      onChange={e => setQ5Other(e.target.value)}
+                      onChange={(e) => setQ5Other(e.target.value)}
                     />
                   </Col>
                 ) : null}
@@ -796,7 +805,7 @@ function QualificationForm() {
                       style={{ cursor: "pointer" }}
                       name="question1"
                       type="textbox"
-                      onChange={e => setQ9Other(e.target.value)}
+                      onChange={(e) => setQ9Other(e.target.value)}
                     />
                   </Col>
                 ) : null}
@@ -914,7 +923,7 @@ function QualificationForm() {
                       style={{ cursor: "pointer" }}
                       name="question1"
                       type="textbox"
-                      onChange={e => setQ11Other(e.target.value)}
+                      onChange={(e) => setQ11Other(e.target.value)}
                     />
                   </Col>
                 ) : null}
@@ -1044,7 +1053,7 @@ function QualificationForm() {
                         style={{ cursor: "pointer" }}
                         name="question1"
                         type="file"
-                        onChange={e => setImage(e.target.files[0])}
+                        onChange={(e) => setImage(e.target.files[0])}
                       />
                     </Col>
                   ) : null}
@@ -1305,7 +1314,7 @@ function QualificationForm() {
                       style={{ cursor: "pointer" }}
                       name="question1"
                       type="textbox"
-                      onChange={e => setQ20Other(e.target.value)}
+                      onChange={(e) => setQ20Other(e.target.value)}
                     />
                   </Col>
                 ) : null}

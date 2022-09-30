@@ -9,9 +9,11 @@ function Approvers() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("/user?type=APPROVER").then((response) => {
-      setData(response.data);
-    });
+    axios
+      .get(process.env.REACT_APP_API_URL + "/user?type=APPROVER")
+      .then((response) => {
+        setData(response.data);
+      });
   }, []);
 
   return (

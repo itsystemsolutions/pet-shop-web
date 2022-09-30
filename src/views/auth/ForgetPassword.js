@@ -13,33 +13,37 @@ function ForgetPassword() {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const sendEmail = e => {
+  const sendEmail = (e) => {
     e.preventDefault();
 
     setIsLoading(true);
-    axios.get("/user/forgot-password?email=" + email).then(response => {
-      if (response.data.statusCode === "OK") {
-        Swal.fire({
-          icon: "success",
-          title: `SUCCESS! `,
-          text: `We have sent new password on your email!`,
-        }).then(result => {
-          if (result.isConfirmed) {
-            window.location.reload();
-          }
-        });
-      } else {
-        Swal.fire({
-          icon: "danger",
-          title: `Email did not exists on our records! `,
-        }).then(result => {
-          if (result.isConfirmed) {
-            window.location.reload();
-          }
-        });
-      }
-      setIsLoading(false);
-    });
+    axios
+      .get(
+        process.env.REACT_APP_API_URL + "/user/forgot-password?email=" + email
+      )
+      .then((response) => {
+        if (response.data.statusCode === "OK") {
+          Swal.fire({
+            icon: "success",
+            title: `SUCCESS! `,
+            text: `We have sent new password on your email!`,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload();
+            }
+          });
+        } else {
+          Swal.fire({
+            icon: "danger",
+            title: `Email did not exists on our records! `,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload();
+            }
+          });
+        }
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -71,7 +75,7 @@ function ForgetPassword() {
                 type="email"
                 name="user_email"
                 required
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <Button
                 onClick={sendEmail}

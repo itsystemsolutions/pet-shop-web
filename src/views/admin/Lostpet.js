@@ -14,7 +14,7 @@ function Lostpet() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("").then(response => {
+    axios.get(process.env.REACT_APP_API_URL + "").then((response) => {
       setData(response.data);
     });
   }, []);
@@ -39,7 +39,7 @@ function Lostpet() {
         icon: "failed",
         title: `FAILED! `,
         text: `Record is updated!`,
-      }).then(result => {
+      }).then((result) => {
         if (result.isConfirmed) {
           window.location.reload();
         }
@@ -69,7 +69,7 @@ function Lostpet() {
               </tr>
             </thead>
             <tbody>
-              {data.map(entry => {
+              {data.map((entry) => {
                 return (
                   <tr>
                     <td>{entry.name}</td>
@@ -88,13 +88,13 @@ function Lostpet() {
                         <>
                           <Button
                             className="btn btn-success mr-2"
-                            onClick={e => handleApproveAppointment(e, entry)}
+                            onClick={(e) => handleApproveAppointment(e, entry)}
                           >
                             PASSED
                           </Button>
                           <Button
                             className="btn btn-danger"
-                            onClick={e => handleDenyAppointment(e, entry.id)}
+                            onClick={(e) => handleDenyAppointment(e, entry.id)}
                           >
                             FAILED
                           </Button>

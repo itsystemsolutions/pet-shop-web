@@ -11,7 +11,11 @@ function Appointments() {
 
   useEffect(() => {
     axios
-      .get("/schedule/for-interview?userId=" + localStorage.getItem("user_id"))
+      .get(
+        process.env.REACT_APP_API_URL +
+          "/schedule/for-interview?userId=" +
+          localStorage.getItem("user_id")
+      )
       .then((response) => {
         setData(response.data);
       });
@@ -43,7 +47,7 @@ function Appointments() {
                   <tr>
                     <td>
                       <img
-                        src={`http://localhost:8081/PETSHOP/images/pets/${entry.petCode}.jpg`}
+                        src={`http://16.163.143.49:8081/PETSHOP/images/pets/${entry.petCode}.jpg`}
                         alt=""
                         height={110}
                         className="mb-3"
@@ -52,7 +56,7 @@ function Appointments() {
                       <div>
                         Code:{" "}
                         <a
-                          href={`http://localhost:3000/user/pet/info/${entry.petCode}`}
+                          href={`http://16.163.143.49:3000/user/pet/info/${entry.petCode}`}
                           target="_blank"
                         >
                           {entry.petCode}

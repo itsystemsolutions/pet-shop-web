@@ -15,7 +15,11 @@ function Appointments() {
 
   useEffect(() => {
     axios
-      .get("/schedule/for-pick-up?userId=" + localStorage.getItem("user_id"))
+      .get(
+        process.env.REACT_APP_API_URL +
+          "/schedule/for-pick-up?userId=" +
+          localStorage.getItem("user_id")
+      )
       .then((response) => {
         setData(response.data);
       });
@@ -24,33 +28,41 @@ function Appointments() {
   const handleApproveAppointment = (e, id) => {
     e.preventDefault();
 
-    axios.put("/schedule/" + id + "?decision=PASSED").then(() => {
-      Swal.fire({
-        icon: "success",
-        title: `SUCCESS! `,
-        text: `Record is updated!`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.reload();
-        }
+    axios
+      .put(
+        process.env.REACT_APP_API_URL + "/schedule/" + id + "?decision=PASSED"
+      )
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: `SUCCESS! `,
+          text: `Record is updated!`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
+        });
       });
-    });
   };
 
   const handleDenyAppointment = (e, id) => {
     e.preventDefault();
 
-    axios.put("/schedule/" + id + "?decision=FAILED").then(() => {
-      Swal.fire({
-        icon: "success",
-        title: `SUCCESS! `,
-        text: `Record is updated!`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.reload();
-        }
+    axios
+      .put(
+        process.env.REACT_APP_API_URL + "/schedule/" + id + "?decision=FAILED"
+      )
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: `SUCCESS! `,
+          text: `Record is updated!`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
+        });
       });
-    });
   };
 
   return (
@@ -80,7 +92,7 @@ function Appointments() {
                     <td>{entry.name}</td>
                     <td>
                       <img
-                        src={`http://localhost:8081/PETSHOP/images/pets/${entry.petCode}.jpg`}
+                        src={`http://16.163.143.49:8081/PETSHOP/images/pets/${entry.petCode}.jpg`}
                         alt=""
                         height={110}
                         className="mb-3"

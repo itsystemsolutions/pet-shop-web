@@ -26,11 +26,11 @@ function Addpet() {
   const [residency, setResidency] = useState("");
   const [image, setImage] = useState("");
 
-  const handleAddpet = e => {
+  const handleAddpet = (e) => {
     e.preventDefault();
 
     axios
-      .post("/pets", {
+      .post(process.env.REACT_APP_API_URL + "/pets", {
         name: name,
         gender: gender,
         breed: breed,
@@ -45,9 +45,11 @@ function Addpet() {
           formData.append("file", image);
           formData.append("code", response.data);
 
-          axios.put(`/pets/upload/image`, formData).catch(error => {
-            console.log(error);
-          });
+          axios
+            .put(process.env.REACT_APP_API_URL + `/pets/upload/image`, formData)
+            .catch((error) => {
+              console.log(error);
+            });
 
           Swal.fire({
             icon: "success",
@@ -56,7 +58,7 @@ function Addpet() {
             showCancelButton: true,
             cancelButtonText: "YES",
             confirmButtonText: "NO - goto PETS",
-          }).then(result => {
+          }).then((result) => {
             if (result.isConfirmed) {
               history.push("/admin/adoptpet");
             } else {
@@ -93,7 +95,7 @@ function Addpet() {
                     placeholder="Name"
                     required
                     value={name}
-                    onChange={e => setName(e.target.value)}
+                    onChange={(e) => setName(e.target.value)}
                   ></Input>
                 </FormGroup>
                 <FormGroup>
@@ -104,7 +106,7 @@ function Addpet() {
                     placeholder="Gender"
                     required
                     value={gender}
-                    onChange={e => setGender(e.target.value)}
+                    onChange={(e) => setGender(e.target.value)}
                   ></Input>
                 </FormGroup>
                 <FormGroup>
@@ -115,7 +117,7 @@ function Addpet() {
                     placeholder="Breed"
                     value={breed}
                     required
-                    onChange={e => setBreed(e.target.value)}
+                    onChange={(e) => setBreed(e.target.value)}
                   ></Input>
                 </FormGroup>{" "}
                 <FormGroup>
@@ -126,7 +128,7 @@ function Addpet() {
                     placeholder="Age"
                     required
                     value={age}
-                    onChange={e => setAge(e.target.value)}
+                    onChange={(e) => setAge(e.target.value)}
                   ></Input>
                 </FormGroup>{" "}
                 <FormGroup>
@@ -137,7 +139,7 @@ function Addpet() {
                     placeholder="Size"
                     required
                     value={size}
-                    onChange={e => setSize(e.target.value)}
+                    onChange={(e) => setSize(e.target.value)}
                   ></Input>
                 </FormGroup>{" "}
                 <FormGroup>
@@ -148,7 +150,7 @@ function Addpet() {
                     placeholder="Enter Date"
                     required
                     value={residency}
-                    onChange={e => setResidency(e.target.value)}
+                    onChange={(e) => setResidency(e.target.value)}
                   ></Input>
                 </FormGroup>
                 <FormGroup>
@@ -156,7 +158,7 @@ function Addpet() {
                   <Input
                     type="file"
                     required
-                    onChange={e => setImage(e.target.files[0])}
+                    onChange={(e) => setImage(e.target.files[0])}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -166,7 +168,7 @@ function Addpet() {
                   <Input
                     type="file"
                     required
-                    onChange={e => setImage(e.target.files[0])}
+                    onChange={(e) => setImage(e.target.files[0])}
                   />
                 </FormGroup>
                 <div className="text-center ">

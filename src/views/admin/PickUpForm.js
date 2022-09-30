@@ -25,16 +25,18 @@ function PickUpForm() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    axios.get("/user/info?id=" + id).then((response) => {
-      setName(response.data.name);
-    });
+    axios
+      .get(process.env.REACT_APP_API_URL + "/user/info?id=" + id)
+      .then((response) => {
+        setName(response.data.name);
+      });
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     axios
-      .post("/schedule/pick-up", {
+      .post(process.env.REACT_APP_API_URL + "/schedule/pick-up", {
         userId: id,
         date: date,
         time: time,

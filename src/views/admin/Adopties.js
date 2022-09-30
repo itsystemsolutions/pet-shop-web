@@ -53,9 +53,11 @@ function Adopties() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("/adopt-form/for-interview").then((response) => {
-      setData(response.data);
-    });
+    axios
+      .get(process.env.REACT_APP_API_URL + "/adopt-form/for-interview")
+      .then((response) => {
+        setData(response.data);
+      });
   }, []);
 
   return (
@@ -182,7 +184,7 @@ function Adopties() {
               <Col md={12}>
                 If yes provided:{" "}
                 <img
-                  src={`http://localhost:8081/PETSHOP/images/pet-policy/${selectedCode}.jpg`}
+                  src={`http://16.163.143.49:8081/PETSHOP/images/pet-policy/${selectedCode}.jpg`}
                   alt=""
                   height={110}
                   className="mb-3"
@@ -211,7 +213,7 @@ function Adopties() {
         </ModalHeader>
         <ModalBody>
           <img
-            src={`http://localhost:8081/PETSHOP/images/proof-ownership/${selectedCode}.jpg`}
+            src={`http://16.163.143.49:8081/PETSHOP/images/proof-ownership/${selectedCode}.jpg`}
             alt=""
             height={300}
             className="mb-3"

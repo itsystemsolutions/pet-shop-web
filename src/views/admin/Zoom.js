@@ -26,16 +26,18 @@ function Zoom() {
   const [zoomLink, setZoomLink] = useState("");
 
   useEffect(() => {
-    axios.get("/user/info?id=" + id).then((response) => {
-      setName(response.data.name);
-    });
+    axios
+      .get(process.env.REACT_APP_API_URL + "/user/info?id=" + id)
+      .then((response) => {
+        setName(response.data.name);
+      });
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     axios
-      .post("/schedule", {
+      .post(process.env.REACT_APP_API_URL + "/schedule", {
         userId: id,
         date: date,
         time: time,

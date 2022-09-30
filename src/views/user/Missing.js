@@ -35,7 +35,11 @@ function Missing() {
 
   useEffect(() => {
     axios
-      .get("/user/info?id=" + localStorage.getItem("user_id"))
+      .get(
+        process.env.REACT_APP_API_URL +
+          "/user/info?id=" +
+          localStorage.getItem("user_id")
+      )
       .then((response) => {
         console.log(response.data);
         setData(response.data);
@@ -46,7 +50,7 @@ function Missing() {
     e.preventDefault();
 
     axios
-      .post("/pets", {
+      .post(process.env.REACT_APP_API_URL + "/pets", {
         ownerId: localStorage.getItem("user_id"),
         lastSeen: lastSeen,
         breed: breed,
@@ -60,9 +64,11 @@ function Missing() {
           formData.append("file", image);
           formData.append("code", response.data);
 
-          axios.put(`/pets/upload/image`, formData).catch((error) => {
-            console.log(error);
-          });
+          axios
+            .put(process.env.REACT_APP_API_URL + `/pets/upload/image`, formData)
+            .catch((error) => {
+              console.log(error);
+            });
 
           console.log(response);
           Swal.fire({

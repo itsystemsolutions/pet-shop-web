@@ -81,7 +81,7 @@ function Register() {
     }
 
     axios
-      .post("/user", {
+      .post(process.env.REACT_APP_API_URL + "/user", {
         name: name,
         email: email,
         mobile: mobileNumber,
@@ -100,9 +100,11 @@ function Register() {
           formData.append("file", image);
           formData.append("username", username);
 
-          axios.put(`/user/upload/image`, formData).catch((error) => {
-            console.log(error);
-          });
+          axios
+            .put(process.env.REACT_APP_API_URL + `/user/upload/image`, formData)
+            .catch((error) => {
+              console.log(error);
+            });
 
           // history.push("/auth/qualification-form/" + username);
           history.push("/auth/email/otp/" + email);

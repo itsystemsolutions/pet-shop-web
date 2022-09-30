@@ -43,17 +43,23 @@ function Login() {
     e.preventDefault();
 
     axios
-      .post(`/user/login?username=${username}&password=${password}`)
+      .post(
+        `${process.env.REACT_APP_API_URL}/user/login?username=${username}&password=${password}`
+      )
       .then(function (response) {
         if (response.data !== 0) {
           localStorage.setItem("user_id", response.data);
-          axios.get("/user/info/?id=" + response.data).then((response) => {
-            if (response.data.type === "USER") {
-              history.push("/user/dashboard");
-            } else if (response.data.type === "ADMIN") {
-              history.push("/admin/dashboard");
-            }
-          });
+          axios
+            .get(
+              process.env.REACT_APP_API_URL + "/user/info/?id=" + response.data
+            )
+            .then((response) => {
+              if (response.data.type === "USER") {
+                history.push("/user/dashboard");
+              } else if (response.data.type === "ADMIN") {
+                history.push("/admin/dashboard");
+              }
+            });
         } else {
           Swal.fire({
             icon: "error",

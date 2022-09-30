@@ -20,7 +20,10 @@ function EmailOTP() {
 
     setIsLoading(true);
     axios
-      .get(`/user/verify-email?email=${email}&otp=${otp}`)
+      .get(
+        process.env.REACT_APP_API_URL +
+          `/user/verify-email?email=${email}&otp=${otp}`
+      )
       .then((response) => {
         if (response.data.statusCode === "OK") {
           Swal.fire({

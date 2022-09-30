@@ -28,17 +28,19 @@ function Schedule() {
   const [meetingURL, setMeetingU] = useState("");
 
   useEffect(() => {
-    axios.get("/pets?petCode=" + code).then((response) => {
-      console.log(response.data);
-      setName(response.data[0].name);
-    });
+    axios
+      .get(process.env.REACT_APP_API_URL + "/pets?petCode=" + code)
+      .then((response) => {
+        console.log(response.data);
+        setName(response.data[0].name);
+      });
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     axios
-      .post("/pets", {
+      .post(process.env.REACT_APP_API_URL + "/pets", {
         userId: localStorage.getItem("userId"),
         date: date,
         time: time,
@@ -72,7 +74,7 @@ function Schedule() {
               <h3 className="fw-normal text-secondary fs-4 text-uppercase mb-4 text-center">
                 Set a meeting to adopt '{name}'
                 <img
-                  src={`http://localhost:8081/PETSHOP/images/pets/${code}.jpg`}
+                  src={`http://16.163.143.49:8081/PETSHOP/images/pets/${code}.jpg`}
                   alt=""
                   height={110}
                   className="my-3"

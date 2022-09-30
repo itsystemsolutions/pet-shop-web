@@ -43,8 +43,12 @@ function User() {
 
   useEffect(() => {
     axios
-      .get("/user/info?id=" + localStorage.getItem("user_id"))
-      .then(response => {
+      .get(
+        process.env.REACT_APP_API_URL +
+          "/user/info?id=" +
+          localStorage.getItem("user_id")
+      )
+      .then((response) => {
         setData(response.data);
 
         if (response.data.userValid === null) {
@@ -57,11 +61,11 @@ function User() {
       });
   }, []);
 
-  const handleUpdate = e => {
+  const handleUpdate = (e) => {
     e.preventDefault();
 
     axios
-      .put("/user", {
+      .put(process.env.REACT_APP_API_URL + "/user", {
         id: localStorage.getItem("user_id"),
         name: name,
         email: email,
@@ -71,13 +75,13 @@ function User() {
         occupation: occupation,
         social: social,
       })
-      .then(response => {
+      .then((response) => {
         if (response.status === 204) {
           Swal.fire({
             icon: "success",
             title: `SUCCESS! `,
             text: `Profile Updated!`,
-          }).then(result => {
+          }).then((result) => {
             if (result.isConfirmed) {
               window.location.reload();
             }
@@ -106,7 +110,7 @@ function User() {
                   <Label>Name</Label>
                   <Input
                     defaultValue={data.name}
-                    onChange={e => setName(e.target.value)}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </FormGroup>
               </Col>
@@ -116,7 +120,7 @@ function User() {
                   <Label for="email">Email</Label>
                   <Input
                     defaultValue={data.email}
-                    onChange={e => setEmail(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </FormGroup>
               </Col>
@@ -125,7 +129,7 @@ function User() {
                   <Label for="Mobile">Mobile</Label>
                   <Input
                     defaultValue={data.mobile}
-                    onChange={e => setMobile(e.target.value)}
+                    onChange={(e) => setMobile(e.target.value)}
                   />
                 </FormGroup>
               </Col>
@@ -134,7 +138,7 @@ function User() {
                   <Label for="Mobile">Age</Label>
                   <Input
                     defaultValue={data.age}
-                    onChange={e => setAge(e.target.value)}
+                    onChange={(e) => setAge(e.target.value)}
                   />
                 </FormGroup>
               </Col>
@@ -143,7 +147,7 @@ function User() {
                   <Label for="Mobile">Address</Label>
                   <Input
                     defaultValue={data.address}
-                    onChange={e => setAddress(e.target.value)}
+                    onChange={(e) => setAddress(e.target.value)}
                   />
                 </FormGroup>
               </Col>
@@ -152,7 +156,7 @@ function User() {
                   <Label for="Mobile">Occupation</Label>
                   <Input
                     defaultValue={data.occupation}
-                    onChange={e => setOccupation(e.target.value)}
+                    onChange={(e) => setOccupation(e.target.value)}
                   />
                 </FormGroup>
               </Col>
@@ -161,7 +165,7 @@ function User() {
                   <Label for="Mobile">Social</Label>
                   <Input
                     defaultValue={data.social}
-                    onChange={e => setSocial(e.target.value)}
+                    onChange={(e) => setSocial(e.target.value)}
                   />
                 </FormGroup>
               </Col>
