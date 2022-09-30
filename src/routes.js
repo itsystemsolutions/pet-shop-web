@@ -6,6 +6,7 @@ import Zoom from "views/admin/Zoom";
 import PickUpForm from "views/admin/PickUpForm";
 import Addpet from "views/admin/Addpet";
 import ProofPayment from "views/admin/ProofPayment";
+import UserPets from "views/admin/UserPets";
 
 // Pages
 import Adopties from "views/admin/Adopties";
@@ -85,6 +86,14 @@ const dashboardRoutes = [
     icon: "nc-icon nc-notes",
     hidden: true,
     component: ProofPayment,
+    layout: "/admin",
+  },
+  {
+    path: "/user/pets/:id",
+    name: "User Pets",
+    icon: "nc-icon nc-notes",
+    hidden: true,
+    component: UserPets,
     layout: "/admin",
   },
 ];

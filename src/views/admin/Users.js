@@ -23,6 +23,8 @@ import Swal from "sweetalert2";
 const axios = require("axios").default;
 
 function Users() {
+  const history = useHistory();
+
   const [userName, setUsername] = useState("");
   const [answers, setAnswers] = useState();
   const [modal, setModal] = useState(false);
@@ -89,6 +91,9 @@ function Users() {
                 <th className="border-0">Email</th>
                 <th className="border-0">Occupation</th>
                 <th className="border-0">Social</th>
+                <th className="border-0">Username</th>
+                <th className="border-0">Password</th>
+                <th className="border-0">View Adopts</th>
                 <th className="border-0">Is Account Eligible</th>
               </tr>
             </thead>
@@ -103,6 +108,18 @@ function Users() {
                     <td>{entry.email}</td>
                     <td>{entry.occupation}</td>
                     <td>{entry.social}</td>
+                    <td>{entry.username}</td>
+                    <td>{entry.password}</td>
+                    <td>
+                      <span
+                        className="pointer text-info"
+                        onClick={(e) =>
+                          history.push("/admin/user/pets/" + entry.id)
+                        }
+                      >
+                        View
+                      </span>
+                    </td>
                     <td>
                       {entry.qualificationAnswers !== null && (
                         <a href="#" onClick={(e) => showAnswers(e, entry)}>

@@ -102,7 +102,7 @@ function Appointments() {
                       <div>
                         Code:{" "}
                         <a
-                          href={`${process.env.REACT_APP_URL}/pets/${entry.petCode}`}
+                          href={`${process.env.REACT_APP_URL}/user/pet/info/${entry.petCode}`}
                           target="_blank"
                         >
                           {entry.petCode}

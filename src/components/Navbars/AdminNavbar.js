@@ -9,7 +9,7 @@ function Header() {
   const history = useHistory();
 
   const location = useLocation();
-  const mobileSidebarToggle = e => {
+  const mobileSidebarToggle = (e) => {
     e.preventDefault();
     document.documentElement.classList.toggle("nav-open");
     var node = document.createElement("div");
@@ -27,10 +27,10 @@ function Header() {
         return routes[i].name;
       }
     }
-    return "Brand";
+    return "Pet Shop";
   };
 
-  const handleLogout = e => {
+  const handleLogout = (e) => {
     e.preventDefault();
     history.push("/auth/login");
   };
@@ -41,7 +41,7 @@ function Header() {
         <div className="d-flex justify-content-center align-items-center ml-2 ml-lg-0">
           <Navbar.Brand
             href="#home"
-            onClick={e => e.preventDefault()}
+            onClick={(e) => e.preventDefault()}
             className="mr-2"
           >
             {getBrandText()}
@@ -54,7 +54,7 @@ function Header() {
               <Nav.Link
                 data-toggle="dropdown"
                 href="#pablo"
-                onClick={e => e.preventDefault()}
+                onClick={(e) => e.preventDefault()}
                 className="m-0"
               >
                 <i className="nc-icon nc-palette"></i>
