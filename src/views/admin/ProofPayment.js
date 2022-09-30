@@ -26,11 +26,16 @@ function ProofPayment() {
             </CardHeader>
 
             <CardBody className="text-center">
-              <img
-                src={`http://16.163.143.49:8081/PETSHOP/images/payment/${id}.jpg`}
-                alt="example"
-                height={500}
-              />
+              <Row>
+                <Col>
+                  <img
+                    src={`${process.env.REACT_APP_API_URL}/images/payment/${id}.jpg`}
+                    alt="example"
+                    height={500}
+                    className="w-100"
+                  />
+                </Col>
+              </Row>
             </CardBody>
             <CardFooter>
               <Button onClick={() => history.push("/admin/for-pickup")}>

@@ -47,7 +47,7 @@ function Register() {
   const [occupation, setOccupation] = useState("");
   const [social, setSocial] = useState("");
   const [image, setImage] = useState("");
-  const [validId, setValidId] = useState("Dropdown");
+  const [validId, setValidId] = useState("select valid id");
 
   const [setshowhide, setShowHide] = useState("password");
   const [eye, seteye] = useState(true);
@@ -282,7 +282,7 @@ function Register() {
                       </DropdownMenu>
                     </Dropdown>
                   </Col>
-                  {validId !== "Dropdown" && (
+                  {validId !== "select valid id" && (
                     <Col md={12} className="ml-2">
                       <Input
                         type="file"

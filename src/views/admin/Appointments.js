@@ -93,7 +93,7 @@ function Appointments() {
                     <td>{entry.name}</td>
                     <td>
                       <img
-                        src={`http://16.163.143.49:8081/PETSHOP/images/pets/${entry.petCode}.jpg`}
+                        src={`${process.env.REACT_APP_API_URL}/images/pets/${entry.petCode}.jpg`}
                         alt=""
                         height={110}
                         className="mb-3"
@@ -102,9 +102,11 @@ function Appointments() {
                       <div>
                         Code:{" "}
                         <a
-                          href={`http://16.163.143.49:3000//pets/${entry.petCode}`}
+                          href={`${process.env.REACT_APP_URL}/pets/${entry.petCode}`}
                           target="_blank"
-                        ></a>
+                        >
+                          {entry.petCode}
+                        </a>
                       </div>
                     </td>
                     <td>{entry.petType}</td>

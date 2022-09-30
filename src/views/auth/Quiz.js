@@ -159,7 +159,7 @@ function Quiz() {
                 3.VALID ID
                 <Col md={4}>
                   <img
-                    src={`http://16.163.143.49:8081/PETSHOP/images/valid-id/${data.username}.jpg`}
+                    src={`${process.env.REACT_APP_API_URL}/images/valid-id/${data.username}.jpg`}
                     alt="example"
                     height={150}
                   />

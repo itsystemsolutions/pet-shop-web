@@ -76,7 +76,7 @@ function Adoptpet() {
                       <Card
                         style={{
                           backgroundImage: `url(
-                    http://16.163.143.49:8081/PETSHOP/images/pets/${pet.petCode}.jpg)`,
+                            ${process.env.REACT_APP_API_URL}/images/pets/${pet.petCode}.jpg)`,
                           minHeight: "250px",
                           backgroundSize: "cover",
                           backgroundRepeat: "no-repeat",

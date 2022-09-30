@@ -74,7 +74,7 @@ function Schedule() {
               <h3 className="fw-normal text-secondary fs-4 text-uppercase mb-4 text-center">
                 Set a meeting to adopt '{name}'
                 <img
-                  src={`http://16.163.143.49:8081/PETSHOP/images/pets/${code}.jpg`}
+                  src={`${process.env.REACT_APP_API_URL}/images/pets/${code}.jpg`}
                   alt=""
                   height={110}
                   className="my-3"

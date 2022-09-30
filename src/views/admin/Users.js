@@ -183,7 +183,7 @@ function Users() {
               <Col md={12}>
                 <h3>Valid Id</h3>
                 <img
-                  src={`http://16.163.143.49:8081/PETSHOP/images/valid-id/${userName}.jpg`}
+                  src={`${process.env.REACT_APP_API_URL}/images/valid-id/${userName}.jpg`}
                   alt="example"
                   height={150}
                 />

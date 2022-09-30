@@ -68,7 +68,7 @@ function PickUpForm() {
             <Form onSubmit={handleSubmit}>
               <CardBody>
                 <img
-                  src="http://16.163.143.49:8081/PETSHOP/images/qr/admin-qr.jpg"
+                  src={`${process.env.REACT_APP_API_URL}/images/qr/admin-qr.jpg`}
                   alt="example"
                   height={700}
                 />

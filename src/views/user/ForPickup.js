@@ -92,7 +92,7 @@ function Appointments() {
                     <td>{entry.name}</td>
                     <td>
                       <img
-                        src={`http://16.163.143.49:8081/PETSHOP/images/pets/${entry.petCode}.jpg`}
+                        src={`${process.env.REACT_APP_API_URL}/images/pets/${entry.petCode}.jpg`}
                         alt=""
                         height={110}
                         className="mb-3"

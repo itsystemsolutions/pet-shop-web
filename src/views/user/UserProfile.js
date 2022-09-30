@@ -193,12 +193,6 @@ function User() {
                 <Progress bar color="info" value="33.33">
                   Interview
                 </Progress>
-                <Progress bar color="primary" value="33.33">
-                  Pick-Up
-                </Progress>
-                <Progress bar color="danger" value="33.33">
-                  Denied
-                </Progress>
               </Progress>
               <div className="mt-2">
                 <Row className="justify-content-center mt-4">
