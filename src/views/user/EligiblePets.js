@@ -83,7 +83,10 @@ function EligiblePets() {
     formData.append("code", selectedPetCode);
 
     axios
-      .put(`/adopt-form/upload/proof-ownership`, formData)
+      .put(
+        process.env.REACT_APP_API_URL + `/adopt-form/upload/proof-ownership`,
+        formData
+      )
       .then(() => {
         Swal.fire({
           icon: "success",
@@ -204,12 +207,6 @@ function EligiblePets() {
         </ModalHeader>
         <Form onSubmit={handleSubmit}>
           <ModalBody>
-            <img
-              src={`${process.env.REACT_APP_API_URL}/images/pets/${selectedPetCode}.jpg`}
-              alt=""
-              height={200}
-              className="mb-3"
-            />
             <Input
               type="file"
               required

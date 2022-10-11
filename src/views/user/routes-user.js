@@ -14,6 +14,7 @@ import Missing from "views/user/Missing";
 import MyMissingPets from "./MyMissingpPets";
 import MissingPetsBoard from "./MissingPetsBoard";
 import PetInformation from "./PetInformation";
+import UserPets from "./UserPets";
 
 const dashboardRoutes = [
   {
@@ -109,6 +110,13 @@ const dashboardRoutes = [
     icon: "nc-icon nc-chart-pie-35",
     hidden: true,
     component: PetInformation,
+    layout: "/user",
+  },
+  {
+    path: "/my/pet",
+    name: "My Pets",
+    icon: "nc-icon nc-chart-pie-35",
+    component: UserPets,
     layout: "/user",
   },
 ];

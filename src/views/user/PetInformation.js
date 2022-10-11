@@ -39,7 +39,7 @@ function PetInformation() {
         <Col md="8">
           <Card className="p-3">
             <CardBody>
-              {data ? (
+              {data && (
                 <Row>
                   <Col md={12}>
                     <CardTitle>
@@ -68,9 +68,18 @@ function PetInformation() {
                   <Col md={8}>{data.breed}</Col>
                   <Col md={4}>Shelter Resident Year:</Col>
                   <Col md={8}>{data.shelterResidentYear}</Col>
+                  <Col md={12} className="mt-4">
+                    Vaccine Record
+                  </Col>
+                  <Col md={12}>
+                    <img
+                      src={`${process.env.REACT_APP_API_URL}/images/pets/${data.petCode}.jpg`}
+                      alt=""
+                      height={300}
+                      className="mb-3"
+                    />
+                  </Col>
                 </Row>
-              ) : (
-                <></>
               )}
             </CardBody>
           </Card>

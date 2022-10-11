@@ -130,6 +130,9 @@ function Adoptpet() {
                             Shelter residence since {pet.shelterResidentYear}{" "}
                           </b>
                         </p>
+                        <p>
+                          <b>Vaccine: </b> SHOW
+                        </p>
                       </div>
                     </CardBody>
                   </Card>

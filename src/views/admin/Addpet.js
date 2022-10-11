@@ -25,6 +25,7 @@ function Addpet() {
   const [size, setSize] = useState("");
   const [residency, setResidency] = useState("");
   const [image, setImage] = useState("");
+  const [vacineImage, setVacineImage] = useState("");
 
   const handleAddpet = (e) => {
     e.preventDefault();
@@ -51,16 +52,29 @@ function Addpet() {
               console.log(error);
             });
 
+          const vaccineForm = new FormData();
+          vaccineForm.append("file", vacineImage);
+          vaccineForm.append("code", response.data);
+
+          axios
+            .put(
+              process.env.REACT_APP_API_URL + `/pets/upload/vaccine/image`,
+              vaccineForm
+            )
+            .catch((error) => {
+              console.log(error);
+            });
+
           Swal.fire({
             icon: "success",
             text: "The pet code is " + response.data,
             title: "Do you want to add another pet?",
             showCancelButton: true,
             cancelButtonText: "YES",
-            confirmButtonText: "NO - goto PETS",
+            confirmButtonText: "NO - goto Dashboard",
           }).then((result) => {
             if (result.isConfirmed) {
-              history.push("/admin/adoptpet");
+              history.push("/admin/dashboard");
             } else {
               setName("");
               setGender("");
@@ -168,7 +182,7 @@ function Addpet() {
                   <Input
                     type="file"
                     required
-                    onChange={(e) => setImage(e.target.files[0])}
+                    onChange={(e) => setVacineImage(e.target.files[0])}
                   />
                 </FormGroup>
                 <div className="text-center ">
