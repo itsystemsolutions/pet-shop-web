@@ -181,32 +181,6 @@ function User() {
                 </Button>
               </div>
             </Col>
-            <Col>
-              <div className="text-center">Your Account Status</div>
-              <Progress multi>
-                <Progress bar color="warning" value="33.33">
-                  Pending
-                </Progress>
-                <Progress bar color="success" value="33.33">
-                  Approved
-                </Progress>
-                <Progress bar color="info" value="33.33">
-                  Interview
-                </Progress>
-              </Progress>
-              <div className="mt-2">
-                <Row className="justify-content-center mt-4">
-                  <Col md={3}>
-                    <Card
-                      className={`rounded-circle bg-${accountStatusColor}`}
-                      style={{ height: "10rem", width: "10rem" }}
-                    >
-                      <CardBody></CardBody>
-                    </Card>
-                  </Col>
-                </Row>
-              </div>
-            </Col>
           </Row>
         </CardBody>
       </Card>

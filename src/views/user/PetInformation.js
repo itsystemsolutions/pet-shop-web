@@ -73,7 +73,7 @@ function PetInformation() {
                   </Col>
                   <Col md={12}>
                     <img
-                      src={`${process.env.REACT_APP_API_URL}/images/pets/${data.petCode}.jpg`}
+                      src={`${process.env.REACT_APP_API_URL}/images/vaccine/${data.petCode}.jpg`}
                       alt=""
                       height={300}
                       className="mb-3"
