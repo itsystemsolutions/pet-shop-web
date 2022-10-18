@@ -20,7 +20,7 @@ function Appointments() {
           "/schedule/for-pick-up?userId=" +
           localStorage.getItem("user_id")
       )
-      .then((response) => {
+      .then(response => {
         setData(response.data);
       });
   }, []);
@@ -37,7 +37,7 @@ function Appointments() {
           icon: "success",
           title: `SUCCESS! `,
           text: `Record is updated!`,
-        }).then((result) => {
+        }).then(result => {
           if (result.isConfirmed) {
             window.location.reload();
           }
@@ -57,7 +57,7 @@ function Appointments() {
           icon: "success",
           title: `SUCCESS! `,
           text: `Record is updated!`,
-        }).then((result) => {
+        }).then(result => {
           if (result.isConfirmed) {
             window.location.reload();
           }
@@ -86,7 +86,7 @@ function Appointments() {
               </tr>
             </thead>
             <tbody>
-              {data.map((entry) => {
+              {data.map(entry => {
                 return (
                   <tr>
                     <td>{entry.name}</td>

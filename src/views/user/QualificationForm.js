@@ -85,12 +85,12 @@ function QualificationForm() {
           "/user/info?id=" +
           localStorage.getItem("user_id")
       )
-      .then((response) => {
+      .then(response => {
         setData(response.data);
       });
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
 
     axios
@@ -129,7 +129,7 @@ function QualificationForm() {
           q20OtherAnswer: q20Other,
         },
       })
-      .then((response) => {
+      .then(response => {
         const formData = new FormData();
         formData.append("file", image);
         formData.append("code", code);
@@ -139,7 +139,7 @@ function QualificationForm() {
             process.env.REACT_APP_API_URL + `/adopt-form/upload/image`,
             formData
           )
-          .catch((error) => {
+          .catch(error => {
             console.log(error);
           });
 
@@ -149,7 +149,7 @@ function QualificationForm() {
             title: "Congratulations you passed the exam!",
             text: `Your score is ${response.data}`,
             confirmButtonText: "Check EligiblePets",
-          }).then((result) => {
+          }).then(result => {
             if (result.isConfirmed) {
               history.push("/user/eligible-pets");
             }
@@ -160,7 +160,7 @@ function QualificationForm() {
             text: `Oh no! You have failed the assesment questions`,
             text: `Your score was ${response.data}`,
             confirmButtonText: "Try again",
-          }).then((result) => {
+          }).then(result => {
             if (result.isConfirmed) {
               history.push("/user/adoptpet");
             }
@@ -219,7 +219,7 @@ function QualificationForm() {
                     defaultValue={defaultValue}
                     required
                     disabled
-                    onChange={(e) => setDate(e.target.value)}
+                    onChange={e => setDate(e.target.value)}
                   />
                 </FormGroup>
               </Col>
@@ -305,7 +305,7 @@ function QualificationForm() {
         <CardBody>
           <Form onSubmit={handleSubmit}>
             <Row className="ml-4">
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 1. Who will be responsible for feeding, grooming and generally
                 taking care for your pet?
               </Col>
@@ -379,7 +379,7 @@ function QualificationForm() {
                     <Input
                       required={showQ11_other}
                       style={{ cursor: "pointer" }}
-                      onChange={(e) => setQ1Other(e.target.value)}
+                      onChange={e => setQ1Other(e.target.value)}
                       name="question1"
                       type="textbox"
                     />
@@ -387,7 +387,7 @@ function QualificationForm() {
                 ) : null}
               </Col>
 
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 2. Are there children below 18 yrs old in the house?
               </Col>
 
@@ -421,7 +421,9 @@ function QualificationForm() {
                 </Row>
               </Col>
 
-              <Col md={12}>3. Do you have other pets?</Col>
+              <Col md={12} className="font-weight-bold">
+                3. Do you have other pets?
+              </Col>
 
               <Col md={12}>
                 <Row className="mx-4">
@@ -465,13 +467,15 @@ function QualificationForm() {
                       style={{ cursor: "pointer" }}
                       name="question3"
                       type="textbox"
-                      onChange={(e) => setQ3Other(e.target.value)}
+                      onChange={e => setQ3Other(e.target.value)}
                     />
                   </Col>
                 ) : null}
               </Col>
 
-              <Col md={12}>4. Who else do you live with?</Col>
+              <Col md={12} className="font-weight-bold">
+                4. Who else do you live with?
+              </Col>
 
               <Col md={12}>
                 <Row className="mx-4">
@@ -544,13 +548,13 @@ function QualificationForm() {
                       style={{ cursor: "pointer" }}
                       name="question1"
                       type="textbox"
-                      onChange={(e) => setQ4Other(e.target.value)}
+                      onChange={e => setQ4Other(e.target.value)}
                     />
                   </Col>
                 ) : null}
               </Col>
 
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 5. Are there any members of your household allergic to animals?
               </Col>
 
@@ -596,13 +600,15 @@ function QualificationForm() {
                       style={{ cursor: "pointer" }}
                       name="question5"
                       type="textbox"
-                      onChange={(e) => setQ5Other(e.target.value)}
+                      onChange={e => setQ5Other(e.target.value)}
                     />
                   </Col>
                 ) : null}
               </Col>
 
-              <Col md={12}>6. Have you had pets in the past?</Col>
+              <Col md={12} className="font-weight-bold">
+                6. Have you had pets in the past?
+              </Col>
 
               <Col md={12}>
                 <Row className="mx-4">
@@ -634,7 +640,7 @@ function QualificationForm() {
                 </Row>
               </Col>
 
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 7. Who will be financially responsible for your pet’s needs
                 (i,e.. food, vet bills, etc.)?
               </Col>
@@ -681,7 +687,7 @@ function QualificationForm() {
                 </Row>
               </Col>
 
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 8. Who will be looking after your pet if you go on vacation or
                 in case of emergency?
               </Col>
@@ -728,7 +734,7 @@ function QualificationForm() {
                 </Row>
               </Col>
 
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 9. How many hours in an average workday will your pet be left
                 alone?
               </Col>
@@ -805,13 +811,13 @@ function QualificationForm() {
                       style={{ cursor: "pointer" }}
                       name="question1"
                       type="textbox"
-                      onChange={(e) => setQ9Other(e.target.value)}
+                      onChange={e => setQ9Other(e.target.value)}
                     />
                   </Col>
                 ) : null}
               </Col>
 
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 10. Does everyone in the family support your decision to adopt a
                 pet?
               </Col>
@@ -846,7 +852,7 @@ function QualificationForm() {
                 </Row>
               </Col>
 
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 11. What steps will you take to familiarize your pet with
                 his/her new surroundings?
               </Col>
@@ -923,13 +929,15 @@ function QualificationForm() {
                       style={{ cursor: "pointer" }}
                       name="question1"
                       type="textbox"
-                      onChange={(e) => setQ11Other(e.target.value)}
+                      onChange={e => setQ11Other(e.target.value)}
                     />
                   </Col>
                 ) : null}
               </Col>
 
-              <Col md={12}>12. What type of building do you live in?</Col>
+              <Col md={12} className="font-weight-bold">
+                12. What type of building do you live in?
+              </Col>
 
               <Col md={12}>
                 <Row className="mx-4">
@@ -973,7 +981,9 @@ function QualificationForm() {
                 </Row>
               </Col>
 
-              <Col md={12}>13. Do you rent?</Col>
+              <Col md={12} className="font-weight-bold">
+                13. Do you rent?
+              </Col>
 
               <Col md={12}>
                 <Row className="mx-4">
@@ -1005,7 +1015,7 @@ function QualificationForm() {
                 </Row>
               </Col>
 
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 14. If renting or living in a shared building, can you provide a
                 copy of your building’s pet policy?
               </Col>
@@ -1053,14 +1063,14 @@ function QualificationForm() {
                         style={{ cursor: "pointer" }}
                         name="question1"
                         type="file"
-                        onChange={(e) => setImage(e.target.files[0])}
+                        onChange={e => setImage(e.target.files[0])}
                       />
                     </Col>
                   ) : null}
                 </Row>
               </Col>
 
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 15. What happens to your pet if or when you move, will you take
                 your pet?
               </Col>
@@ -1095,7 +1105,9 @@ function QualificationForm() {
                 </Row>
               </Col>
 
-              <Col md={12}>16. What kind of pet us right for you?</Col>
+              <Col md={12} className="font-weight-bold">
+                16. What kind of pet us right for you?
+              </Col>
 
               <Col md={12}>
                 <Row className="mx-4">
@@ -1140,7 +1152,7 @@ function QualificationForm() {
                 </Row>
               </Col>
 
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 17. Are you ready for long term commitment with your new pet?
               </Col>
 
@@ -1174,7 +1186,7 @@ function QualificationForm() {
                 </Row>
               </Col>
 
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 18. Can you afford to care for your pets healthy and safety?
               </Col>
 
@@ -1208,7 +1220,9 @@ function QualificationForm() {
                 </Row>
               </Col>
 
-              <Col md={12}>19. Do you have time for pet?</Col>
+              <Col md={12} className="font-weight-bold">
+                19. Do you have time for pet?
+              </Col>
 
               <Col md={12}>
                 <Row className="mx-4">
@@ -1240,7 +1254,9 @@ function QualificationForm() {
                 </Row>
               </Col>
 
-              <Col md={12}>20. Are you willing to train your pet? How?</Col>
+              <Col md={12} className="font-weight-bold">
+                20. Are you willing to train your pet? How?
+              </Col>
 
               <Col md={12}>
                 <Row className="mx-4">
@@ -1314,7 +1330,7 @@ function QualificationForm() {
                       style={{ cursor: "pointer" }}
                       name="question1"
                       type="textbox"
-                      onChange={(e) => setQ20Other(e.target.value)}
+                      onChange={e => setQ20Other(e.target.value)}
                     />
                   </Col>
                 ) : null}

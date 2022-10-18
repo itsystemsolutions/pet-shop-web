@@ -50,12 +50,12 @@ function Quiz() {
           "/user/info?id=" +
           localStorage.getItem("user_id")
       )
-      .then((response) => {
+      .then(response => {
         setData(response.data);
       });
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
 
     axios
@@ -83,14 +83,14 @@ function Quiz() {
           quiz15: quiz15,
         }
       )
-      .then((response) => {
+      .then(response => {
         if (response.data.statusCode === "OK") {
           Swal.fire({
             icon: "success",
             title: "Quiz submitted!",
             text: `Please wait for the admin to approve the quiz before adopting a pet`,
             confirmButtonText: "Check EligiblePets",
-          }).then((result) => {
+          }).then(result => {
             if (result.isConfirmed) {
               history.push("/user/dashboard");
             }
@@ -100,7 +100,7 @@ function Quiz() {
             icon: "error",
             text: `Oh no! Something went wrong!`,
             confirmButtonText: "Try again",
-          }).then((result) => {
+          }).then(result => {
             if (result.isConfirmed) {
               history.push("/user/dashboard");
             }
@@ -128,7 +128,7 @@ function Quiz() {
         <CardBody>
           <Form onSubmit={handleSubmit}>
             <Row className="ml-4">
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 1. AGE:
                 <Col md={4}>
                   <Input
@@ -141,7 +141,7 @@ function Quiz() {
                 </Col>
               </Col>
 
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 2. CURRENT OCCUPATION
                 <Col md={4}>
                   <Input
@@ -155,7 +155,7 @@ function Quiz() {
                 </Col>
               </Col>
 
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 3.VALID ID
                 <Col md={4}>
                   <img
@@ -166,7 +166,7 @@ function Quiz() {
                 </Col>
               </Col>
 
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 4. Expectations of the prospective adopter and the reasons for
                 wanting a dog.
               </Col>
@@ -177,11 +177,11 @@ function Quiz() {
                   name="quiz4"
                   type="textbox"
                   required
-                  onChange={(e) => setQuiz4(e.target.value)}
+                  onChange={e => setQuiz4(e.target.value)}
                 />
               </Col>
 
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 5. Long-term costs and commitment associated with dog ownership,
                 including ongoing vaccination, deworming, regular veterinary
                 health checks and other treatments.
@@ -196,7 +196,7 @@ function Quiz() {
                         name="quiz5"
                         type="radio"
                         required
-                        onChange={(e) => setQuiz5("Agree")}
+                        onChange={e => setQuiz5("Agree")}
                       />
                       Agree
                     </FormGroup>
@@ -209,7 +209,7 @@ function Quiz() {
                         name="quiz5"
                         required
                         type="radio"
-                        onChange={(e) => setQuiz5("Disagree")}
+                        onChange={e => setQuiz5("Disagree")}
                       />
                       Disagree
                     </FormGroup>
@@ -217,7 +217,7 @@ function Quiz() {
                 </Row>
               </Col>
 
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 6. Give the information and advice specific to your home and new
                 pet.
               </Col>
@@ -228,11 +228,13 @@ function Quiz() {
                   name="quiz6"
                   type="textbox"
                   required
-                  onChange={(e) => setQuiz6(e.target.value)}
+                  onChange={e => setQuiz6(e.target.value)}
                 />
               </Col>
 
-              <Col md={12}>7. Is your home situation stable?</Col>
+              <Col md={12} className="font-weight-bold">
+                7. Is your home situation stable?
+              </Col>
 
               <Col md={12}>
                 <Row className="mx-4">
@@ -243,7 +245,7 @@ function Quiz() {
                         required
                         name="quiz7"
                         type="radio"
-                        onChange={(e) => setQuiz7("YES")}
+                        onChange={e => setQuiz7("YES")}
                       />
                       Yes
                     </FormGroup>
@@ -256,7 +258,7 @@ function Quiz() {
                         required
                         name="quiz7"
                         type="radio"
-                        onChange={(e) => setQuiz7("NO")}
+                        onChange={e => setQuiz7("NO")}
                       />
                       No
                     </FormGroup>
@@ -268,13 +270,16 @@ function Quiz() {
                 if yes, explain.
                 <Input
                   style={{ cursor: "pointer" }}
+                  required
                   name="question1"
                   type="textbox"
-                  onChange={(e) => setQuiz7Explain(e.target.value)}
+                  onChange={e => setQuiz7Explain(e.target.value)}
                 />
               </Col>
 
-              <Col md={12}>8. Have you ever had a dog or cat before?</Col>
+              <Col md={12} className="font-weight-bold">
+                8. Have you ever had a dog or cat before?
+              </Col>
 
               <Col md={12}>
                 <Row className="mx-4">
@@ -285,7 +290,7 @@ function Quiz() {
                         required
                         name="quiz8"
                         type="radio"
-                        onChange={(e) => setQuiz8("YES")}
+                        onChange={e => setQuiz8("YES")}
                       />
                       Yes
                     </FormGroup>
@@ -298,7 +303,7 @@ function Quiz() {
                         required
                         name="quiz8"
                         type="radio"
-                        onChange={(e) => setQuiz8("NO")}
+                        onChange={e => setQuiz8("NO")}
                       />
                       No
                     </FormGroup>
@@ -311,12 +316,13 @@ function Quiz() {
                 <Input
                   style={{ cursor: "pointer" }}
                   name="quiz8"
+                  required
                   type="textbox"
-                  onChange={(e) => setQuiz8Explain(e.target.value)}
+                  onChange={e => setQuiz8Explain(e.target.value)}
                 />
               </Col>
 
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 9. Explain any known medical conditions or behavioral special
                 needs of your new pet.
               </Col>
@@ -324,33 +330,40 @@ function Quiz() {
                 <Input
                   style={{ cursor: "pointer" }}
                   name="quiz9"
+                  required
                   type="textbox"
-                  onChange={(e) => setQuiz9(e.target.value)}
+                  onChange={e => setQuiz9(e.target.value)}
                 />
               </Col>
 
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 10. Why do they think this is the right time in their lives to
                 adopt a dog/cat?
               </Col>
               <Col md={6}>
                 <Input
                   style={{ cursor: "pointer" }}
+                  required
                   name="quiz10"
                   type="textbox"
-                  onChange={(e) => setQuiz10(e.target.value)}
+                  onChange={e => setQuiz10(e.target.value)}
                 />
               </Col>
-              <Col md={12}>11. Do we have permission to visit your home?</Col>
+              <Col md={12} className="font-weight-bold">
+                11. Do we have permission to visit your home?
+              </Col>
               <Col md={6}>
                 <Input
                   style={{ cursor: "pointer" }}
                   name="quiz11"
+                  required
                   type="textbox"
-                  onChange={(e) => setQuiz11(e.target.value)}
+                  onChange={e => setQuiz11(e.target.value)}
                 />
               </Col>
-              <Col md={12}>12. Please describe your household.</Col>
+              <Col md={12} className="font-weight-bold">
+                12. Please describe your household.
+              </Col>
               <Col md={12}>
                 <Row className="mx-4">
                   <Col md={2}>
@@ -360,7 +373,7 @@ function Quiz() {
                         name="quiz12"
                         type="radio"
                         required
-                        onChange={(e) => setQuiz12("Active")}
+                        onChange={e => setQuiz12("Active")}
                       />
                       Active
                     </FormGroup>
@@ -373,7 +386,7 @@ function Quiz() {
                         name="quiz12"
                         required
                         type="radio"
-                        onChange={(e) => setQuiz12("Noisy")}
+                        onChange={e => setQuiz12("Noisy")}
                       />
                       Noisy
                     </FormGroup>
@@ -385,7 +398,7 @@ function Quiz() {
                         name="quiz12"
                         required
                         type="radio"
-                        onChange={(e) => setQuiz12("Quiet")}
+                        onChange={e => setQuiz12("Quiet")}
                       />
                       Quiet
                     </FormGroup>
@@ -397,40 +410,47 @@ function Quiz() {
                         name="quiz12"
                         required
                         type="radio"
-                        onChange={(e) => setQuiz12("Average")}
+                        onChange={e => setQuiz12("Average")}
                       />
                       Average
                     </FormGroup>
                   </Col>
                 </Row>
               </Col>
-              <Col md={12}>13. Have you ever had a pet euthanized?</Col>
+              <Col md={12} className="font-weight-bold">
+                13. Have you ever had a pet euthanized?
+              </Col>
               <Col md={6}>
                 <Input
                   style={{ cursor: "pointer" }}
                   name="quiz13"
+                  required
                   type="textbox"
-                  onChange={(e) => setQuiz13(e.target.value)}
+                  onChange={e => setQuiz13(e.target.value)}
                 />
               </Col>
-              <Col md={12}>14. Have you ever lost a pet?</Col>
+              <Col md={12} className="font-weight-bold">
+                14. Have you ever lost a pet?
+              </Col>
               <Col md={6}>
                 <Input
                   style={{ cursor: "pointer" }}
                   name="quiz14"
                   type="textbox"
-                  onChange={(e) => setQuiz14(e.target.value)}
+                  required
+                  onChange={e => setQuiz14(e.target.value)}
                 />
               </Col>
-              <Col md={12}>
+              <Col md={12} className="font-weight-bold">
                 15. Please state a reason for wanting to adopt a pet?
               </Col>
               <Col md={6}>
                 <Input
                   style={{ cursor: "pointer" }}
                   name="quiz15"
+                  required
                   type="textbox"
-                  onChange={(e) => setQuiz15(e.target.value)}
+                  onChange={e => setQuiz15(e.target.value)}
                 />
               </Col>
 
