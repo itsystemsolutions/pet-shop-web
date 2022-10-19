@@ -56,6 +56,8 @@ function PickUpForm() {
       });
   };
 
+  var today = new Date().toISOString().split("T")[0];
+
   return (
     <Container>
       <Row className="justify-content-center">
@@ -85,7 +87,9 @@ function PickUpForm() {
                 <FormGroup className="m-2">
                   <Placeholder>Date</Placeholder>
                   <Input
+                    id="date"
                     type="date"
+                    min={today}
                     required
                     className="form-control"
                     placeholder="Enter Date"
@@ -99,6 +103,8 @@ function PickUpForm() {
                   <Input
                     type="time"
                     className="form-control"
+                    min="08:00"
+                    max="17:00"
                     required
                     placeholder="Enter Email"
                     value={time}

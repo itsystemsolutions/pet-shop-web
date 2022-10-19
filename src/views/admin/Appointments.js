@@ -25,24 +25,24 @@ function Appointments() {
   const handleApproveAppointment = (e, data) => {
     e.preventDefault();
 
-    axios
-      .put(
-        process.env.REACT_APP_API_URL +
-          "/schedule/" +
-          data.id +
-          "?decision=PASSED"
-      )
-      .then(() => {
-        Swal.fire({
-          icon: "success",
-          title: `SUCCESS! `,
-          text: `Record approved! We will redirect you now to PICK-UP form`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            history.push(`/admin/pick-up/${data.userId}/${data.petCode}`);
-          }
-        });
-      });
+    // axios
+    //   .put(
+    //     process.env.REACT_APP_API_URL +
+    //       "/schedule/" +
+    //       data.id +
+    //       "?decision=PASSED"
+    //   )
+    //   .then(() => {
+    //     Swal.fire({
+    //       icon: "success",
+    //       title: `SUCCESS! `,
+    //       text: `Record approved! We will redirect you now to PICK-UP form`,
+    //     }).then((result) => {
+    //       if (result.isConfirmed) {
+    //         history.push(`/admin/pick-up/${data.userId}/${data.petCode}`);
+    //       }
+    //     });
+    //   });
   };
 
   const handleDenyAppointment = (e, id) => {

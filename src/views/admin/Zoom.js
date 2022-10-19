@@ -59,6 +59,8 @@ function Zoom() {
       });
   };
 
+  var today = new Date().toISOString().split("T")[0];
+
   return (
     <Container>
       <Row className="justify-content-center">
@@ -89,6 +91,7 @@ function Zoom() {
                   <Placeholder>Date</Placeholder>
                   <Input
                     type="date"
+                    min={today}
                     required
                     className="form-control"
                     placeholder="Enter Date"
@@ -102,6 +105,8 @@ function Zoom() {
                   <Input
                     type="time"
                     className="form-control"
+                    min="08:00"
+                    max="17:00"
                     required
                     placeholder="Enter Email"
                     value={time}
