@@ -144,8 +144,8 @@ function Appointments() {
                         <>
                           <Button
                             className="btn btn-success mr-2"
-                            onClick={handleShow}
-                            // onClick={e => handleApproveAppointment(e, entry.id)}
+                            // onClick={handleShow}
+                            onClick={e => handleApproveAppointment(e, entry.id)}
                           >
                             PASSED
                           </Button>
