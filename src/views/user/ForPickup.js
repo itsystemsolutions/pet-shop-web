@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 
 // react-bootstrap components
-import { Card, Table, Container, Button } from "react-bootstrap";
+import { Card, Table, Container, Button, Row } from "react-bootstrap";
 
 import Swal from "sweetalert2";
 
@@ -20,7 +20,7 @@ function Appointments() {
           "/schedule/for-pick-up?userId=" +
           localStorage.getItem("user_id")
       )
-      .then((response) => {
+      .then(response => {
         setData(response.data);
       });
   }, []);
@@ -37,7 +37,7 @@ function Appointments() {
           icon: "success",
           title: `SUCCESS! `,
           text: `Record is updated!`,
-        }).then((result) => {
+        }).then(result => {
           if (result.isConfirmed) {
             window.location.reload();
           }
@@ -57,7 +57,7 @@ function Appointments() {
           icon: "success",
           title: `SUCCESS! `,
           text: `Record is updated!`,
-        }).then((result) => {
+        }).then(result => {
           if (result.isConfirmed) {
             window.location.reload();
           }
@@ -86,7 +86,7 @@ function Appointments() {
               </tr>
             </thead>
             <tbody>
-              {data.map((entry) => {
+              {data.map(entry => {
                 return (
                   <tr>
                     <td>{entry.name}</td>
@@ -108,15 +108,27 @@ function Appointments() {
                       {entry.hasProofPayment ? (
                         <>UPLOADED</>
                       ) : (
-                        <Button
-                          onClick={() =>
-                            history.push(
-                              "/user/upload/proof-of-payment/" + entry.id
-                            )
-                          }
-                        >
-                          Upload Proof of Payment
-                        </Button>
+                        <Row>
+                          <Button
+                            onClick={() =>
+                              history.push(
+                                "/user/upload/proof-of-payment/" + entry.id
+                              )
+                            }
+                          >
+                            Upload Proof of Payment
+                          </Button>
+
+                          <Button
+                            onClick={() =>
+                              history.push(
+                                "/user/upload/proof-of-payment/" + entry.id
+                              )
+                            }
+                          >
+                            Upload Proof of Payment
+                          </Button>
+                        </Row>
                       )}
                     </td>
                   </tr>
