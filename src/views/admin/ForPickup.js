@@ -113,17 +113,19 @@ function Appointments() {
                     <td>{entry.time}</td>
                     <td>{entry.message}</td>
                     <td>
-                      {entry.hasProofPayment ? (
-                        <a href={`/admin/proof-of-payment/${entry.id}`}>SHOW</a>
+                      {entry.proofPaymentCount != 0 ? (
+                        <a
+                          href={`/admin/proof-of-payment/${entry.id}/${entry.proofPaymentCount}`}
+                        >
+                          SHOW
+                        </a>
                       ) : (
                         <>NONE</>
                       )}
                     </td>
 
                     <td>
-                      {entry.status === "PASSED" ? (
-                        <Badge className="bg-success text-white">Passed</Badge>
-                      ) : (
+                      {entry.status === "WAITING" ? (
                         <>
                           <Button
                             className="btn btn-success mr-2"
@@ -137,6 +139,16 @@ function Appointments() {
                           >
                             CANCEL
                           </Button>
+                        </>
+                      ) : (
+                        <>
+                          <Badge
+                            className={`bg-${
+                              entry.status === "PASSED" ? "success" : "danger"
+                            } text-white`}
+                          >
+                            {entry.status}
+                          </Badge>
                         </>
                       )}
                     </td>

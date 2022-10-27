@@ -83,7 +83,7 @@ const dashboardRoutes = [
     layout: "/user",
   },
   {
-    path: "/upload/proof-of-payment/:id",
+    path: "/upload/proof-of-payment/:id/:code",
     name: "schedule",
     icon: "nc-icon nc-notes",
     component: UploadQR,

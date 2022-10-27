@@ -81,7 +81,7 @@ const dashboardRoutes = [
     layout: "/admin",
   },
   {
-    path: "/proof-of-payment/:id",
+    path: "/proof-of-payment/:id/:count",
     name: "Proof Of Payment",
     icon: "nc-icon nc-notes",
     hidden: true,

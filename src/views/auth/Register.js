@@ -188,7 +188,7 @@ function Register() {
                   </Label>
                   <Input
                     placeholder="Email"
-                    type="text"
+                    type="email"
                     minLength={5}
                     value={email}
                     required

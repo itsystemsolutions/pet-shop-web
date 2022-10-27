@@ -22,9 +22,20 @@ import paypal from "assets/img/paypal.png";
 
 function PickUpForm() {
   const history = useHistory();
-  let { id } = useParams();
+  let { id, code } = useParams();
 
   const [image, setImage] = useState("");
+  const [data, setData] = useState({
+    price: 0,
+  });
+
+  useEffect(() => {
+    axios
+      .get(process.env.REACT_APP_API_URL + "/pets?petCode=" + code)
+      .then((response) => {
+        setData(response.data[0]);
+      });
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -101,6 +112,9 @@ function PickUpForm() {
                 </CardBody>
               </Card>
 
+              <h2>
+                Pet price: <b>{data.price}</b>
+              </h2>
               <Form onSubmit={handleSubmit}>
                 <FormGroup className="mt-3">
                   <Label for="residensy">Screenshot Here</Label>

@@ -52,7 +52,11 @@ function Zoom() {
           text: `Meeting schedule is saved!`,
         }).then((result) => {
           if (result.isConfirmed) {
-            Swal.fire("Success!", "Your file has been submitted.", "success");
+            Swal.fire(
+              "Success!",
+              "Your schedule has been submitted.",
+              "success"
+            );
             history.push("/admin/appointment");
           }
         });

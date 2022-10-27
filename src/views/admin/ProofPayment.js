@@ -11,8 +11,27 @@ import {
 } from "reactstrap";
 
 function ProofPayment() {
-  let { id } = useParams();
+  let { id, count } = useParams();
   let history = useHistory();
+
+  const showImages = () => {
+    var payments = [];
+    for (let i = 0; i < count; i++) {
+      payments.push(
+        <Col>
+          <img
+            src={`${process.env.REACT_APP_API_URL}/images/payment/${id}-${
+              i + 1
+            }.jpg`}
+            alt="example"
+            width={300}
+            height={300}
+          />
+        </Col>
+      );
+    }
+    return payments;
+  };
 
   return (
     <Container>
@@ -26,16 +45,7 @@ function ProofPayment() {
             </CardHeader>
 
             <CardBody className="text-center">
-              <Row>
-                <Col>
-                  <img
-                    src={`${process.env.REACT_APP_API_URL}/images/payment/${id}.jpg`}
-                    alt="example"
-                    height={500}
-                    className="w-100"
-                  />
-                </Col>
-              </Row>
+              <Row>{showImages()}</Row>
             </CardBody>
             <CardFooter>
               <Button onClick={() => history.push("/admin/for-pickup")}>

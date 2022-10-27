@@ -19,6 +19,7 @@ import {
   CardBody,
   Input,
   Label,
+  Spinner,
 } from "reactstrap";
 
 // Alert Dialogs
@@ -43,39 +44,66 @@ function Appointments() {
   const [checlist9, setCheckList9] = useState(false);
   const [checlist10, setCheckList10] = useState(false);
 
+  const [selectedId, setSelectedId] = useState();
+  const [selectedUser, setSelectedUser] = useState();
+  const [selectedPetCode, setSelectedPetCode] = useState();
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const toggleModal = () => setShow(!show);
 
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_API_URL + "/schedule/for-interview")
-      .then(response => {
+      .then((response) => {
         setData(response.data);
       });
   }, []);
 
-  const handleApproveAppointment = (e, data) => {
+  const openChecklistModal = (e, data) => {
     e.preventDefault();
-
     toggleModal();
+    setSelectedId(data.id);
+    setSelectedUser(data.userId);
+    setSelectedPetCode(data.petCode);
+  };
 
-    // axios
-    //   .put(
-    //     process.env.REACT_APP_API_URL +
-    //       "/schedule/" +
-    //       data.id +
-    //       "?decision=PASSED"
-    //   )
-    //   .then(() => {
-    //     Swal.fire({
-    //       icon: "success",
-    //       title: `SUCCESS! `,
-    //       text: `Record approved! We will redirect you now to PICK-UP form`,
-    //     }).then((result) => {
-    //       if (result.isConfirmed) {
-    //         history.push(`/admin/pick-up/${data.userId}/${data.petCode}`);
-    //       }
-    //     });
-    //   });
+  const handleApproveAppointment = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    axios
+      .put(
+        process.env.REACT_APP_API_URL +
+          "/schedule/" +
+          selectedId +
+          "?decision=PASSED",
+        {
+          answer1: checlist1,
+          answer2: checlist2,
+          answer3: checlist3,
+          answer4: checlist4,
+          answer5: checlist5,
+          answer6: checlist6,
+          answer7: checlist7,
+          answer8: checlist8,
+          answer9: checlist9,
+          answer10: checlist10,
+        }
+      )
+      .then(() => {
+        setIsLoading(false);
+        Swal.fire({
+          icon: "success",
+          title: `SUCCESS! `,
+          text: `Record approved! We will redirect you now to PICK-UP form`,
+          allowOutsideClick: false,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            history.push(`/admin/pick-up/${selectedUser}/${selectedPetCode}`);
+          }
+        });
+      });
   };
 
   const handleDenyAppointment = (e, id) => {
@@ -90,7 +118,7 @@ function Appointments() {
           icon: "success",
           title: `SUCCESS! `,
           text: `Record is updated!`,
-        }).then(result => {
+        }).then((result) => {
           if (result.isConfirmed) {
             window.location.reload();
           }
@@ -120,7 +148,7 @@ function Appointments() {
               </tr>
             </thead>
             <tbody>
-              {data.map(entry => {
+              {data.map((entry) => {
                 return (
                   <tr>
                     <td>{entry.name}</td>
@@ -160,14 +188,14 @@ function Appointments() {
                         <>
                           <Button
                             className="btn btn-success mr-2"
-                            onClick={e => handleApproveAppointment(e, entry.id)}
+                            onClick={(e) => openChecklistModal(e, entry)}
                           >
                             PASSED
                           </Button>
 
                           <Button
                             className="btn btn-danger"
-                            onClick={e => handleDenyAppointment(e, entry.id)}
+                            onClick={(e) => handleDenyAppointment(e, entry.id)}
                           >
                             FAILED
                           </Button>
@@ -182,7 +210,12 @@ function Appointments() {
         </CardBody>
       </Card>
 
-      <Modal className="pb-5" isOpen={show} size="lg">
+      <Modal
+        className="pb-5"
+        isOpen={show}
+        size="lg"
+        style={{ marginTop: "-6rem" }}
+      >
         <ModalHeader toggle={toggleModal}>
           <span>Passed Checklist</span>
         </ModalHeader>
@@ -193,9 +226,10 @@ function Appointments() {
                 id="checkList1"
                 type="checkbox"
                 className="mt-2 pointer"
-                onChange={e => setCheckList1(e.target.checked)}
+                onChange={(e) => setCheckList1(e.target.checked)}
               />
               <Label
+                for="checkList1"
                 check
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
@@ -209,10 +243,11 @@ function Appointments() {
                 type="checkbox"
                 className="mt-2 pointer"
                 id="checkList2"
-                onChange={e => setCheckList2(e.target.checked)}
+                onChange={(e) => setCheckList2(e.target.checked)}
               />
               <Label
                 check
+                for="checkList2"
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
@@ -225,10 +260,11 @@ function Appointments() {
                 type="checkbox"
                 className="mt-2 pointer"
                 id="checkList3"
-                onChange={e => setCheckList3(e.target.checked)}
+                onChange={(e) => setCheckList3(e.target.checked)}
               />
               <Label
                 check
+                for="checkList3"
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
@@ -241,10 +277,11 @@ function Appointments() {
                 type="checkbox"
                 className="mt-2 pointer"
                 id="checkList4"
-                onChange={e => setCheckList4(e.target.checked)}
+                onChange={(e) => setCheckList4(e.target.checked)}
               />
               <Label
                 check
+                for="checkList4"
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
@@ -257,10 +294,11 @@ function Appointments() {
                 type="checkbox"
                 className="mt-2 pointer"
                 id="checkList5"
-                onChange={e => setCheckList5(e.target.checked)}
+                onChange={(e) => setCheckList5(e.target.checked)}
               />
               <Label
                 check
+                for="checkList5"
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
@@ -273,10 +311,11 @@ function Appointments() {
                 type="checkbox"
                 className="mt-2 pointer"
                 id="checkList6"
-                onChange={e => setCheckList6(e.target.checked)}
+                onChange={(e) => setCheckList6(e.target.checked)}
               />
               <Label
                 check
+                for="checkList6"
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
@@ -290,10 +329,11 @@ function Appointments() {
                 type="checkbox"
                 className="mt-2 pointer"
                 id="checkList7"
-                onChange={e => setCheckList7(e.target.checked)}
+                onChange={(e) => setCheckList7(e.target.checked)}
               />
               <Label
                 check
+                for="checkList7"
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
@@ -306,10 +346,11 @@ function Appointments() {
                 type="checkbox"
                 className="mt-2 pointer"
                 id="checkList8"
-                onChange={e => setCheckList8(e.target.checked)}
+                onChange={(e) => setCheckList8(e.target.checked)}
               />
               <Label
                 check
+                for="checkList8"
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
@@ -322,14 +363,16 @@ function Appointments() {
                 type="checkbox"
                 className="mt-2 pointer"
                 id="checkList9"
-                onChange={e => setCheckList9(e.target.checked)}
+                onChange={(e) => setCheckList9(e.target.checked)}
               />
               <Label
                 check
+                for="checkList9"
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
-                Is he/she
+                If the user understand emergency situations about the adopted
+                pet
               </Label>
             </FormGroup>
             <FormGroup>
@@ -337,14 +380,16 @@ function Appointments() {
                 type="checkbox"
                 className="mt-2 pointer"
                 id="checkList10"
-                onChange={e => setCheckList10(e.target.checked)}
+                onChange={(e) => setCheckList10(e.target.checked)}
               />
               <Label
+                for="checkList10"
                 check
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
-                Is he/she
+                Adoptees must understand tht all donations are non
+                refundable/transferable under any circumstances
               </Label>
             </FormGroup>
           </div>
@@ -353,9 +398,16 @@ function Appointments() {
           <Button variant="secondary" onClick={toggleModal}>
             Close
           </Button>
-          <Button variant="primary" onClick={toggleModal}>
-            Save Changes
-          </Button>
+          {isLoading ? (
+            <Spinner>Loading...</Spinner>
+          ) : (
+            <Button
+              variant="primary"
+              onClick={(e) => handleApproveAppointment(e)}
+            >
+              Save Changes
+            </Button>
+          )}
         </ModalFooter>
       </Modal>
     </Container>

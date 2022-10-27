@@ -97,14 +97,14 @@ function MissingPetsBoard() {
                       }}
                     ></Card>
                     <CardTitle className="text-center" tag="h3">
-                      <Button
+                      {/* <Button
                         onClick={(e) => handleAdopt(e, pet.petCode)}
                         color="info"
                         className="mb-2"
                         block
                       >
                         REPORT MISSING PET
-                      </Button>
+                      </Button> */}
                     </CardTitle>
                     <CardTitle className="text-center" tag="h3"></CardTitle>
                     <div>

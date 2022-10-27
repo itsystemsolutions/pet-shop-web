@@ -4,13 +4,10 @@ import { useHistory } from "react-router";
 // react-bootstrap components
 import { Card, Table, Container, Button, Row } from "react-bootstrap";
 
-import Swal from "sweetalert2";
-
 const axios = require("axios").default;
 
 function Appointments() {
   let history = useHistory();
-
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -20,50 +17,10 @@ function Appointments() {
           "/schedule/for-pick-up?userId=" +
           localStorage.getItem("user_id")
       )
-      .then(response => {
+      .then((response) => {
         setData(response.data);
       });
   }, []);
-
-  const handleApproveAppointment = (e, id) => {
-    e.preventDefault();
-
-    axios
-      .put(
-        process.env.REACT_APP_API_URL + "/schedule/" + id + "?decision=PASSED"
-      )
-      .then(() => {
-        Swal.fire({
-          icon: "success",
-          title: `SUCCESS! `,
-          text: `Record is updated!`,
-        }).then(result => {
-          if (result.isConfirmed) {
-            window.location.reload();
-          }
-        });
-      });
-  };
-
-  const handleDenyAppointment = (e, id) => {
-    e.preventDefault();
-
-    axios
-      .put(
-        process.env.REACT_APP_API_URL + "/schedule/" + id + "?decision=FAILED"
-      )
-      .then(() => {
-        Swal.fire({
-          icon: "success",
-          title: `SUCCESS! `,
-          text: `Record is updated!`,
-        }).then(result => {
-          if (result.isConfirmed) {
-            window.location.reload();
-          }
-        });
-      });
-  };
 
   return (
     <Container fluid>
@@ -86,7 +43,7 @@ function Appointments() {
               </tr>
             </thead>
             <tbody>
-              {data.map(entry => {
+              {data.map((entry) => {
                 return (
                   <tr>
                     <td>{entry.name}</td>
@@ -101,34 +58,52 @@ function Appointments() {
                       <div>Code: {entry.petCode}</div>
                     </td>
                     <td>{entry.petType}</td>
-                    <td>{entry.date}</td>
-                    <td>{entry.time}</td>
+                    <td>{entry.proofPaymentCount !== 0 && entry.date}</td>
+                    <td>{entry.proofPaymentCount !== 0 && entry.time}</td>
                     <td>{entry.message}</td>
                     <td>
-                      {entry.hasProofPayment ? (
-                        <>UPLOADED</>
-                      ) : (
-                        <Row>
-                          <Button
-                            onClick={() =>
-                              history.push(
-                                "/user/upload/proof-of-payment/" + entry.id
-                              )
-                            }
-                          >
-                            Upload Proof of Payment
-                          </Button>
+                      {entry.proofPaymentCount != 0 ? (
+                        <div>
+                          <span>UPLOADED ({entry.proofPaymentCount})</span>
+
+                          <br />
 
                           <Button
+                            className="mb-2 mt-2"
                             onClick={() =>
                               history.push(
-                                "/user/upload/proof-of-payment/" + entry.id
+                                "/user/upload/proof-of-payment/" +
+                                  entry.id +
+                                  "/" +
+                                  entry.petCode
                               )
                             }
                           >
                             Upload Proof of Payment
                           </Button>
-                        </Row>
+                        </div>
+                      ) : (
+                        <>
+                          <Button
+                            className="mb-2"
+                            onClick={() =>
+                              history.push(
+                                "/user/upload/proof-of-payment/" +
+                                  entry.id +
+                                  "/" +
+                                  entry.petCode
+                              )
+                            }
+                          >
+                            Upload Proof of Payment
+                          </Button>
+                          <br />
+                          {!entry.hasProofPayment && (
+                            <i className="font-weigth-bold">
+                              *Upload proof of payment to see schedule
+                            </i>
+                          )}
+                        </>
                       )}
                     </td>
                   </tr>

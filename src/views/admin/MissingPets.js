@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 
 // react-bootstrap components
 import {
@@ -7,9 +8,6 @@ import {
   Container,
   Button,
   Badge,
-  Row,
-  Col,
-  CardFooter,
   CardHeader,
   CardBody,
   CardTitle,
@@ -20,6 +18,7 @@ const axios = require("axios").default;
 
 function MissingPets() {
   const [data, setData] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     axios
@@ -29,14 +28,15 @@ function MissingPets() {
       });
   }, []);
 
-  const handleApprove = (e, petCode, decision) => {
+  const handleApprove = (e, entry, decision) => {
     e.preventDefault();
 
+    console.log(entry);
     axios
       .put(
         process.env.REACT_APP_API_URL +
           "/pets/approve/" +
-          petCode +
+          entry.petCode +
           "?decision=" +
           decision
       )
@@ -44,10 +44,11 @@ function MissingPets() {
         Swal.fire({
           icon: "success",
           title: `SUCCESS! `,
-          text: `Record approved!`,
+          text: `Record approved! We'll redirect you to schedule interview`,
+          allowOutsideClick: false,
         }).then((result) => {
           if (result.isConfirmed) {
-            window.location.reload();
+            history.push(`/admin/zoom/${entry.user.id}/${entry.petCode}`);
           }
         });
       });
@@ -102,9 +103,7 @@ function MissingPets() {
                         <>
                           <Button
                             className="btn btn-success mr-2"
-                            onClick={(e) =>
-                              handleApprove(e, entry.petCode, "APPROVED")
-                            }
+                            onClick={(e) => handleApprove(e, entry, "APPROVED")}
                           >
                             APPROVE
                           </Button>

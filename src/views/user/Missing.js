@@ -57,6 +57,7 @@ function Missing() {
         gender: gender,
         description: description,
         status: "MISSING",
+        petType: "MISSING",
       })
       .then(function (response) {
         if (response.status == 200) {

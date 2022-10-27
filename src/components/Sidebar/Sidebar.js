@@ -25,7 +25,8 @@ function Sidebar({ color, image, routes }) {
             </div>
           </a>
           <a className="simple-text" href="">
-            PETSHOP
+            {localStorage.getItem("user_role")}{" "}
+            {localStorage.getItem("user_username")}
           </a>
         </div>
         <Nav>

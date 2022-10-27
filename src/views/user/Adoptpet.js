@@ -131,7 +131,10 @@ function Adoptpet() {
                           </b>
                         </p>
                         <p>
-                          <b>Vaccine: </b> SHOW
+                          <b>Type:</b> {pet.type}
+                        </p>
+                        <p>
+                          <b>Price:</b> {pet.price}
                         </p>
                       </div>
                     </CardBody>

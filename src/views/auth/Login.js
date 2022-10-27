@@ -56,8 +56,12 @@ function Login() {
             .then((response) => {
               if (response.data.type === "USER") {
                 history.push("/user/dashboard");
+                localStorage.setItem("user_role", "User");
+                localStorage.setItem("user_username", " - " + username);
               } else if (response.data.type === "ADMIN") {
                 history.push("/admin/dashboard");
+                localStorage.setItem("user_role", "Admin");
+                localStorage.setItem("user_username", "");
               }
             });
         } else {
