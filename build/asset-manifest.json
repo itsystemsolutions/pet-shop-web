@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.daa09abf.css",
-    "main.js": "/static/js/main.0a7e3c4b.js",
+    "main.js": "/static/js/main.8cbddfce.js",
     "static/media/pexels-laura-stanley-2252316.jpg": "/static/media/pexels-laura-stanley-2252316.19cdf54abca94ec1b8ab.jpg",
     "static/media/login-bg.png": "/static/media/login-bg.a917936b0898acf5defb.png",
     "static/media/bg-home.png": "/static/media/bg-home.995135e5b74c45618edf.png",
@@ -37,6 +37,6 @@
   },
   "entrypoints": [
     "static/css/main.daa09abf.css",
-    "static/js/main.0a7e3c4b.js"
+    "static/js/main.8cbddfce.js"
   ]
 }

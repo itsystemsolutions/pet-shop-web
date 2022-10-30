@@ -4,6 +4,7 @@ import { useLocation, useHistory } from "react-router-dom";
 import { Navbar, Container, Nav, Dropdown, Button } from "react-bootstrap";
 
 import routes from "routes.js";
+import Swal from "sweetalert2";
 
 function Header() {
   const history = useHistory();
@@ -32,7 +33,15 @@ function Header() {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    history.push("/auth/login");
+    Swal.fire({
+      icon: "question",
+      title: `Are you sure you want to sign out?`,
+      confirmButtonText: "Sign out",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        history.push("/auth/login");
+      }
+    });
   };
 
   return (
