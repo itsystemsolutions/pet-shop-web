@@ -18,7 +18,6 @@ const axios = require("axios").default;
 
 import gcash from "assets/img/gcash.png";
 import maya from "assets/img/maya.png";
-import paypal from "assets/img/paypal.png";
 
 function PickUpForm() {
   const history = useHistory();
@@ -32,12 +31,12 @@ function PickUpForm() {
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_API_URL + "/pets?petCode=" + code)
-      .then((response) => {
+      .then(response => {
         setData(response.data[0]);
       });
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
 
     const formData = new FormData();
@@ -54,13 +53,13 @@ function PickUpForm() {
           icon: "success",
           title: `SUCCESS! `,
           text: `Proof of payment uploaded!`,
-        }).then((result) => {
+        }).then(result => {
           if (result.isConfirmed) {
             history.push("/user/pick-up");
           }
         });
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };
@@ -87,12 +86,6 @@ function PickUpForm() {
               <Card>
                 <CardBody>
                   <Row className="text-center">
-                    <Col md={4}>
-                      <img src={paypal} alt="example" height={100} />
-                      <h4 className="fw-normal text-secondary fs-4 mb-4 font-weight-bold">
-                        PayPal
-                      </h4>
-                    </Col>
                     <Col md={4}>
                       <img src={maya} alt="example" height={100} />
                       <h4 className="fw-normal text-secondary fs-4 mb-4 font-weight-bold">
@@ -121,7 +114,7 @@ function PickUpForm() {
                   <Input
                     type="file"
                     required
-                    onChange={(e) => setImage(e.target.files[0])}
+                    onChange={e => setImage(e.target.files[0])}
                   />
                 </FormGroup>
 
