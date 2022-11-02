@@ -17,7 +17,7 @@ function Dashboard() {
       )
       .then((response) => {
         if (response.data.qualificationAnswers === null) {
-          history.push("/auth/quiz");
+          history.push("/quiz/form");
         }
       });
   }, []);

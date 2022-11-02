@@ -69,14 +69,26 @@ function MyMissingPets() {
                 return (
                   <tr>
                     <td>
-                      <img
-                        src={`${process.env.REACT_APP_API_URL}/images/pets/${entry.petCode}.jpg`}
-                        alt=""
-                        height={110}
-                        className="mb-3"
-                      />
+                      <a
+                        href={`${process.env.REACT_APP_URL}/user/pet/info/${entry.petCode}`}
+                        target="_blank"
+                      >
+                        <img
+                          src={`${process.env.REACT_APP_API_URL}/images/pets/${entry.petCode}.jpg`}
+                          alt=""
+                          height={110}
+                          className="mb-3"
+                        />
+                      </a>
                     </td>
-                    <td>{entry.petCode}</td>
+                    <td>
+                      <a
+                        href={`${process.env.REACT_APP_URL}/user/pet/info/${entry.petCode}`}
+                        target="_blank"
+                      >
+                        {entry.petCode}
+                      </a>
+                    </td>
                     <td>{entry.gender}</td>
                     <td>{entry.breed}</td>
                     <td>{entry.description}</td>

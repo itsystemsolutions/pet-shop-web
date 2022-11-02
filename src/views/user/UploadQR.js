@@ -18,7 +18,6 @@ const axios = require("axios").default;
 
 import gcash from "assets/img/gcash.png";
 import maya from "assets/img/maya.png";
-import paypal from "assets/img/paypal.png";
 
 function PickUpForm() {
   const history = useHistory();
@@ -87,19 +86,13 @@ function PickUpForm() {
               <Card>
                 <CardBody>
                   <Row className="text-center">
-                    <Col md={4}>
-                      <img src={paypal} alt="example" height={100} />
-                      <h4 className="fw-normal text-secondary fs-4 mb-4 font-weight-bold">
-                        PayPal
-                      </h4>
-                    </Col>
-                    <Col md={4}>
+                    <Col md={6}>
                       <img src={maya} alt="example" height={100} />
                       <h4 className="fw-normal text-secondary fs-4 mb-4 font-weight-bold">
                         Maya
                       </h4>
                     </Col>
-                    <Col md={4}>
+                    <Col md={6}>
                       <img src={gcash} alt="example" height={100} />
                       <h4 className="fw-normal text-secondary fs-4 mb-4 font-weight-bold">
                         GCash App

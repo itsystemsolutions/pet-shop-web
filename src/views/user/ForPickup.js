@@ -48,14 +48,28 @@ function Appointments() {
                   <tr>
                     <td>{entry.name}</td>
                     <td>
-                      <img
-                        src={`${process.env.REACT_APP_API_URL}/images/pets/${entry.petCode}.jpg`}
-                        alt=""
-                        height={110}
-                        className="mb-3"
-                      />
+                      <a
+                        href={`${process.env.REACT_APP_URL}/user/pet/info/${entry.petCode}`}
+                        target="_blank"
+                      >
+                        <img
+                          src={`${process.env.REACT_APP_API_URL}/images/pets/${entry.petCode}.jpg`}
+                          alt=""
+                          height={110}
+                          className="mb-3"
+                        />
+                      </a>
+
                       <div>Name: {entry.petName}</div>
-                      <div>Code: {entry.petCode}</div>
+                      <div>
+                        Code:
+                        <a
+                          href={`${process.env.REACT_APP_URL}/user/pet/info/${entry.petCode}`}
+                          target="_blank"
+                        >
+                          {entry.petCode}
+                        </a>
+                      </div>
                     </td>
                     <td>{entry.petType}</td>
                     <td>{entry.proofPaymentCount !== 0 && entry.date}</td>

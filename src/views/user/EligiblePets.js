@@ -164,12 +164,18 @@ function EligiblePets() {
                     </Row>
                   </td>
                   <td>
-                    <img
-                      src={`${process.env.REACT_APP_API_URL}/images/pets/${item.petCode}.jpg`}
-                      alt=""
-                      height={110}
-                      className="mb-3"
-                    />
+                    <a
+                      href={`${process.env.REACT_APP_URL}/user/pet/info/${item.petCode}`}
+                      target="_blank"
+                    >
+                      <img
+                        src={`${process.env.REACT_APP_API_URL}/images/pets/${item.petCode}.jpg`}
+                        alt=""
+                        height={110}
+                        className="mb-3"
+                      />
+                    </a>
+
                     <div>Name: {item.petName}</div>
                     <div>
                       Code:{" "}

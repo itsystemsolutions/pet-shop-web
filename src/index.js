@@ -11,6 +11,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 
 import AdminLayout from "views/admin/layout";
 import AuthLayout from "views/auth/layout";
+import AuthLayout2 from "views/auth/layout/index2";
 import UserLayout from "views/user/layout";
 import Homepage from "layouts/HomePage";
 
@@ -21,6 +22,7 @@ root.render(
     <Switch>
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
       <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
+      <Route path="/quiz" render={(props) => <AuthLayout2 {...props} />} />
       <Route path="/user" render={(props) => <UserLayout {...props} />} />
       <Route path="/user" render={(props) => <UserLayout {...props} />} />
       <Route path="/" render={() => <Homepage />} />

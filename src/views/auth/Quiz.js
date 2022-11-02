@@ -13,7 +13,6 @@ import {
   CardHeader,
   Row,
   Col,
-  Label,
 } from "reactstrap";
 
 import { Card } from "react-bootstrap";
@@ -50,12 +49,12 @@ function Quiz() {
           "/user/info?id=" +
           localStorage.getItem("user_id")
       )
-      .then(response => {
+      .then((response) => {
         setData(response.data);
       });
   }, []);
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     axios
@@ -83,14 +82,14 @@ function Quiz() {
           quiz15: quiz15,
         }
       )
-      .then(response => {
+      .then((response) => {
         if (response.data.statusCode === "OK") {
           Swal.fire({
             icon: "success",
             title: "Quiz submitted!",
             text: `Please wait for the admin to approve the quiz before adopting a pet`,
             confirmButtonText: "Check EligiblePets",
-          }).then(result => {
+          }).then((result) => {
             if (result.isConfirmed) {
               history.push("/user/dashboard");
             }
@@ -100,7 +99,7 @@ function Quiz() {
             icon: "error",
             text: `Oh no! Something went wrong!`,
             confirmButtonText: "Try again",
-          }).then(result => {
+          }).then((result) => {
             if (result.isConfirmed) {
               history.push("/user/dashboard");
             }
@@ -177,7 +176,7 @@ function Quiz() {
                   name="quiz4"
                   type="textbox"
                   required
-                  onChange={e => setQuiz4(e.target.value)}
+                  onChange={(e) => setQuiz4(e.target.value)}
                 />
               </Col>
 
@@ -196,7 +195,7 @@ function Quiz() {
                         name="quiz5"
                         type="radio"
                         required
-                        onChange={e => setQuiz5("Agree")}
+                        onChange={(e) => setQuiz5("Agree")}
                       />
                       Agree
                     </FormGroup>
@@ -209,7 +208,7 @@ function Quiz() {
                         name="quiz5"
                         required
                         type="radio"
-                        onChange={e => setQuiz5("Disagree")}
+                        onChange={(e) => setQuiz5("Disagree")}
                       />
                       Disagree
                     </FormGroup>
@@ -228,7 +227,7 @@ function Quiz() {
                   name="quiz6"
                   type="textbox"
                   required
-                  onChange={e => setQuiz6(e.target.value)}
+                  onChange={(e) => setQuiz6(e.target.value)}
                 />
               </Col>
 
@@ -245,7 +244,7 @@ function Quiz() {
                         required
                         name="quiz7"
                         type="radio"
-                        onChange={e => setQuiz7("YES")}
+                        onChange={(e) => setQuiz7("YES")}
                       />
                       Yes
                     </FormGroup>
@@ -258,7 +257,7 @@ function Quiz() {
                         required
                         name="quiz7"
                         type="radio"
-                        onChange={e => setQuiz7("NO")}
+                        onChange={(e) => setQuiz7("NO")}
                       />
                       No
                     </FormGroup>
@@ -273,7 +272,7 @@ function Quiz() {
                   required
                   name="question1"
                   type="textbox"
-                  onChange={e => setQuiz7Explain(e.target.value)}
+                  onChange={(e) => setQuiz7Explain(e.target.value)}
                 />
               </Col>
 
@@ -290,7 +289,7 @@ function Quiz() {
                         required
                         name="quiz8"
                         type="radio"
-                        onChange={e => setQuiz8("YES")}
+                        onChange={(e) => setQuiz8("YES")}
                       />
                       Yes
                     </FormGroup>
@@ -303,7 +302,7 @@ function Quiz() {
                         required
                         name="quiz8"
                         type="radio"
-                        onChange={e => setQuiz8("NO")}
+                        onChange={(e) => setQuiz8("NO")}
                       />
                       No
                     </FormGroup>
@@ -318,7 +317,7 @@ function Quiz() {
                   name="quiz8"
                   required
                   type="textbox"
-                  onChange={e => setQuiz8Explain(e.target.value)}
+                  onChange={(e) => setQuiz8Explain(e.target.value)}
                 />
               </Col>
 
@@ -332,7 +331,7 @@ function Quiz() {
                   name="quiz9"
                   required
                   type="textbox"
-                  onChange={e => setQuiz9(e.target.value)}
+                  onChange={(e) => setQuiz9(e.target.value)}
                 />
               </Col>
 
@@ -346,7 +345,7 @@ function Quiz() {
                   required
                   name="quiz10"
                   type="textbox"
-                  onChange={e => setQuiz10(e.target.value)}
+                  onChange={(e) => setQuiz10(e.target.value)}
                 />
               </Col>
               <Col md={12} className="font-weight-bold">
@@ -358,7 +357,7 @@ function Quiz() {
                   name="quiz11"
                   required
                   type="textbox"
-                  onChange={e => setQuiz11(e.target.value)}
+                  onChange={(e) => setQuiz11(e.target.value)}
                 />
               </Col>
               <Col md={12} className="font-weight-bold">
@@ -373,7 +372,7 @@ function Quiz() {
                         name="quiz12"
                         type="radio"
                         required
-                        onChange={e => setQuiz12("Active")}
+                        onChange={(e) => setQuiz12("Active")}
                       />
                       Active
                     </FormGroup>
@@ -386,7 +385,7 @@ function Quiz() {
                         name="quiz12"
                         required
                         type="radio"
-                        onChange={e => setQuiz12("Noisy")}
+                        onChange={(e) => setQuiz12("Noisy")}
                       />
                       Noisy
                     </FormGroup>
@@ -398,7 +397,7 @@ function Quiz() {
                         name="quiz12"
                         required
                         type="radio"
-                        onChange={e => setQuiz12("Quiet")}
+                        onChange={(e) => setQuiz12("Quiet")}
                       />
                       Quiet
                     </FormGroup>
@@ -410,7 +409,7 @@ function Quiz() {
                         name="quiz12"
                         required
                         type="radio"
-                        onChange={e => setQuiz12("Average")}
+                        onChange={(e) => setQuiz12("Average")}
                       />
                       Average
                     </FormGroup>
@@ -426,7 +425,7 @@ function Quiz() {
                   name="quiz13"
                   required
                   type="textbox"
-                  onChange={e => setQuiz13(e.target.value)}
+                  onChange={(e) => setQuiz13(e.target.value)}
                 />
               </Col>
               <Col md={12} className="font-weight-bold">
@@ -438,7 +437,7 @@ function Quiz() {
                   name="quiz14"
                   type="textbox"
                   required
-                  onChange={e => setQuiz14(e.target.value)}
+                  onChange={(e) => setQuiz14(e.target.value)}
                 />
               </Col>
               <Col md={12} className="font-weight-bold">
@@ -450,12 +449,12 @@ function Quiz() {
                   name="quiz15"
                   required
                   type="textbox"
-                  onChange={e => setQuiz15(e.target.value)}
+                  onChange={(e) => setQuiz15(e.target.value)}
                 />
               </Col>
 
               <Button
-                className="mt-2 font-italic"
+                className="mt-2 font-italic mr-5"
                 color="primary"
                 type="submit"
                 block

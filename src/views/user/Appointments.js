@@ -20,6 +20,9 @@ import {
   Col,
 } from "reactstrap";
 
+// Alert Dialogs
+import Swal from "sweetalert2";
+
 const axios = require("axios").default;
 
 function Appointments() {
@@ -58,6 +61,11 @@ function Appointments() {
     toggleModal();
   };
 
+  const showFailedSummary = (e, reason) => {
+    e.preventDefault();
+    Swal.fire("Failed the assesment", "Reasons: " + reason, "error");
+  };
+
   return (
     <Container fluid>
       <Card className="strpied-tabled-with-hover">
@@ -83,12 +91,18 @@ function Appointments() {
                 return (
                   <tr>
                     <td>
-                      <img
-                        src={`${process.env.REACT_APP_API_URL}/images/pets/${entry.petCode}.jpg`}
-                        alt=""
-                        height={110}
-                        className="mb-3"
-                      />
+                      <a
+                        href={`${process.env.REACT_APP_URL}/user/pet/info/${entry.petCode}`}
+                        target="_blank"
+                      >
+                        <img
+                          src={`${process.env.REACT_APP_API_URL}/images/pets/${entry.petCode}.jpg`}
+                          alt=""
+                          height={110}
+                          className="mb-3"
+                        />
+                      </a>
+
                       <div>Name: {entry.petName}</div>
                       <div>
                         Code:{" "}
@@ -111,14 +125,25 @@ function Appointments() {
                     </td>
                     <td>
                       {entry.status} <br />
-                      {entry.checklist && (
-                        <a
-                          href="#"
-                          onClick={(e) => showSummary(e, entry.checklist)}
-                        >
-                          summary
-                        </a>
-                      )}
+                      {entry.status == "PASSED"
+                        ? entry.checklist && (
+                            <a
+                              href="#"
+                              onClick={(e) => showSummary(e, entry.checklist)}
+                            >
+                              summary
+                            </a>
+                          )
+                        : entry.failedReason && (
+                            <a
+                              href="#"
+                              onClick={(e) =>
+                                showFailedSummary(e, entry.failedReason)
+                              }
+                            >
+                              summary
+                            </a>
+                          )}
                     </td>
                   </tr>
                 );

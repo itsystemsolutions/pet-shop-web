@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.daa09abf.css",
-    "main.js": "/static/js/main.8cbddfce.js",
+    "main.js": "/static/js/main.645020c6.js",
     "static/media/pexels-laura-stanley-2252316.jpg": "/static/media/pexels-laura-stanley-2252316.19cdf54abca94ec1b8ab.jpg",
     "static/media/login-bg.png": "/static/media/login-bg.a917936b0898acf5defb.png",
     "static/media/bg-home.png": "/static/media/bg-home.995135e5b74c45618edf.png",
@@ -27,7 +27,6 @@
     "static/media/nucleo-icons.ttf": "/static/media/nucleo-icons.a30d0b0201482fcfffd3.ttf",
     "static/media/maya.png": "/static/media/maya.18b0a46acf7565d2a277.png",
     "static/media/gcash.png": "/static/media/gcash.9aae9d986d8926dba415.png",
-    "static/media/paypal.png": "/static/media/paypal.6ea205b70981788e6e70.png",
     "static/media/fa-regular-400.woff": "/static/media/fa-regular-400.ea5a41ec4a24ce93298e.woff",
     "static/media/nucleo-icons.woff": "/static/media/nucleo-icons.141e0c4652975b501bab.woff",
     "static/media/fa-regular-400.woff2": "/static/media/fa-regular-400.2c154b0f8c0d8d166162.woff2",
@@ -37,6 +36,6 @@
   },
   "entrypoints": [
     "static/css/main.daa09abf.css",
-    "static/js/main.8cbddfce.js"
+    "static/js/main.645020c6.js"
   ]
 }

@@ -109,21 +109,41 @@ function Appointments() {
   const handleDenyAppointment = (e, id) => {
     e.preventDefault();
 
-    axios
-      .put(
-        process.env.REACT_APP_API_URL + "/schedule/" + id + "?decision=FAILED"
-      )
-      .then(() => {
-        Swal.fire({
-          icon: "success",
-          title: `SUCCESS! `,
-          text: `Record is updated!`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.reload();
-          }
-        });
-      });
+    Swal.fire({
+      title: "Please type your reason?",
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off",
+      },
+      showCancelButton: true,
+      confirmButtonText: "Submit",
+      showLoaderOnConfirm: true,
+      preConfirm: (login) => {
+        return axios
+          .put(
+            process.env.REACT_APP_API_URL +
+              "/schedule/" +
+              id +
+              "?decision=FAILED&failedReason=" +
+              login
+          )
+          .then(() => {
+            Swal.fire({
+              icon: "success",
+              title: `SUCCESS! `,
+              text: `Record is updated!`,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.reload();
+              }
+            });
+          })
+          .catch((error) => {
+            Swal.showValidationMessage(`Request failed: ${error}`);
+          });
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    });
   };
 
   return (
