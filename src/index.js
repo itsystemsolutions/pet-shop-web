@@ -24,7 +24,6 @@ root.render(
       <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
       <Route path="/quiz" render={(props) => <AuthLayout2 {...props} />} />
       <Route path="/user" render={(props) => <UserLayout {...props} />} />
-      <Route path="/user" render={(props) => <UserLayout {...props} />} />
       <Route path="/" render={() => <Homepage />} />
       <Redirect from="/" to="/" />
     </Switch>

@@ -31,27 +31,46 @@ function MissingPets() {
   const handleApprove = (e, entry, decision) => {
     e.preventDefault();
 
-    console.log(entry);
-    axios
-      .put(
-        process.env.REACT_APP_API_URL +
-          "/pets/approve/" +
-          entry.petCode +
-          "?decision=" +
-          decision
-      )
-      .then(() => {
-        Swal.fire({
-          icon: "success",
-          title: `SUCCESS! `,
-          text: `Record approved! We'll redirect you to schedule interview`,
-          allowOutsideClick: false,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            history.push(`/admin/zoom/${entry.user.id}/${entry.petCode}`);
-          }
+    if (decision !== "DECLINE") {
+      axios
+        .put(
+          process.env.REACT_APP_API_URL +
+            "/pets/approve/" +
+            entry.petCode +
+            "?decision=" +
+            decision
+        )
+        .then(() => {
+          Swal.fire({
+            icon: "success",
+            title: `SUCCESS! `,
+            text: `Record approved! We'll redirect you to schedule interview`,
+            allowOutsideClick: false,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              history.push(`/admin/zoom/${entry.user.id}/${entry.petCode}`);
+            }
+          });
         });
-      });
+    } else {
+      axios
+        .put(
+          process.env.REACT_APP_API_URL +
+            "/pets/approve/" +
+            entry.petCode +
+            "?decision=" +
+            decision
+        )
+        .then(() => {
+          Swal.fire({
+            icon: "error",
+            title: `Record decline!`,
+            allowOutsideClick: false,
+          }).then((result) => {
+            window.location.reload();
+          });
+        });
+    }
   };
 
   return (
@@ -98,7 +117,15 @@ function MissingPets() {
                     <td>{entry.lastSeen}</td>
                     <td>
                       {entry.approvalStatus !== "PENDING" ? (
-                        <Badge>{entry.approvalStatus}</Badge>
+                        <Badge
+                          color={`${
+                            entry.approvalStatus === "APPROVED"
+                              ? "success"
+                              : "danger"
+                          }`}
+                        >
+                          {entry.approvalStatus}
+                        </Badge>
                       ) : (
                         <>
                           <Button
@@ -109,9 +136,7 @@ function MissingPets() {
                           </Button>
                           <Button
                             className="btn btn-danger"
-                            onClick={(e) =>
-                              handleApprove(e, entry.petCode, "DECLINE")
-                            }
+                            onClick={(e) => handleApprove(e, entry, "DECLINE")}
                           >
                             DECLINE
                           </Button>
