@@ -45,7 +45,7 @@ function Users() {
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_API_URL + "/user?type=USER")
-      .then((response) => {
+      .then(response => {
         setData(response.data);
       });
   }, []);
@@ -66,7 +66,7 @@ function Users() {
           icon: "success",
           title: `SUCCESS! `,
           text: `Record is updated!`,
-        }).then((result) => {
+        }).then(result => {
           if (result.isConfirmed) {
             window.location.reload();
           }
@@ -98,7 +98,7 @@ function Users() {
               </tr>
             </thead>
             <tbody>
-              {data.map((entry) => {
+              {data.map(entry => {
                 return (
                   <tr>
                     <td>{entry.name}</td>
@@ -113,7 +113,7 @@ function Users() {
                     <td>
                       <span
                         className="pointer text-info"
-                        onClick={(e) =>
+                        onClick={e =>
                           history.push("/admin/user/pets/" + entry.id)
                         }
                       >
@@ -122,7 +122,7 @@ function Users() {
                     </td>
                     <td>
                       {entry.qualificationAnswers !== null && (
-                        <a href="#" onClick={(e) => showAnswers(e, entry)}>
+                        <a href="#" onClick={e => showAnswers(e, entry)}>
                           Show Answers
                         </a>
                       )}
@@ -132,7 +132,7 @@ function Users() {
                         <>
                           <Button
                             className="btn btn-success mr-2"
-                            onClick={(e) =>
+                            onClick={e =>
                               handleAccountEligibility(e, entry.id, "APPROVE")
                             }
                           >
@@ -140,7 +140,7 @@ function Users() {
                           </Button>
                           <Button
                             className="btn btn-danger"
-                            onClick={(e) =>
+                            onClick={e =>
                               handleAccountEligibility(e, entry.id, "DENIED")
                             }
                           >
@@ -181,22 +181,73 @@ function Users() {
         </ModalHeader>
         <ModalBody>
           {answers ? (
-            <Row>
-              <Col md={12}>1. Age - {answers.quiz1}</Col>
-              <Col md={12}>2. CURRENT OCCUPATION – {answers.quiz2}</Col>
-              <Col md={12}>3. VALID ID – See below</Col>
-              <Col md={12}>4. {answers.quiz4}</Col>
-              <Col md={12}>5. {answers.quiz5}</Col>
-              <Col md={12}>6. {answers.quiz6}</Col>
-              <Col md={12}>7. {answers.quiz7}</Col>
-              <Col md={12}>8. {answers.quiz8}</Col>
-              <Col md={12}>9. {answers.quiz9}</Col>
-              <Col md={12}>10. {answers.quiz10}</Col>
-              <Col md={12}>11. {answers.quiz11}</Col>
-              <Col md={12}>12. {answers.quiz12}</Col>
-              <Col md={12}>13. {answers.quiz13}</Col>
-              <Col md={12}>14. {answers.quiz14}</Col>
-              <Col md={12}>15. {answers.quiz15}</Col>
+            <Row md={12}>
+              <Col md={6}>Question</Col>
+              <Col md={6}>Answer</Col>
+
+              <Col md={6}>1. Age -</Col>
+              <Col md={6}>{answers.quiz1}</Col>
+
+              <Col md={6}>2. CURRENT OCCUPATION – </Col>
+              <Col md={6}>{answers.quiz2}</Col>
+
+              <Col md={6}>3. VALID ID –</Col>
+              <Col md={6}>See below</Col>
+
+              <Col md={6}>
+                4. Expectations of the prospective adopter and the reasons for
+                wanting a dog?
+              </Col>
+              <Col md={6}>{answers.quiz4}</Col>
+
+              <Col md={6}>
+                {" "}
+                5. Long-term costs and commitment associated with dog ownership,
+                including ongoing vaccination, deworming, regular veterinary
+                health checks and other treatments.
+              </Col>
+              <Col md={6}>{answers.quiz5}</Col>
+
+              <Col md={6}>
+                6. Give the information and advice specific to your home and new
+                pet.
+              </Col>
+              <Col md={6}>{answers.quiz6}</Col>
+
+              <Col md={6}>7. Is your home situation stable?</Col>
+              <Col md={6}>{answers.quiz7}</Col>
+
+              <Col md={6}>8. Have you ever had a dog or cat before?</Col>
+              <Col md={6}> {answers.quiz8}</Col>
+
+              <Col md={6}>
+                9. Explain any known medical conditions or behavioral special
+                needs of your new pet.
+              </Col>
+              <Col md={6}>{answers.quiz9}</Col>
+
+              <Col md={6}>
+                10. Why do they think this is the right time in their lives to
+                adopt a dog/cat?
+              </Col>
+              <Col md={6}>{answers.quiz10}</Col>
+
+              <Col md={6}>11. Do we have permission to visit your home?</Col>
+              <Col md={6}>{answers.quiz11}</Col>
+
+              <Col md={6}> 12. Please describe your household.</Col>
+              <Col md={6}>{answers.quiz12}</Col>
+
+              <Col md={6}> 13. Have you ever had a pet euthanized?</Col>
+              <Col md={6}>{answers.quiz13}</Col>
+
+              <Col md={6}>14. Have you ever lost a pet?</Col>
+              <Col md={6}>{answers.quiz14}</Col>
+
+              <Col md={6}>
+                15. Please state a reason for wanting to adopt a pet?
+              </Col>
+              <Col md={6}>{answers.quiz15}</Col>
               <Col md={12}>
                 <h3>Valid Id</h3>
                 <img

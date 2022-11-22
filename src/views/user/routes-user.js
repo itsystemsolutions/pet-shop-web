@@ -33,7 +33,7 @@ const dashboardRoutes = [
   },
   {
     path: "/missing/board",
-    name: "Browse Missing Pet",
+    name: "Lost And Found",
     icon: "nc-icon nc-chart-pie-35",
     component: MissingPetsBoard,
     layout: "/user",

@@ -108,7 +108,9 @@ function MissingPetsBoard() {
                         REPORT MISSING PET
                       </Button> */}
                     </CardTitle>
-                    <CardTitle className="text-center" tag="h3"></CardTitle>
+                    <CardTitle className="text-center" tag="h3">
+                      {pet.status}
+                    </CardTitle>
                     <div>
                       <p className="text-center h3">
                         <b>{pet.name}</b>

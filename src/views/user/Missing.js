@@ -11,6 +11,10 @@ import {
   Row,
   Col,
   Label,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+  DropdownToggle,
 } from "reactstrap";
 
 import { Card } from "react-bootstrap";
@@ -20,6 +24,9 @@ import Swal from "sweetalert2";
 const axios = require("axios").default;
 
 function Missing() {
+  const [dropOpen, setDropOpen] = useState(false);
+  const [type, setType] = useState("Select Type");
+  const toggleS = () => setDropOpen(prevState => !prevState);
   const [lastSeen, setLastSeen] = useState("");
   const [image, setImage] = useState("");
   const [breed, setBreed] = useState("");
@@ -40,13 +47,13 @@ function Missing() {
           "/user/info?id=" +
           localStorage.getItem("user_id")
       )
-      .then((response) => {
+      .then(response => {
         console.log(response.data);
         setData(response.data);
       });
   }, []);
 
-  const handleAddpet = (e) => {
+  const handleAddpet = e => {
     e.preventDefault();
 
     axios
@@ -67,7 +74,7 @@ function Missing() {
 
           axios
             .put(process.env.REACT_APP_API_URL + `/pets/upload/image`, formData)
-            .catch((error) => {
+            .catch(error => {
               console.log(error);
             });
 
@@ -75,10 +82,10 @@ function Missing() {
           Swal.fire({
             icon: "success",
             title: "This added pet code is " + response.data,
-            text: "Please wait for admin to approve it",
+            text: "Please wait for the administrator to approve your report; this indicates that your lost pet is in the shelter",
             showCancelButton: true,
             confirmButtonText: "OKAY",
-          }).then((result) => {
+          }).then(result => {
             if (result.isConfirmed) {
               window.location.reload();
             }
@@ -116,7 +123,7 @@ function Missing() {
                     defaultValue={data.email}
                     required
                     disabled
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={e => setEmail(e.target.value)}
                   />
                 </FormGroup>
               </Col>
@@ -134,25 +141,38 @@ function Missing() {
                   />
                 </FormGroup>
               </Col>
-              <Col>
+              <Col md={12}>
                 <h4>Pet Information</h4>
                 <FormGroup>
                   <Label for="mobile">Set Last seen Location.</Label>
                   <Input
                     type="text"
                     required
-                    onChange={(e) => setLastSeen(e.target.value)}
+                    onChange={e => setLastSeen(e.target.value)}
                   />
                 </FormGroup>
               </Col>
-              <Col md={12}>
+              <Col md={6}>
                 <FormGroup>
                   <Label for="residensy">Pet Image</Label>
                   <Input
                     type="file"
                     required
-                    onChange={(e) => setImage(e.target.files[0])}
+                    onChange={e => setImage(e.target.files[0])}
                   />
+                </FormGroup>
+              </Col>
+              <Col md={6}>
+                <FormGroup>
+                  <Label for="residensy">Select Status</Label>
+                  <Dropdown isOpen={dropOpen} toggle={toggleS}>
+                    <DropdownToggle caret>{type}</DropdownToggle>
+                    <DropdownMenu>
+                      <DropdownItem header>Select TYPE</DropdownItem>
+                      <DropdownItem>MISSING</DropdownItem>
+                      <DropdownItem>FOUND</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
                 </FormGroup>
               </Col>
               <Col>
@@ -162,7 +182,7 @@ function Missing() {
                     type="text"
                     required
                     value={breed}
-                    onChange={(e) => setBreed(e.target.value)}
+                    onChange={e => setBreed(e.target.value)}
                   />
                 </FormGroup>
               </Col>
@@ -212,7 +232,7 @@ function Missing() {
                   <Input
                     type="textarea"
                     required
-                    onChange={(e) => setDescription(e.target.value)}
+                    onChange={e => setDescription(e.target.value)}
                   />
                 </FormGroup>
               </Col>

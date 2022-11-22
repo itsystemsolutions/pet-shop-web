@@ -30,20 +30,36 @@ function Addpet() {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selected, setSelected] = useState("Select Type");
-  const toggle = () => setDropdownOpen((prevState) => !prevState);
+  const toggle = () => setDropdownOpen(prevState => !prevState);
+
+  const [dropOpen, setDropOpen] = useState(false);
+  const [gender, setGender] = useState("Select Gender");
+  const toggleS = () => setDropOpen(prevState => !prevState);
+
+  const [dropBreedOpen, setDropBreedOpen] = useState(false);
+  const [breed, setBreed] = useState("Select Breed");
+  const toggleBreed = () => setDropBreedOpen(prevState => !prevState);
+
+  const [dropBreedCatOpen, setDropBreedCatOpen] = useState(false);
+  const [breedcat, setBreedCat] = useState("Select BreedCat");
+  const toggleCat = () => setDropBreedCatOpen(prevState => !prevState);
+
+  const [OpenDrop, setOpenDrop] = useState(false);
+  const [size, setSize] = useState("Select Size");
+  const toggles = () => setOpenDrop(prevState => !prevState);
 
   const [name, setName] = useState("");
-  const [gender, setGender] = useState("");
-  const [breed, setBreed] = useState("");
   const [age, setAge] = useState("");
-  const [size, setSize] = useState("");
+  const [weight, setWeigth] = useState("");
   const [residency, setResidency] = useState("");
+  const [color, setColor] = useState("");
   const [image, setImage] = useState("");
   const [vacineImage, setVacineImage] = useState("");
   const [price, setPrice] = useState("");
   const [type, setType] = useState("");
+  const [condition, setCondition] = useState("");
 
-  const handleAddpet = (e) => {
+  const handleAddpet = e => {
     e.preventDefault();
 
     axios
@@ -67,7 +83,7 @@ function Addpet() {
 
           axios
             .put(process.env.REACT_APP_API_URL + `/pets/upload/image`, formData)
-            .catch((error) => {
+            .catch(error => {
               console.log(error);
             });
 
@@ -80,7 +96,7 @@ function Addpet() {
               process.env.REACT_APP_API_URL + `/pets/upload/vaccine/image`,
               vaccineForm
             )
-            .catch((error) => {
+            .catch(error => {
               console.log(error);
             });
 
@@ -91,7 +107,7 @@ function Addpet() {
             showCancelButton: true,
             cancelButtonText: "YES",
             confirmButtonText: "NO - goto Dashboard",
-          }).then((result) => {
+          }).then(result => {
             if (result.isConfirmed) {
               history.push("/admin/dashboard");
             } else {
@@ -107,7 +123,7 @@ function Addpet() {
       });
   };
 
-  const handleUpdatePrice = (type) => {
+  const handleUpdatePrice = type => {
     setType(type);
 
     if (type === "DOG") {
@@ -138,31 +154,78 @@ function Addpet() {
                     placeholder="Name"
                     required
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={e => setName(e.target.value)}
                   ></Input>
                 </FormGroup>
                 <FormGroup>
-                  <Label for="gender">Gender</Label>
-                  <Input
-                    type="gender"
-                    className="form-control"
-                    placeholder="Gender"
-                    required
-                    value={gender}
-                    onChange={(e) => setGender(e.target.value)}
-                  ></Input>
+                  <Label>Gender</Label>
+                  <Dropdown isOpen={dropOpen} toggle={toggleS}>
+                    <DropdownToggle caret>{gender}</DropdownToggle>
+                    <DropdownMenu>
+                      <DropdownItem header>Select Gender</DropdownItem>
+                      <DropdownItem>MALE</DropdownItem>
+                      <DropdownItem>FEMALE</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
                 </FormGroup>
                 <FormGroup>
-                  <Label for="breed">Breed</Label>
-                  <Input
-                    type="text"
-                    className="form-control"
-                    placeholder="Breed"
-                    value={breed}
-                    required
-                    onChange={(e) => setBreed(e.target.value)}
-                  ></Input>
-                </FormGroup>{" "}
+                  <Label>Breed</Label>
+                  <Dropdown isOpen={dropBreedOpen} toggle={toggleBreed}>
+                    <DropdownToggle caret>{breed}</DropdownToggle>
+                    <DropdownMenu>
+                      <DropdownItem header>Select Breed</DropdownItem>
+                      <DropdownItem>Aspin</DropdownItem>
+                      <DropdownItem>Labrador Retriever</DropdownItem>
+                      <DropdownItem>German Shepherd</DropdownItem>
+                      <DropdownItem>Bulldog</DropdownItem>
+                      <DropdownItem>Golden Retriever</DropdownItem>
+                      <DropdownItem>Poodle</DropdownItem>
+                      <DropdownItem>French Bulldog</DropdownItem>
+                      <DropdownItem>Beagle</DropdownItem>
+                      <DropdownItem>Rottweiler</DropdownItem>
+                      <DropdownItem>German Shorthaired Pointer </DropdownItem>
+                      <DropdownItem>Dachshund</DropdownItem>
+                      <DropdownItem>Corgi</DropdownItem>
+                      <DropdownItem>Australian Shepherd</DropdownItem>
+                      <DropdownItem>Shih Tzu</DropdownItem>
+                      <DropdownItem>Siberian Husky</DropdownItem>
+                      <DropdownItem>Great Dane</DropdownItem>
+                      <DropdownItem>Boxer</DropdownItem>
+                      <DropdownItem>Cavalier King Charles Spaniel</DropdownItem>
+                      <DropdownItem>Doberman</DropdownItem>
+                      <DropdownItem>Miniature Schnauzer</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </FormGroup>
+                <FormGroup>
+                  <Label>Breed</Label>
+                  <Dropdown isOpen={dropBreedCatOpen} toggle={toggleCat}>
+                    <DropdownToggle caret>{breedcat}</DropdownToggle>
+                    <DropdownMenu>
+                      <DropdownItem header>Select Breed</DropdownItem>
+                      <DropdownItem>Puspin</DropdownItem>
+                      <DropdownItem>Abyssinian </DropdownItem>
+                      <DropdownItem>American Bobtail</DropdownItem>
+                      <DropdownItem>American Shorthair</DropdownItem>
+                      <DropdownItem>Balinese</DropdownItem>
+                      <DropdownItem>Bengal</DropdownItem>
+                      <DropdownItem>Birman</DropdownItem>
+                      <DropdownItem>Bombay</DropdownItem>
+                      <DropdownItem>British Shorthair</DropdownItem>
+                      <DropdownItem>Persian</DropdownItem>
+                      <DropdownItem>Devon Rex</DropdownItem>
+                      <DropdownItem>Domestic Longhair</DropdownItem>
+                      <DropdownItem>Exotic Shorthair</DropdownItem>
+                      <DropdownItem>Himalayan</DropdownItem>
+                      <DropdownItem>Maine Coon</DropdownItem>
+                      <DropdownItem>Norwegian Forest</DropdownItem>
+                      <DropdownItem>Ragdoll</DropdownItem>
+                      <DropdownItem>Savannah</DropdownItem>
+                      <DropdownItem>Scottish Fold</DropdownItem>
+                      <DropdownItem>Siamese</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </FormGroup>
                 <FormGroup>
                   <Label for="age">Age</Label>
                   <Input
@@ -170,21 +233,45 @@ function Addpet() {
                     className="form-control"
                     placeholder="Age"
                     required
+                    maxLength={2}
                     value={age}
-                    onChange={(e) => setAge(e.target.value)}
+                    onChange={e => setAge(e.target.value)}
                   ></Input>
                 </FormGroup>{" "}
                 <FormGroup>
-                  <Label for="size">Size</Label>
+                  <Label for="age">Weigth</Label>
+                  <Input
+                    type="number"
+                    className="form-control"
+                    placeholder="Weigth"
+                    required
+                    value={weight}
+                    onChange={e => setWeigth(e.target.value)}
+                  ></Input>
+                </FormGroup>{" "}
+                <FormGroup>
+                  <Label for="color">Color</Label>
                   <Input
                     type="text"
                     className="form-control"
-                    placeholder="Size"
+                    placeholder="Color"
                     required
-                    value={size}
-                    onChange={(e) => setSize(e.target.value)}
+                    value={color}
+                    onChange={e => setColor(e.target.value)}
                   ></Input>
-                </FormGroup>{" "}
+                </FormGroup>
+                <FormGroup>
+                  <Label>SIZE</Label>
+                  <Dropdown isOpen={OpenDrop} toggle={toggles}>
+                    <DropdownToggle caret>{size}</DropdownToggle>
+                    <DropdownMenu>
+                      <DropdownItem header>Select SIZE</DropdownItem>
+                      <DropdownItem>SMALL</DropdownItem>
+                      <DropdownItem>MEDIUM</DropdownItem>
+                      <DropdownItem>LARGE</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </FormGroup>
                 <FormGroup>
                   <Label for="residensy">Shelter Residensy</Label>
                   <Input
@@ -193,7 +280,18 @@ function Addpet() {
                     placeholder="Enter Date"
                     required
                     value={residency}
-                    onChange={(e) => setResidency(e.target.value)}
+                    onChange={e => setResidency(e.target.value)}
+                  ></Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="condition">CONDITION</Label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    placeholder="Condition"
+                    required
+                    value={condition}
+                    onChange={e => setCondition(e.target.value)}
                   ></Input>
                 </FormGroup>
                 <FormGroup>
@@ -204,13 +302,13 @@ function Addpet() {
                       <DropdownItem header>Select Id Type</DropdownItem>
                       <DropdownItem
                         name="SSS"
-                        onClick={(e) => handleUpdatePrice("DOG")}
+                        onClick={e => handleUpdatePrice("DOG")}
                       >
                         DOG
                       </DropdownItem>
                       <DropdownItem
                         name="PAGIBIG"
-                        onClick={(e) => handleUpdatePrice("CAT")}
+                        onClick={e => handleUpdatePrice("CAT")}
                       >
                         CAT
                       </DropdownItem>
@@ -233,7 +331,7 @@ function Addpet() {
                   <Input
                     type="file"
                     required
-                    onChange={(e) => setImage(e.target.files[0])}
+                    onChange={e => setImage(e.target.files[0])}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -243,7 +341,7 @@ function Addpet() {
                   <Input
                     type="file"
                     required
-                    onChange={(e) => setVacineImage(e.target.files[0])}
+                    onChange={e => setVacineImage(e.target.files[0])}
                   />
                 </FormGroup>
                 <div className="text-center ">

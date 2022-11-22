@@ -16,7 +16,7 @@ function MyMissingPets() {
           "/pets/missing?userId=" +
           localStorage.getItem("user_id")
       )
-      .then((response) => {
+      .then(response => {
         setData(response.data);
       });
   }, []);
@@ -37,7 +37,7 @@ function MyMissingPets() {
           icon: "success",
           title: `SUCCESS! `,
           text: `Record updated!`,
-        }).then((result) => {
+        }).then(result => {
           if (result.isConfirmed) {
             window.location.reload();
           }
@@ -61,11 +61,12 @@ function MyMissingPets() {
                 <th className="border-0">Breed</th>
                 <th className="border-0">Description</th>
                 <th className="border-0">Last Seen</th>
+                <th className="border-0">Report</th>
                 <th className="border-0">Status</th>
               </tr>
             </thead>
             <tbody>
-              {data.map((entry) => {
+              {data.map(entry => {
                 return (
                   <tr>
                     <td>
@@ -93,6 +94,7 @@ function MyMissingPets() {
                     <td>{entry.breed}</td>
                     <td>{entry.description}</td>
                     <td>{entry.lastSeen}</td>
+                    <td>{entry.report}</td>
                     <td>{entry.approvalStatus}</td>
                   </tr>
                 );
