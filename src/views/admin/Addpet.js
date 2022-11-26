@@ -158,6 +158,27 @@ function Addpet() {
                   ></Input>
                 </FormGroup>
                 <FormGroup>
+                  <Label for="type">PET Type</Label>
+                  <Dropdown id="type" isOpen={dropdownOpen} toggle={toggle}>
+                    <DropdownToggle caret>{selected}</DropdownToggle>
+                    <DropdownMenu>
+                      <DropdownItem header>Select Id Type</DropdownItem>
+                      <DropdownItem
+                        name="SSS"
+                        onClick={e => handleUpdatePrice("DOG")}
+                      >
+                        DOG
+                      </DropdownItem>
+                      <DropdownItem
+                        name="PAGIBIG"
+                        onClick={e => handleUpdatePrice("CAT")}
+                      >
+                        CAT
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </FormGroup>
+                <FormGroup>
                   <Label>Gender</Label>
                   <Dropdown isOpen={dropOpen} toggle={toggleS}>
                     <DropdownToggle caret>{gender}</DropdownToggle>
@@ -293,27 +314,6 @@ function Addpet() {
                     value={condition}
                     onChange={e => setCondition(e.target.value)}
                   ></Input>
-                </FormGroup>
-                <FormGroup>
-                  <Label for="type">PET Type</Label>
-                  <Dropdown id="type" isOpen={dropdownOpen} toggle={toggle}>
-                    <DropdownToggle caret>{selected}</DropdownToggle>
-                    <DropdownMenu>
-                      <DropdownItem header>Select Id Type</DropdownItem>
-                      <DropdownItem
-                        name="SSS"
-                        onClick={e => handleUpdatePrice("DOG")}
-                      >
-                        DOG
-                      </DropdownItem>
-                      <DropdownItem
-                        name="PAGIBIG"
-                        onClick={e => handleUpdatePrice("CAT")}
-                      >
-                        CAT
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
                 </FormGroup>
                 <FormGroup>
                   <Label for="price">Price</Label>

@@ -61,7 +61,6 @@ function MyMissingPets() {
                 <th className="border-0">Breed</th>
                 <th className="border-0">Description</th>
                 <th className="border-0">Last Seen</th>
-                <th className="border-0">Report</th>
                 <th className="border-0">Status</th>
               </tr>
             </thead>
@@ -94,7 +93,6 @@ function MyMissingPets() {
                     <td>{entry.breed}</td>
                     <td>{entry.description}</td>
                     <td>{entry.lastSeen}</td>
-                    <td>{entry.report}</td>
                     <td>{entry.approvalStatus}</td>
                   </tr>
                 );
