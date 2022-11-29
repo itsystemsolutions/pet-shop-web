@@ -25,7 +25,13 @@ import Swal from "sweetalert2";
 
 import Select from "react-select";
 
-import { genderOptions } from "./consts";
+import {
+  breedDog,
+  breedSize,
+  genderOptions,
+  breedCat,
+  typeOptions,
+} from "./consts";
 
 const axios = require("axios").default;
 
@@ -34,23 +40,7 @@ function Addpet() {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selected, setSelected] = useState("Select Type");
-  const toggle = () => setDropdownOpen((prevState) => !prevState);
-
-  const [dropOpen, setDropOpen] = useState(false);
-  const [gender, setGender] = useState("Select Gender");
-  const toggleS = () => setDropOpen((prevState) => !prevState);
-
-  const [dropBreedOpen, setDropBreedOpen] = useState(false);
-  const [breed, setBreed] = useState("Select Breed");
-  const toggleBreed = () => setDropBreedOpen((prevState) => !prevState);
-
-  const [dropBreedCatOpen, setDropBreedCatOpen] = useState(false);
-  const [breedcat, setBreedCat] = useState("Select BreedCat");
-  const toggleCat = () => setDropBreedCatOpen((prevState) => !prevState);
-
-  const [OpenDrop, setOpenDrop] = useState(false);
-  const [size, setSize] = useState("Select Size");
-  const toggles = () => setOpenDrop((prevState) => !prevState);
+  const toggle = () => setDropdownOpen(prevState => !prevState);
 
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
@@ -60,10 +50,9 @@ function Addpet() {
   const [image, setImage] = useState("");
   const [vacineImage, setVacineImage] = useState("");
   const [price, setPrice] = useState("");
-  const [type, setType] = useState("");
   const [condition, setCondition] = useState("");
 
-  const handleAddpet = (e) => {
+  const handleAddpet = e => {
     e.preventDefault();
 
     axios
@@ -87,7 +76,7 @@ function Addpet() {
 
           axios
             .put(process.env.REACT_APP_API_URL + `/pets/upload/image`, formData)
-            .catch((error) => {
+            .catch(error => {
               console.log(error);
             });
 
@@ -100,7 +89,7 @@ function Addpet() {
               process.env.REACT_APP_API_URL + `/pets/upload/vaccine/image`,
               vaccineForm
             )
-            .catch((error) => {
+            .catch(error => {
               console.log(error);
             });
 
@@ -111,7 +100,7 @@ function Addpet() {
             showCancelButton: true,
             cancelButtonText: "YES",
             confirmButtonText: "NO - goto Dashboard",
-          }).then((result) => {
+          }).then(result => {
             if (result.isConfirmed) {
               history.push("/admin/dashboard");
             } else {
@@ -127,7 +116,7 @@ function Addpet() {
       });
   };
 
-  const handleUpdatePrice = (type) => {
+  const handleUpdatePrice = type => {
     setType(type);
 
     if (type === "DOG") {
@@ -137,7 +126,11 @@ function Addpet() {
     }
   };
 
+  const [selectedBreed, setSelectedBreed] = useState("");
+  const [selectedBreedcat, setSelectedBreedCat] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
   const [selectedGender, setSelectedGender] = useState();
+  const [selectType, setSelectType] = useState("");
 
   return (
     <Container>
@@ -162,29 +155,16 @@ function Addpet() {
                         placeholder="Name"
                         required
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={e => setName(e.target.value)}
                       ></Input>
                     </FormGroup>
                     <FormGroup>
-                      <Label for="type">PET Type</Label>
-                      <Dropdown id="type" isOpen={dropdownOpen} toggle={toggle}>
-                        <DropdownToggle caret>{selected}</DropdownToggle>
-                        <DropdownMenu>
-                          <DropdownItem header>Select Id Type</DropdownItem>
-                          <DropdownItem
-                            name="SSS"
-                            onClick={(e) => handleUpdatePrice("DOG")}
-                          >
-                            DOG
-                          </DropdownItem>
-                          <DropdownItem
-                            name="PAGIBIG"
-                            onClick={(e) => handleUpdatePrice("CAT")}
-                          >
-                            CAT
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </Dropdown>
+                      <Label for="type">Pet Type</Label>
+                      <Select
+                        defaultValue={selectType}
+                        onChange={setSelectType}
+                        options={typeOptions}
+                      />
                     </FormGroup>
                     <FormGroup>
                       <Label>Gender</Label>
@@ -195,66 +175,20 @@ function Addpet() {
                       />
                     </FormGroup>
                     <FormGroup>
-                      <Label>Breed</Label>
-                      <Dropdown isOpen={dropBreedOpen} toggle={toggleBreed}>
-                        <DropdownToggle caret>{breed}</DropdownToggle>
-                        <DropdownMenu>
-                          <DropdownItem header>Select Breed</DropdownItem>
-                          <DropdownItem>Aspin</DropdownItem>
-                          <DropdownItem>Labrador Retriever</DropdownItem>
-                          <DropdownItem>German Shepherd</DropdownItem>
-                          <DropdownItem>Bulldog</DropdownItem>
-                          <DropdownItem>Golden Retriever</DropdownItem>
-                          <DropdownItem>Poodle</DropdownItem>
-                          <DropdownItem>French Bulldog</DropdownItem>
-                          <DropdownItem>Beagle</DropdownItem>
-                          <DropdownItem>Rottweiler</DropdownItem>
-                          <DropdownItem>
-                            German Shorthaired Pointer{" "}
-                          </DropdownItem>
-                          <DropdownItem>Dachshund</DropdownItem>
-                          <DropdownItem>Corgi</DropdownItem>
-                          <DropdownItem>Australian Shepherd</DropdownItem>
-                          <DropdownItem>Shih Tzu</DropdownItem>
-                          <DropdownItem>Siberian Husky</DropdownItem>
-                          <DropdownItem>Great Dane</DropdownItem>
-                          <DropdownItem>Boxer</DropdownItem>
-                          <DropdownItem>
-                            Cavalier King Charles Spaniel
-                          </DropdownItem>
-                          <DropdownItem>Doberman</DropdownItem>
-                          <DropdownItem>Miniature Schnauzer</DropdownItem>
-                        </DropdownMenu>
-                      </Dropdown>
+                      <Label>Dog Breed</Label>
+                      <Select
+                        defaultValue={selectedBreed}
+                        onChange={setSelectedBreed}
+                        options={breedDog}
+                      />
                     </FormGroup>
                     <FormGroup>
-                      <Label>Breed</Label>
-                      <Dropdown isOpen={dropBreedCatOpen} toggle={toggleCat}>
-                        <DropdownToggle caret>{breedcat}</DropdownToggle>
-                        <DropdownMenu>
-                          <DropdownItem header>Select Breed</DropdownItem>
-                          <DropdownItem>Puspin</DropdownItem>
-                          <DropdownItem>Abyssinian </DropdownItem>
-                          <DropdownItem>American Bobtail</DropdownItem>
-                          <DropdownItem>American Shorthair</DropdownItem>
-                          <DropdownItem>Balinese</DropdownItem>
-                          <DropdownItem>Bengal</DropdownItem>
-                          <DropdownItem>Birman</DropdownItem>
-                          <DropdownItem>Bombay</DropdownItem>
-                          <DropdownItem>British Shorthair</DropdownItem>
-                          <DropdownItem>Persian</DropdownItem>
-                          <DropdownItem>Devon Rex</DropdownItem>
-                          <DropdownItem>Domestic Longhair</DropdownItem>
-                          <DropdownItem>Exotic Shorthair</DropdownItem>
-                          <DropdownItem>Himalayan</DropdownItem>
-                          <DropdownItem>Maine Coon</DropdownItem>
-                          <DropdownItem>Norwegian Forest</DropdownItem>
-                          <DropdownItem>Ragdoll</DropdownItem>
-                          <DropdownItem>Savannah</DropdownItem>
-                          <DropdownItem>Scottish Fold</DropdownItem>
-                          <DropdownItem>Siamese</DropdownItem>
-                        </DropdownMenu>
-                      </Dropdown>
+                      <Label>Cat Breed</Label>
+                      <Select
+                        defaultValue={selectedBreedcat}
+                        onChange={setSelectedBreedCat}
+                        options={breedCat}
+                      />
                     </FormGroup>
                     <FormGroup>
                       <Label for="age">Age</Label>
@@ -265,7 +199,7 @@ function Addpet() {
                         required
                         maxLength={2}
                         value={age}
-                        onChange={(e) => setAge(e.target.value)}
+                        onChange={e => setAge(e.target.value)}
                       ></Input>
                     </FormGroup>
                     <FormGroup>
@@ -276,7 +210,7 @@ function Addpet() {
                         placeholder="Weigth"
                         required
                         value={weight}
-                        onChange={(e) => setWeigth(e.target.value)}
+                        onChange={e => setWeigth(e.target.value)}
                       ></Input>
                     </FormGroup>{" "}
                     <FormGroup>
@@ -287,22 +221,18 @@ function Addpet() {
                         placeholder="Color"
                         required
                         value={color}
-                        onChange={(e) => setColor(e.target.value)}
+                        onChange={e => setColor(e.target.value)}
                       ></Input>
                     </FormGroup>
                   </Col>
                   <Col>
                     <FormGroup>
                       <Label>SIZE</Label>
-                      <Dropdown isOpen={OpenDrop} toggle={toggles}>
-                        <DropdownToggle caret>{size}</DropdownToggle>
-                        <DropdownMenu>
-                          <DropdownItem header>Select SIZE</DropdownItem>
-                          <DropdownItem>SMALL</DropdownItem>
-                          <DropdownItem>MEDIUM</DropdownItem>
-                          <DropdownItem>LARGE</DropdownItem>
-                        </DropdownMenu>
-                      </Dropdown>
+                      <Select
+                        defaultValue={selectedSize}
+                        onChange={setSelectedSize}
+                        options={breedSize}
+                      />
                     </FormGroup>
                     <FormGroup>
                       <Label for="residensy">Shelter Residensy</Label>
@@ -312,7 +242,7 @@ function Addpet() {
                         placeholder="Enter Date"
                         required
                         value={residency}
-                        onChange={(e) => setResidency(e.target.value)}
+                        onChange={e => setResidency(e.target.value)}
                       ></Input>
                     </FormGroup>
                     <FormGroup>
@@ -323,7 +253,7 @@ function Addpet() {
                         placeholder="Condition"
                         required
                         value={condition}
-                        onChange={(e) => setCondition(e.target.value)}
+                        onChange={e => setCondition(e.target.value)}
                       ></Input>
                     </FormGroup>
                     <FormGroup>
@@ -342,7 +272,7 @@ function Addpet() {
                       <Input
                         type="file"
                         required
-                        onChange={(e) => setImage(e.target.files[0])}
+                        onChange={e => setImage(e.target.files[0])}
                       />
                     </FormGroup>
                     <FormGroup>
@@ -352,7 +282,7 @@ function Addpet() {
                       <Input
                         type="file"
                         required
-                        onChange={(e) => setVacineImage(e.target.files[0])}
+                        onChange={e => setVacineImage(e.target.files[0])}
                       />
                     </FormGroup>
                   </Col>

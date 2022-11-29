@@ -16,16 +16,18 @@ import {
   DropdownItem,
   DropdownToggle,
 } from "reactstrap";
+import { Type } from "../admin/consts/index";
 
 import { Card } from "react-bootstrap";
 
+import Select from "react-select";
 import Swal from "sweetalert2";
 
 const axios = require("axios").default;
 
 function Missing() {
   const [dropOpen, setDropOpen] = useState(false);
-  const [type, setType] = useState("Select Type");
+  const [type, setType] = useState("");
   const toggleS = () => setDropOpen(prevState => !prevState);
   const [lastSeen, setLastSeen] = useState("");
   const [image, setImage] = useState("");
@@ -165,14 +167,11 @@ function Missing() {
               <Col md={6}>
                 <FormGroup>
                   <Label for="residensy">Select Status</Label>
-                  <Dropdown isOpen={dropOpen} toggle={toggleS}>
-                    <DropdownToggle caret>{type}</DropdownToggle>
-                    <DropdownMenu>
-                      <DropdownItem header>Select TYPE</DropdownItem>
-                      <DropdownItem>MISSING</DropdownItem>
-                      <DropdownItem>FOUND</DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
+                  <Select
+                    defaultValue={type}
+                    onChange={setType}
+                    options={Type}
+                  />
                 </FormGroup>
               </Col>
               <Col>
