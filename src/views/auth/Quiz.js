@@ -63,23 +63,68 @@ function Quiz() {
           "/user/quiz-answer/" +
           localStorage.getItem("user_id"),
         {
-          quiz1: data.age,
-          quiz2: data.occupation,
-          quiz3: "",
-          quiz4: quiz4,
-          quiz5: quiz5,
-          quiz6: quiz6,
-          quiz7: quiz7,
+          quiz1: {
+            answer: data.age,
+            valid: false,
+          },
+          quiz2: {
+            answer: data.occupation,
+            valid: false,
+          },
+          quiz3: {
+            answer: "",
+            valid: false,
+          },
+          quiz4: {
+            answer: quiz4,
+            valid: false,
+          },
+          quiz5: {
+            answer: quiz5,
+            valid: false,
+          },
+          quiz6: {
+            answer: quiz6,
+            valid: false,
+          },
+          quiz7: {
+            answer: quiz7,
+            valid: false,
+          },
           quiz7Explain: quiz7Explain,
-          quiz8: quiz8,
+          quiz8: {
+            answer: quiz8,
+            valid: false,
+          },
           quiz8Explain: quiz8Explain,
-          quiz9: quiz9,
-          quiz10: quiz10,
-          quiz11: quiz11,
-          quiz12: quiz12,
-          quiz13: quiz13,
-          quiz14: quiz14,
-          quiz15: quiz15,
+          quiz9: {
+            answer: quiz9,
+            valid: false,
+          },
+          quiz10: {
+            answer: quiz10,
+            valid: false,
+          },
+          quiz11: {
+            answer: quiz11,
+            valid: false,
+          },
+          quiz12: {
+            answer: quiz12,
+            valid: false,
+          },
+          quiz13: {
+            answer: quiz13,
+            valid: false,
+          },
+          quiz14: {
+            answer: quiz14,
+            valid: false,
+          },
+          quiz15: {
+            answer: quiz15,
+            valid: false,
+          },
         }
       )
       .then((response) => {
