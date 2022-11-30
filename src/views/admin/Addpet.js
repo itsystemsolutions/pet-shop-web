@@ -40,9 +40,11 @@ function Addpet() {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selected, setSelected] = useState("Select Type");
-  const toggle = () => setDropdownOpen(prevState => !prevState);
+  const toggle = () => setDropdownOpen((prevState) => !prevState);
 
   const [name, setName] = useState("");
+  const [petType, setPetType] = useState("");
+
   const [age, setAge] = useState("");
   const [weight, setWeigth] = useState("");
   const [residency, setResidency] = useState("");
@@ -52,21 +54,34 @@ function Addpet() {
   const [price, setPrice] = useState("");
   const [condition, setCondition] = useState("");
 
-  const handleAddpet = e => {
+  const [selectType, setSelectType] = useState();
+  const [selectedGender, setSelectedGender] = useState();
+
+  const [selectedBreed, setSelectedBreed] = useState();
+  const [selectedBreedcat, setSelectedBreedCat] = useState();
+  const [selectedSize, setSelectedSize] = useState();
+
+  const handleAddpet = (e) => {
     e.preventDefault();
 
     axios
       .post(process.env.REACT_APP_API_URL + "/pets", {
         name: name,
-        gender: gender,
-        breed: breed,
+        type: selectType?.value,
+        gender: selectedGender?.value,
+        size: selectedSize?.value,
+        weight: weight,
+        breed:
+          selectType?.value === "DOG"
+            ? selectedBreed?.value
+            : selectedBreedcat?.value,
         age: age,
-        size: size,
         shelterResidentYear: residency,
-        status: "IN_HOUSE",
-        type: type,
+        status: "FOR_ADOPTION",
         price: price,
-        petType: "IN_HOUSE",
+        color: color,
+        petCondition: condition,
+        petType: "FOR_ADOPTION",
       })
       .then(function (response) {
         if (response.status == 200) {
@@ -76,7 +91,7 @@ function Addpet() {
 
           axios
             .put(process.env.REACT_APP_API_URL + `/pets/upload/image`, formData)
-            .catch(error => {
+            .catch((error) => {
               console.log(error);
             });
 
@@ -89,7 +104,7 @@ function Addpet() {
               process.env.REACT_APP_API_URL + `/pets/upload/vaccine/image`,
               vaccineForm
             )
-            .catch(error => {
+            .catch((error) => {
               console.log(error);
             });
 
@@ -100,7 +115,7 @@ function Addpet() {
             showCancelButton: true,
             cancelButtonText: "YES",
             confirmButtonText: "NO - goto Dashboard",
-          }).then(result => {
+          }).then((result) => {
             if (result.isConfirmed) {
               history.push("/admin/dashboard");
             } else {
@@ -116,21 +131,17 @@ function Addpet() {
       });
   };
 
-  const handleUpdatePrice = type => {
-    setType(type);
+  const hanldePetTypeChange = (type) => {
+    setSelectType(type);
 
-    if (type === "DOG") {
+    if (type.value === "DOG") {
       setPrice(1500);
     } else {
       setPrice(1000);
     }
   };
 
-  const [selectedBreed, setSelectedBreed] = useState("");
-  const [selectedBreedcat, setSelectedBreedCat] = useState("");
-  const [selectedSize, setSelectedSize] = useState("");
-  const [selectedGender, setSelectedGender] = useState();
-  const [selectType, setSelectType] = useState("");
+  var today = new Date().toISOString().split("T")[0];
 
   return (
     <Container>
@@ -148,50 +159,68 @@ function Addpet() {
                 <Row>
                   <Col>
                     <FormGroup>
-                      <Label for="name">Name</Label>
+                      <Label for="name">
+                        Name <span className="text-danger">*</span>
+                      </Label>
                       <Input
                         type="text"
                         className="form-control"
                         placeholder="Name"
                         required
                         value={name}
-                        onChange={e => setName(e.target.value)}
+                        onChange={(e) => setName(e.target.value)}
                       ></Input>
                     </FormGroup>
                     <FormGroup>
-                      <Label for="type">Pet Type</Label>
+                      <Label for="type">
+                        Pet Type <span className="text-danger">*</span>
+                      </Label>
                       <Select
                         defaultValue={selectType}
-                        onChange={setSelectType}
+                        onChange={hanldePetTypeChange}
                         options={typeOptions}
+                        required
                       />
                     </FormGroup>
                     <FormGroup>
-                      <Label>Gender</Label>
+                      <Label>
+                        Gender <span className="text-danger">*</span>
+                      </Label>
                       <Select
                         defaultValue={selectedGender}
                         onChange={setSelectedGender}
                         options={genderOptions}
                       />
                     </FormGroup>
+                    {selectType ? (
+                      <>
+                        {selectType?.value === "DOG" ? (
+                          <FormGroup>
+                            <Label>Dog Breed</Label>
+                            <Select
+                              defaultValue={selectedBreed}
+                              onChange={setSelectedBreed}
+                              options={breedDog}
+                            />
+                          </FormGroup>
+                        ) : (
+                          <FormGroup>
+                            <Label>Cat Breed</Label>
+                            <Select
+                              defaultValue={selectedBreedcat}
+                              onChange={setSelectedBreedCat}
+                              options={breedCat}
+                            />
+                          </FormGroup>
+                        )}
+                      </>
+                    ) : (
+                      <></>
+                    )}
                     <FormGroup>
-                      <Label>Dog Breed</Label>
-                      <Select
-                        defaultValue={selectedBreed}
-                        onChange={setSelectedBreed}
-                        options={breedDog}
-                      />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label>Cat Breed</Label>
-                      <Select
-                        defaultValue={selectedBreedcat}
-                        onChange={setSelectedBreedCat}
-                        options={breedCat}
-                      />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label for="age">Age</Label>
+                      <Label for="age">
+                        Age <span className="text-danger">*</span>
+                      </Label>
                       <Input
                         type="text"
                         className="form-control"
@@ -199,35 +228,41 @@ function Addpet() {
                         required
                         maxLength={2}
                         value={age}
-                        onChange={e => setAge(e.target.value)}
+                        onChange={(e) => setAge(e.target.value)}
                       ></Input>
                     </FormGroup>
                     <FormGroup>
-                      <Label for="age">Weigth</Label>
+                      <Label for="age">
+                        Weigth (kg) <span className="text-danger">*</span>
+                      </Label>
                       <Input
                         type="number"
                         className="form-control"
                         placeholder="Weigth"
                         required
                         value={weight}
-                        onChange={e => setWeigth(e.target.value)}
+                        onChange={(e) => setWeigth(e.target.value)}
                       ></Input>
                     </FormGroup>{" "}
                     <FormGroup>
-                      <Label for="color">Color</Label>
+                      <Label for="color">
+                        Color <span className="text-danger">*</span>
+                      </Label>
                       <Input
                         type="text"
                         className="form-control"
                         placeholder="Color"
                         required
                         value={color}
-                        onChange={e => setColor(e.target.value)}
+                        onChange={(e) => setColor(e.target.value)}
                       ></Input>
                     </FormGroup>
                   </Col>
                   <Col>
                     <FormGroup>
-                      <Label>SIZE</Label>
+                      <Label>
+                        SIZE <span className="text-danger">*</span>
+                      </Label>
                       <Select
                         defaultValue={selectedSize}
                         onChange={setSelectedSize}
@@ -235,29 +270,36 @@ function Addpet() {
                       />
                     </FormGroup>
                     <FormGroup>
-                      <Label for="residensy">Shelter Residensy</Label>
+                      <Label for="residensy">
+                        Shelter Residensy <span className="text-danger">*</span>
+                      </Label>
+
                       <Input
-                        type="text"
+                        id="residensy"
+                        type="date"
+                        max={today}
+                        required
                         className="form-control"
                         placeholder="Enter Date"
-                        required
                         value={residency}
-                        onChange={e => setResidency(e.target.value)}
+                        onChange={(e) => setResidency(e.target.value)}
                       ></Input>
                     </FormGroup>
                     <FormGroup>
-                      <Label for="condition">CONDITION</Label>
+                      <Label for="condition">
+                        CONDITION <span className="text-danger">*</span>
+                      </Label>
                       <Input
                         type="text"
                         className="form-control"
                         placeholder="Condition"
                         required
                         value={condition}
-                        onChange={e => setCondition(e.target.value)}
+                        onChange={(e) => setCondition(e.target.value)}
                       ></Input>
                     </FormGroup>
                     <FormGroup>
-                      <Label for="price">Price</Label>
+                      <Label for="price">Price </Label>
                       <Input
                         type="text"
                         className="form-control"
@@ -268,21 +310,24 @@ function Addpet() {
                       ></Input>
                     </FormGroup>
                     <FormGroup>
-                      <Label for="residensy">PET Image</Label>
-                      <Input
-                        type="file"
-                        required
-                        onChange={e => setImage(e.target.files[0])}
-                      />
-                    </FormGroup>
-                    <FormGroup>
                       <Label for="residensy">
-                        Upload Vaccine and Other Document
+                        PET Image <span className="text-danger">*</span>
                       </Label>
                       <Input
                         type="file"
                         required
-                        onChange={e => setVacineImage(e.target.files[0])}
+                        onChange={(e) => setImage(e.target.files[0])}
+                      />
+                    </FormGroup>
+                    <FormGroup>
+                      <Label for="residensy">
+                        Upload Vaccine and Other Document{" "}
+                        <span className="text-danger">*</span>
+                      </Label>
+                      <Input
+                        type="file"
+                        required
+                        onChange={(e) => setVacineImage(e.target.files[0])}
                       />
                     </FormGroup>
                   </Col>

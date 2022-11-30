@@ -136,6 +136,15 @@ function Adoptpet() {
                         <p>
                           <b>Price:</b> {pet.price}
                         </p>
+                        <p>
+                          <b>Weight:</b> {pet.weight}
+                        </p>
+                        <p>
+                          <b>Color:</b> {pet.color}
+                        </p>
+                        <p>
+                          <b>Condition:</b> {pet.petCondition}
+                        </p>
                       </div>
                     </CardBody>
                   </Card>

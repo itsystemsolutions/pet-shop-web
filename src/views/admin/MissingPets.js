@@ -37,6 +37,7 @@ function MissingPets() {
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showDeclineModal, setShowDeclineModal] = useState(false);
 
+  const [approveModalFound, setApproveModalFound] = useState(false);
   const [approveModal, setApproveModal] = useState(false);
   const [declineModal, setDeclineModal] = useState(false);
 
@@ -56,6 +57,7 @@ function MissingPets() {
   const [checklist5Decline, setCheckList5Decline] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isMissingPetFound, setIsMissingPetFound] = useState(false);
   const [selectedPetCode, setSelectedPetCode] = useState();
   const [selectedUserId, setSelectedUserId] = useState();
   const [selectedCheckList, setSelectedCheckList] = useState({
@@ -80,8 +82,10 @@ function MissingPets() {
   const toggleShowApproveModal = () => setShowApproveModal(!showApproveModal);
   const toggleShowDeclineModal = () => setShowDeclineModal(!showDeclineModal);
 
-  const handleApproveMissing = (e) => {
+  const handleApproveFound = (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
 
     axios
       .put(process.env.REACT_APP_API_URL + "/pets/approve/" + selectedPetCode, {
@@ -109,6 +113,8 @@ function MissingPets() {
   const handleDeclineModal = (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
+
     axios
       .put(process.env.REACT_APP_API_URL + "/pets/decline/" + selectedPetCode, {
         checklist1: checklist1Decline,
@@ -135,7 +141,13 @@ function MissingPets() {
   const handleApprove = (e, entry, isForApprove) => {
     e.preventDefault();
 
+    console.log(entry.missingType);
     if (isForApprove) {
+      if (entry.missingType === "MISSING") {
+        setIsMissingPetFound(true);
+      } else {
+        setIsMissingPetFound(false);
+      }
       toggleApproveModal();
     } else {
       toggleDeclineModal();
@@ -143,6 +155,46 @@ function MissingPets() {
 
     setSelectedUserId(entry.user.id);
     setSelectedPetCode(entry.petCode);
+  };
+
+  const handleDeclineFound = (e, petCode) => {
+    e.preventDefault();
+
+    Swal.fire({
+      title: "Please type your reason?",
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off",
+      },
+      showCancelButton: true,
+      confirmButtonText: "Submit",
+      showLoaderOnConfirm: true,
+      preConfirm: (login) => {
+        return axios
+          .put(
+            process.env.REACT_APP_API_URL +
+              "/pets/decline/found/" +
+              petCode +
+              "?reason=" +
+              login
+          )
+          .then(() => {
+            Swal.fire({
+              icon: "success",
+              title: `SUCCESS! `,
+              text: `Record is updated!`,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.reload();
+              }
+            });
+          })
+          .catch((error) => {
+            Swal.showValidationMessage(`Request failed: ${error}`);
+          });
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    });
   };
 
   return (
@@ -216,7 +268,7 @@ function MissingPets() {
                         <td>{entry.breed}</td>
                         <td>{entry.description}</td>
                         <td>{entry.lastSeen}</td>
-                        <td>{entry.report}</td>
+                        <td>{entry.missingType}</td>
                         <td>
                           {entry.approvalStatus !== "PENDING" ? (
                             <>
@@ -238,13 +290,21 @@ function MissingPets() {
                                     href="#"
                                     onClick={(e) => {
                                       if (entry.approvalStatus === "APPROVED") {
-                                        toggleShowApproveModal();
+                                        if (entry.missingType === "MISSING") {
+                                          setIsMissingPetFound(false);
+                                        } else {
+                                          setIsMissingPetFound(true);
+                                        }
 
+                                        toggleShowApproveModal();
                                         setSelectedCheckList(
                                           entry.approvedChecklist
                                         );
                                       } else {
-                                        toggleShowDeclineModal();
+                                        if (entry.missingType === "MISSING") {
+                                          toggleShowDeclineModal();
+                                        } else {
+                                        }
 
                                         setSelectedCheckList(
                                           entry.declineChecklist
@@ -252,8 +312,14 @@ function MissingPets() {
                                       }
                                     }}
                                   >
-                                    Show Checklist
+                                    {entry.approvalStatus === "MISSING" &&
+                                    entry.missingType === "FOUND"
+                                      ? ""
+                                      : "Show Checklist"}
                                   </a>
+                                  {entry.approvalStatus !== "APPROVED" &&
+                                    entry.missingType === "FOUND" &&
+                                    "Reason: " + entry.declineReason}
                                 </div>
                               </div>
                             </>
@@ -267,7 +333,13 @@ function MissingPets() {
                               </Button>
                               <Button
                                 className="btn btn-danger"
-                                onClick={(e) => handleApprove(e, entry, false)}
+                                onClick={(e) => {
+                                  if (entry.missingType === "FOUND") {
+                                    handleDeclineFound(e, entry.petCode);
+                                  } else {
+                                    handleApprove(e, entry, false);
+                                  }
+                                }}
                               >
                                 DECLINE
                               </Button>
@@ -358,7 +430,9 @@ function MissingPets() {
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
-                Is the report accurate?
+                {!isMissingPetFound
+                  ? "Is the reported pet currently held in this shelter?"
+                  : "Is the report accurate?"}
               </Label>
             </FormGroup>
             <FormGroup>
@@ -374,7 +448,9 @@ function MissingPets() {
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
-                The shelter has confirmed the information provided.
+                {!isMissingPetFound
+                  ? "Is the said report accurate with all of the information provided?"
+                  : "The shelter has confirmed the information provided."}
               </Label>
             </FormGroup>
             <FormGroup>
@@ -407,7 +483,9 @@ function MissingPets() {
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
-                Did the rescuer verify the reported claim from the shelter?
+                {!isMissingPetFound
+                  ? "Is this person the rightful owner of the lost pet?"
+                  : "Did the rescuer verify the reported claim from the shelter?"}
               </Label>
             </FormGroup>
             <FormGroup>
@@ -423,8 +501,9 @@ function MissingPets() {
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
-                Is it possible for the volunteer to save the aforementioned
-                report?
+                {!isMissingPetFound
+                  ? "Is this person the rightful owner of the lost pet?"
+                  : "Is it possible for the volunteer to save the aforementioned report?"}
               </Label>
             </FormGroup>
           </div>
@@ -436,8 +515,8 @@ function MissingPets() {
           {isLoading ? (
             <Spinner>Loading...</Spinner>
           ) : (
-            <Button color="info" onClick={handleApproveMissing}>
-              Save Changes
+            <Button color="info" onClick={handleApproveFound}>
+              Submit
             </Button>
           )}
         </ModalFooter>
@@ -544,7 +623,7 @@ function MissingPets() {
             <Spinner>Loading...</Spinner>
           ) : (
             <Button color="info" onClick={handleDeclineModal}>
-              Save Changes
+              Submit
             </Button>
           )}
         </ModalFooter>
@@ -578,7 +657,9 @@ function MissingPets() {
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
-                Is the report accurate?
+                {!isMissingPetFound
+                  ? "Is the reported pet currently held in this shelter?"
+                  : "Is the report accurate?"}
               </Label>
             </FormGroup>
             <FormGroup>
@@ -595,7 +676,9 @@ function MissingPets() {
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
-                The shelter has confirmed the information provided.
+                {!isMissingPetFound
+                  ? "Is the said report accurate with all of the information provided?"
+                  : "The shelter has confirmed the information provided."}
               </Label>
             </FormGroup>
             <FormGroup>
@@ -630,7 +713,9 @@ function MissingPets() {
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
-                Did the rescuer verify the reported claim from the shelter?
+                {!isMissingPetFound
+                  ? "Is this person the rightful owner of the lost pet?"
+                  : "Did the rescuer verify the reported claim from the shelter?"}
               </Label>
             </FormGroup>
             <FormGroup>
@@ -647,8 +732,9 @@ function MissingPets() {
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
-                Is it possible for the volunteer to save the aforementioned
-                report?
+                {!isMissingPetFound
+                  ? "Is this person the rightful owner of the lost pet?"
+                  : "Is it possible for the volunteer to save the aforementioned report?"}
               </Label>
             </FormGroup>
           </div>

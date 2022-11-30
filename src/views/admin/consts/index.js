@@ -64,9 +64,8 @@ export const breedDog = [
   },
   {
     value: "Golden Retriever",
-    conlabelst: "Golden Retriever",
+    label: "Golden Retriever",
   },
-
   {
     value: "Labrador Retriever",
     label: "Labrador Retriever",
@@ -79,12 +78,10 @@ export const breedDog = [
     value: "Poodle",
     label: "Poodle",
   },
-
   {
     value: "Rottweiler",
     label: "Rottweiler",
   },
-
   {
     value: "Shih Tzu",
     label: "Shih Tzu",
