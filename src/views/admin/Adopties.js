@@ -158,6 +158,7 @@ function Adopties() {
                   <th className="border-0">Exam Enswers</th>
                   <th className="border-0">Type</th>
                   <th className="border-0">Status</th>
+                  <th className="border-0">Schedule</th>
                   <th className="border-0">Actions</th>
                 </tr>
               </thead>

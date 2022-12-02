@@ -29,6 +29,19 @@ const axios = require("axios").default;
 function Users() {
   const history = useHistory();
 
+  const [userdata, setUserData] = useState({
+    name: "",
+    username: "",
+    email: "",
+    mobile: "",
+    age: "",
+    address: "",
+    occupation: "",
+    social: "",
+  });
+
+  const [petData, setPetData] = useState([]);
+
   const [userName, setUsername] = useState("");
   const [answers, setAnswers] = useState();
   const [modal, setModal] = useState(false);
@@ -36,6 +49,10 @@ function Users() {
   const [modalTitle, setModalTitle] = useState();
   const [enableCheckbox, setIsShowCheckBox] = useState(false);
   const [selectedId, setSelectedId] = useState();
+
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
+  const [mobile, setMobile] = useState();
 
   const toggle = () => setModal(!modal);
 
@@ -88,6 +105,25 @@ function Users() {
       });
   };
 
+  useEffect(() => {
+    axios
+      .get(
+        process.env.REACT_APP_API_URL +
+          "/user/info?id=" +
+          localStorage.getItem("user_id")
+      )
+      .then(response => {
+        setUserData(response.data);
+      });
+  }, []);
+
+  axios.put(process.env.REACT_APP_API_URL + "/user", {
+    id: localStorage.getItem("user_id"),
+    name: name,
+    email: email,
+    mobile: mobile,
+  });
+
   return (
     <Container fluid>
       <Card className="strpied-tabled-with-hover">
@@ -136,21 +172,79 @@ function Users() {
         size="lg"
         style={{ transform: "translate(0, 0%)" }}
       >
-        <ModalHeader toggle={toggle}>
-          {modalTitle} {userName}
-        </ModalHeader>
-        <ModalBody></ModalBody>
+        <ModalBody>
+          <Card>
+            <CardHeader>
+              <h3 className="text-center">USER TRANSACTION</h3>
+            </CardHeader>
+            <CardBody>
+              <Row>
+                <Col>
+                  <Row>
+                    <Col md={4}>
+                      <FormGroup>
+                        <Label for="username">UserName</Label>
+                        <Input defaultValue={userdata.username} disabled />
+                      </FormGroup>
+                    </Col>
 
-        {enableCheckbox && (
-          <ModalFooter>
-            <Button color="primary" onClick={handleApproveModal}>
-              Approve
-            </Button>
-            <Button color="secondary" onClick={toggle}>
-              Cancel
-            </Button>
-          </ModalFooter>
-        )}
+                    <Col md={8}>
+                      <FormGroup>
+                        <Label for="Mobile">Address</Label>
+                        <Input
+                          defaultValue={userdata.address}
+                          onChange={e => setAddress(e.target.value)}
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+
+                  <Row>
+                    <Col md={4}>
+                      <FormGroup>
+                        <Label for="username">UserName</Label>
+                        <Input disabled />
+                      </FormGroup>
+                    </Col>
+
+                    <Col md={4}>
+                      <FormGroup>
+                        <Label for="username">UserName</Label>
+                        <Input disabled />
+                      </FormGroup>
+                    </Col>
+
+                    <Col md={4}>
+                      <FormGroup>
+                        <Label for="username">UserName</Label>
+                        <Input disabled />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md={4}>
+                      <FormGroup>
+                        <Label for="username">UserName</Label>
+                        <Input disabled />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md={4}>
+                      <FormGroup>
+                        <Label for="username">UserName</Label>
+                        <Input disabled />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </CardBody>
+          </Card>
+        </ModalBody>
+        <ModalFooter className="mt-2" style={{ display: "right" }}>
+          <button>PRINT</button>
+        </ModalFooter>
       </Modal>
     </Container>
   );
