@@ -50,6 +50,7 @@ function Users() {
   const [modalTitle, setModalTitle] = useState();
   const [enableCheckbox, setIsShowCheckBox] = useState(false);
   const [selectedId, setSelectedId] = useState();
+  const [totalScore, setTotalScore] = useState("");
 
   const toggle = () => setModal(!modal);
 
@@ -130,7 +131,7 @@ function Users() {
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_API_URL + "/user?type=USER")
-      .then((response) => {
+      .then(response => {
         setData(response.data);
       });
   }, []);
@@ -142,7 +143,7 @@ function Users() {
     setIsShowCheckBox(true);
   };
 
-  const handleApproveModal = (e) => {
+  const handleApproveModal = e => {
     e.preventDefault();
 
     axios
@@ -171,7 +172,7 @@ function Users() {
           icon: "success",
           title: `SUCCESS! `,
           text: `Record is updated!`,
-        }).then((result) => {
+        }).then(result => {
           if (result.isConfirmed) {
             window.location.reload();
           }
@@ -191,7 +192,7 @@ function Users() {
       showCancelButton: true,
       confirmButtonText: "Submit",
       showLoaderOnConfirm: true,
-      preConfirm: (reason) => {
+      preConfirm: reason => {
         return axios
           .put(
             process.env.REACT_APP_API_URL +
@@ -205,13 +206,13 @@ function Users() {
               icon: "success",
               title: `SUCCESS! `,
               text: `Record updated!`,
-            }).then((result) => {
+            }).then(result => {
               if (result.isConfirmed) {
                 window.location.reload();
               }
             });
           })
-          .catch((error) => {
+          .catch(error => {
             Swal.showValidationMessage(`Request failed: ${error}`);
           });
       },
@@ -243,7 +244,7 @@ function Users() {
               </tr>
             </thead>
             <tbody>
-              {data.map((entry) => {
+              {data.map(entry => {
                 return (
                   <tr>
                     <td>{entry.name}</td>
@@ -258,7 +259,7 @@ function Users() {
                     <td>
                       <span
                         className="pointer text-info"
-                        onClick={(e) =>
+                        onClick={e =>
                           history.push("/admin/user/pets/" + entry.id)
                         }
                       >
@@ -269,7 +270,7 @@ function Users() {
                       {entry.qualificationAnswers !== null && (
                         <a
                           href="#"
-                          onClick={(e) => {
+                          onClick={e => {
                             showAnswers(e, entry, "Qualification Answers of ");
                             setIsShowCheckBox(false);
                           }}
@@ -284,13 +285,13 @@ function Users() {
                           <div className="d-flex">
                             <Button
                               className="btn btn-success mr-2"
-                              onClick={(e) => handleAccountApproval(e, entry)}
+                              onClick={e => handleAccountApproval(e, entry)}
                             >
                               Approve
                             </Button>
                             <Button
                               className="btn btn-danger"
-                              onClick={(e) => handleAccountDenied(e, entry.id)}
+                              onClick={e => handleAccountDenied(e, entry.id)}
                             >
                               Deny
                             </Button>
@@ -336,308 +337,328 @@ function Users() {
         </ModalHeader>
         <ModalBody>
           {answers ? (
-            <Row>
-              <Col md={12}>
-                <Row>
-                  <Col className="text-center">
+            <Table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Question</th>
+                  <th>Answer</th>
+                  <th>Equivalent</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">
                     <Input
-                      className="pointer"
+                      className="pointer mt-2"
                       type="checkbox"
-                      onChange={(e) => (quiz1.valid = e.target.checked)}
+                      onChange={e => (quiz1.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz1.valid}
-                    />
-                  </Col>
+                    />{" "}
+                    1
+                  </th>
 
-                  <Col md={6}>1. Age ?</Col>
-                  <Col md={5}>
-                    A: <b>{quiz1.answer}</b>
-                  </Col>
-                </Row>
-              </Col>
-
-              <Col md={12}>
-                <Row>
-                  <Col className="text-center">
+                  <td className="w-50">Age ?</td>
+                  <td>{quiz1.answer}</td>
+                  <td>
+                    <b>{answers.answer1 === "MYSELF" && "2%"}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
                     <Input
-                      className="pointer"
+                      className="pointer mt-2"
                       type="checkbox"
-                      onChange={(e) => (quiz2.valid = e.target.checked)}
+                      onChange={e => (quiz2.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz2.valid}
-                    />
-                  </Col>
-                  <Col md={6}>2. Current Occupation ?</Col>
-                  <Col md={5}>
-                    A: <b>{quiz2.answer}</b>
-                  </Col>
-                </Row>
-              </Col>
-
-              <Col md={12}>
-                <Row>
-                  <Col className="text-center">
+                    />{" "}
+                    2
+                  </th>
+                  <td className="w-50">Current Occupation ?</td>
+                  <td>{quiz2.answer} </td>
+                  <td>
+                    <b>{answers.answer1 === "MYSELF" && "2%"}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
                     <Input
-                      className="pointer"
+                      className="pointer mt-2"
                       type="checkbox"
-                      onChange={(e) => (quiz3.valid = e.target.checked)}
+                      onChange={e => (quiz2.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz3.valid}
-                    />
-                  </Col>
-                  <Col md={6}>3. Valid Id ?</Col>
-                  <Col md={5}>
-                    A: <b>See below</b>
-                  </Col>
-                </Row>
-              </Col>
-
-              <Col md={12}>
-                <Row>
-                  <Col className="text-center">
+                    />{" "}
+                    3
+                  </th>
+                  <td className="w-50">Valid Id ?</td>
+                  <td>See Below</td>
+                  <td>
+                    <b>{answers.answer1 === "MYSELF" && "2%"}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
                     <Input
-                      className="pointer"
+                      className="pointer mt-2"
                       type="checkbox"
-                      onChange={(e) => (quiz4.valid = e.target.checked)}
+                      onChange={e => (quiz4.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz4.valid}
-                    />
-                  </Col>
-                  <Col md={6}>
-                    4. Expectations of the prospective adopter and the reasons
-                    for wanting a dog ?
-                  </Col>
-                  <Col md={5}>
-                    A: <b>{quiz4.answer}</b>
-                  </Col>
-                </Row>
-              </Col>
-
-              <Col md={12}>
-                <Row>
-                  <Col className="text-center">
+                    />{" "}
+                    4
+                  </th>
+                  <td className="w-50">
+                    Expectations of the prospective adopter and the reasons for
+                    wanting a pet.
+                  </td>
+                  <td>{quiz4.answer}</td>
+                  <td>
+                    <b>{answers.answer1 === "MYSELF" && "1%"}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
                     <Input
-                      className="pointer"
+                      className="pointer mt-2"
                       type="checkbox"
-                      onChange={(e) => (quiz5.valid = e.target.checked)}
+                      onChange={e => (quiz5.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz5.valid}
-                    />
-                  </Col>
-                  <Col md={6}>
-                    5. Long-term costs and commitment associated with dog
-                    ownership, including ongoing vaccination, deworming, regular
-                    veterinary health checks and other treatments. ?
-                  </Col>
-                  <Col md={5}>
-                    A: <b>{quiz5.answer}</b>
-                  </Col>
-                </Row>
-              </Col>
-
-              <Col md={12}>
-                <Row>
-                  <Col className="text-center">
+                    />{" "}
+                    5
+                  </th>
+                  <td className="w-50">
+                    Are you prepared for the responsibility of caring for the
+                    pet?
+                  </td>
+                  <td>{quiz5.answer}</td>
+                  <td>
+                    <b>{answers.answer1 === "MYSELF" && "10%"}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
                     <Input
-                      className="pointer"
+                      className="pointer mt-2"
                       type="checkbox"
-                      onChange={(e) => (quiz6.valid = e.target.checked)}
+                      onChange={e => (quiz6.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz6.valid}
-                    />
-                  </Col>
-                  <Col md={6}>
-                    6. Give the information and advice specific to your home and
-                    new pet ?
-                  </Col>
-                  <Col md={5}>
-                    A: <b>{quiz6.answer}</b>
-                  </Col>
-                </Row>
-              </Col>
-
-              <Col md={12}>
-                <Row>
-                  <Col className="text-center">
+                    />{" "}
+                    6
+                  </th>
+                  <td className="w-50">
+                    Give the information and advice specific to your home and
+                    new pet.
+                  </td>
+                  <td>{quiz6.answer}</td>
+                  <td>
+                    <b>{answers.answer1 === "MYSELF" && "1%"}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    {" "}
                     <Input
-                      className="pointer"
+                      className="pointer mt-2"
                       type="checkbox"
-                      onChange={(e) => (quiz7.valid = e.target.checked)}
+                      onChange={e => (quiz7.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz7.valid}
-                    />
-                  </Col>
-                  <Col md={6}>7. Is your home situation stable ?</Col>
-                  <Col md={5}>
-                    A: <b>{quiz7.answer}</b>
-                  </Col>
-                </Row>
-              </Col>
-
-              <Col md={12}>
-                <Row>
-                  <Col className="text-center">
+                    />{" "}
+                    7
+                  </th>
+                  <td className="w-50">
+                    Are you able to provide for the pet consistently?
+                  </td>
+                  <td>{quiz7.answer}</td>
+                  <td>
+                    <b>{answers.answer1 === "MYSELF" && "10%"}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
                     <Input
-                      className="pointer"
+                      className="pointer mt-2"
                       type="checkbox"
-                      onChange={(e) => (quiz8.valid = e.target.checked)}
+                      onChange={e => (quiz8.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz8.valid}
-                    />
-                  </Col>
-                  <Col md={6}>8. Have you ever had a dog or cat before ?</Col>
-                  <Col md={5}>
-                    A: <b>{quiz8.answer}</b>
-                  </Col>
-                </Row>
-              </Col>
-
-              <Col md={12}>
-                <Row>
-                  <Col className="text-center">
+                    />{" "}
+                    8
+                  </th>
+                  <td className="w-50">
+                    What will you do if you had a drastic lifestyle change where
+                    you could no longer care for the pet?
+                  </td>
+                  <td>{quiz8.answer}</td>
+                  <td>
+                    <b>{answers.answer1 === "MYSELF" && "2%"}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
                     <Input
-                      className="pointer"
+                      className="pointer mt-2"
                       type="checkbox"
-                      onChange={(e) => (quiz9.valid = e.target.checked)}
+                      onChange={e => (quiz9.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz9.valid}
-                    />
-                  </Col>
-                  <Col md={6}>
-                    9. Explain any known medical conditions or behavioral
-                    special needs of your new pet ?
-                  </Col>
-                  <Col md={5}>
-                    A: <b>{quiz9.answer}</b>
-                  </Col>
-                </Row>
-              </Col>
-
-              <Col md={12}>
-                <Row>
-                  <Col className="text-center">
+                    />{" "}
+                    9
+                  </th>
+                  <td className="w-50">
+                    Do we have permission to visit your home?
+                  </td>
+                  <td>{quiz9.answer}</td>
+                  <td>
+                    <b>{answers.answer1 === "MYSELF" && "10%"}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    {" "}
                     <Input
-                      className="pointer"
+                      className="pointer mt-2"
                       type="checkbox"
-                      onChange={(e) => (quiz10.valid = e.target.checked)}
+                      onChange={e => (quiz10.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz10.valid}
-                    />
-                  </Col>
-                  <Col md={6}>
-                    10. Why do they think this is the right time in their lives
-                    to adopt a dog/cat ?
-                  </Col>
-                  <Col md={5}>
-                    A: <b>{quiz10.answer}</b>
-                  </Col>
-                </Row>
-              </Col>
-
-              <Col md={12} className="mt-2">
-                <Row>
-                  <Col className="text-center">
+                    />{" "}
+                    10
+                  </th>
+                  <td className="w-50">
+                    Why do they think this is the right time in their lives to
+                    adopt a dog/cat?
+                  </td>
+                  <td>{quiz10.answer}</td>
+                  <td>
+                    <b>{answers.answer1 === "MYSELF" && "2%"}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
                     <Input
-                      className="pointer"
+                      className="pointer mt-2"
                       type="checkbox"
-                      onChange={(e) => (quiz11.valid = e.target.checked)}
+                      onChange={e => (quiz11.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz11.valid}
-                    />
-                  </Col>
-                  <Col md={6}>
-                    11. Do we have permission to visit your home ?
-                  </Col>
-                  <Col md={5}>
-                    A: <b>{quiz11.answer}</b>
-                  </Col>
-                </Row>
-              </Col>
-
-              <Col md={12} className="mt-2">
-                <Row>
-                  <Col className="text-center">
+                    />{" "}
+                    11
+                  </th>
+                  <td className="w-50">
+                    Who will be primarily caretaker of the pet?
+                  </td>
+                  <td>{quiz11.answer}</td>
+                  <td>
+                    <b>{answers.answer1 === "MYSELF" && "10%"}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
                     <Input
-                      className="pointer"
+                      className="pointer mt-2"
                       type="checkbox"
-                      onChange={(e) => (quiz12.valid = e.target.checked)}
+                      onChange={e => (quiz12.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz12.valid}
-                    />
-                  </Col>
-                  <Col md={6}>12. Please describe your household. ?</Col>
-                  <Col md={5}>
-                    A: <b>{quiz12.answer}</b>
-                  </Col>
-                </Row>
-              </Col>
-
-              <Col md={12} className="mt-2">
-                <Row>
-                  <Col className="text-center">
+                    />{" "}
+                    12
+                  </th>
+                  <td className="w-50">
+                    Is your current residence safe to keep the pet indoors?
+                  </td>
+                  <td>{quiz12.answer}</td>
+                  <td>
+                    <b>{answers.answer1 === "MYSELF" && "2%"}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
                     <Input
-                      className="pointer"
+                      className="pointer mt-2"
                       type="checkbox"
-                      onChange={(e) => (quiz13.valid = e.target.checked)}
+                      onChange={e => (quiz13.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz13.valid}
-                    />
-                  </Col>
-                  <Col md={6}>13. Have you ever had a pet euthanized?</Col>
-                  <Col md={5}>
-                    A: <b>{quiz13.answer}</b>
-                  </Col>
-                </Row>
-              </Col>
-
-              <Col md={12} className="mt-2">
-                <Row>
-                  <Col className="text-center">
+                    />{" "}
+                    13
+                  </th>
+                  <td className="w-50">
+                    For emergencies, who will be carrying for the pet when you
+                    cannot??
+                  </td>
+                  <td>{quiz13.answer}</td>
+                  <td>
+                    <b>{answers.answer1 === "MYSELF" && "10%"}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
                     <Input
-                      className="pointer"
+                      className="pointer mt-2"
                       type="checkbox"
-                      onChange={(e) => (quiz14.valid = e.target.checked)}
+                      onChange={e => (quiz14.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz14.valid}
-                    />
-                  </Col>
-                  <Col md={6}>14. Have you ever lost a pet?</Col>
-                  <Col md={5}>
-                    A: <b>{quiz14.answer}</b>
-                  </Col>
-                </Row>
-              </Col>
-
-              <Col md={12} className="mt-2">
-                <Row>
-                  <Col className="text-center">
+                    />{" "}
+                    14
+                  </th>
+                  <td className="w-50">Have you ever lost a pet before?</td>
+                  <td>{quiz14.answer}</td>
+                  <td>
+                    <b>{answers.answer1 === "MYSELF" && "10%"}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
                     <Input
-                      className="pointer"
+                      className="pointer mt-2"
                       type="checkbox"
-                      onChange={(e) => (quiz15.valid = e.target.checked)}
+                      onChange={e => (quiz15.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz15.valid}
+                    />{" "}
+                    15
+                  </th>
+                  <td className="w-50">
+                    Are you committed for Long-term costs and commitment
+                    associated with dog ownership, including ongoing
+                    vaccination, deworming, regular veterinary health checks and
+                    other treatments??
+                  </td>
+                  <td>{quiz15.answer}</td>
+                  <td>
+                    <b>{answers.answer1 === "MYSELF" && "10%"}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <h3>Valid Id</h3>
+                  </th>
+                  <td className="w-50">
+                    <img
+                      src={`${process.env.REACT_APP_API_URL}/images/valid-id/${userName}.jpg`}
+                      alt="example"
+                      height={150}
                     />
-                  </Col>
-                  <Col md={6}>
-                    15. Please state a reason for wanting to adopt a pet?
-                  </Col>
-                  <Col md={5}>
-                    A: <b>{quiz15.answer}</b>
-                  </Col>
-                </Row>
-              </Col>
-
-              <Col md={12} className="mt-2">
-                <h3>Valid Id</h3>
-                <img
-                  src={`${process.env.REACT_APP_API_URL}/images/valid-id/${userName}.jpg`}
-                  alt="example"
-                  height={150}
-                />
-              </Col>
-            </Row>
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
           ) : null}
+          <ModalFooter>
+            <div className="text-right w-100">
+              Total Score:{" "}
+              <b>
+                {totalScore} ({totalScore >= 75 ? "PASSED" : "FAILED"})
+              </b>
+            </div>
+          </ModalFooter>
         </ModalBody>
 
         {enableCheckbox && (

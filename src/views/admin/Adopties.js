@@ -133,7 +133,7 @@ function Adopties() {
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_API_URL + "/adopt-form/for-interview")
-      .then((response) => {
+      .then(response => {
         setData(response.data);
       });
   }, []);
@@ -162,7 +162,7 @@ function Adopties() {
                 </tr>
               </thead>
               <tbody>
-                {data.map((entry) => {
+                {data.map(entry => {
                   return (
                     <tr>
                       <td>{entry.name}</td>
@@ -178,21 +178,12 @@ function Adopties() {
                       </td>
                       <td>
                         {entry.type !== "MISSING" && (
-                          <a href="#" onClick={(e) => showAnswers(e, entry)}>
+                          <a href="#" onClick={e => showAnswers(e, entry)}>
                             Show Answers
                           </a>
                         )}
                       </td>
-                      <td>
-                        {entry.type}
-                        <a
-                          href="#"
-                          className="ml-3"
-                          onClick={(e) => showProofOwnership(e, entry)}
-                        >
-                          View Ownership
-                        </a>
-                      </td>
+                      <td>{entry.type}</td>
                       <td>
                         {entry.status === "FOR_INTERVIEW"
                           ? "Ready For Interview"
@@ -208,6 +199,26 @@ function Adopties() {
                           }
                         >
                           Schedule Interview
+                        </Button>
+                      </td>
+                      <td>
+                        <Button
+                          className="btn btn-success mr-2"
+                          onClick={e => handleApprove(e, entry, true)}
+                        >
+                          APPROVE
+                        </Button>
+                        <Button
+                          className="btn btn-danger"
+                          onClick={e => {
+                            if (entry.missingType === "MISSING") {
+                              handleDeclineFound(e, entry.petCode);
+                            } else {
+                              handleApprove(e, entry, false);
+                            }
+                          }}
+                        >
+                          DECLINE
                         </Button>
                       </td>
                     </tr>

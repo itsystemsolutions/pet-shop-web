@@ -68,7 +68,7 @@ function MissingPets() {
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_API_URL + "/pets/missing")
-      .then((response) => {
+      .then(response => {
         setData(response.data);
       });
   }, []);
@@ -79,7 +79,7 @@ function MissingPets() {
   const toggleShowApproveModal = () => setShowApproveModal(!showApproveModal);
   const toggleShowDeclineModal = () => setShowDeclineModal(!showDeclineModal);
 
-  const handleApproveFound = (e) => {
+  const handleApproveFound = e => {
     e.preventDefault();
 
     setIsLoading(true);
@@ -98,7 +98,7 @@ function MissingPets() {
           title: `SUCCESS! `,
           text: `Record approved! We'll redirect you to schedule interview`,
           allowOutsideClick: false,
-        }).then((result) => {
+        }).then(result => {
           console.log(result.isConfirmed);
           if (result.isConfirmed) {
             history.push(`/admin/zoom/${selectedUserId}/${selectedPetCode}`);
@@ -107,7 +107,7 @@ function MissingPets() {
       });
   };
 
-  const handleDeclineModal = (e) => {
+  const handleDeclineModal = e => {
     e.preventDefault();
 
     setIsLoading(true);
@@ -126,7 +126,7 @@ function MissingPets() {
           title: `SUCCESS! `,
           text: `Record Decline!`,
           allowOutsideClick: false,
-        }).then((result) => {
+        }).then(result => {
           console.log(result.isConfirmed);
           if (result.isConfirmed) {
             window.location.reload();
@@ -165,7 +165,7 @@ function MissingPets() {
       showCancelButton: true,
       confirmButtonText: "Submit",
       showLoaderOnConfirm: true,
-      preConfirm: (login) => {
+      preConfirm: login => {
         return axios
           .put(
             process.env.REACT_APP_API_URL +
@@ -179,13 +179,13 @@ function MissingPets() {
               icon: "success",
               title: `SUCCESS! `,
               text: `Record is updated!`,
-            }).then((result) => {
+            }).then(result => {
               if (result.isConfirmed) {
                 window.location.reload();
               }
             });
           })
-          .catch((error) => {
+          .catch(error => {
             Swal.showValidationMessage(`Request failed: ${error}`);
           });
       },
@@ -204,7 +204,7 @@ function MissingPets() {
             <NavItem className="pointer">
               <NavLink
                 className={activeTab === "1" && "active"}
-                onClick={(e) => setActiveTab("1")}
+                onClick={e => setActiveTab("1")}
               >
                 All
               </NavLink>
@@ -212,7 +212,7 @@ function MissingPets() {
             <NavItem className="pointer">
               <NavLink
                 className={activeTab === "2" && "active"}
-                onClick={(e) => setActiveTab("2")}
+                onClick={e => setActiveTab("2")}
               >
                 Missing
               </NavLink>
@@ -220,7 +220,7 @@ function MissingPets() {
             <NavItem className="pointer">
               <NavLink
                 className={activeTab === "3" && "active"}
-                onClick={(e) => setActiveTab("3")}
+                onClick={e => setActiveTab("3")}
               >
                 Found
               </NavLink>
@@ -243,7 +243,7 @@ function MissingPets() {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((entry) => {
+                  {data.map(entry => {
                     return (
                       <tr>
                         <td>
@@ -284,7 +284,7 @@ function MissingPets() {
                                 <div>
                                   <a
                                     href="#"
-                                    onClick={(e) => {
+                                    onClick={e => {
                                       if (entry.approvalStatus === "APPROVED") {
                                         if (entry.missingType === "FOUND") {
                                           setIsMissingPetFound(false);
@@ -320,13 +320,13 @@ function MissingPets() {
                             <>
                               <Button
                                 className="btn btn-success mr-2"
-                                onClick={(e) => handleApprove(e, entry, true)}
+                                onClick={e => handleApprove(e, entry, true)}
                               >
                                 APPROVE
                               </Button>
                               <Button
                                 className="btn btn-danger"
-                                onClick={(e) => {
+                                onClick={e => {
                                   if (entry.missingType === "MISSING") {
                                     handleDeclineFound(e, entry.petCode);
                                   } else {
@@ -365,7 +365,7 @@ function MissingPets() {
                     .filter(function (entry) {
                       return entry.missingType === "MISSING";
                     })
-                    .map((entry) => {
+                    .map(entry => {
                       return (
                         <tr>
                           <td>
@@ -405,7 +405,7 @@ function MissingPets() {
                                   <div>
                                     <a
                                       href="#"
-                                      onClick={(e) => {
+                                      onClick={e => {
                                         if (
                                           entry.approvalStatus === "APPROVED"
                                         ) {
@@ -446,13 +446,13 @@ function MissingPets() {
                               <>
                                 <Button
                                   className="btn btn-success mr-2"
-                                  onClick={(e) => handleApprove(e, entry, true)}
+                                  onClick={e => handleApprove(e, entry, true)}
                                 >
                                   APPROVE
                                 </Button>
                                 <Button
                                   className="btn btn-danger"
-                                  onClick={(e) => {
+                                  onClick={e => {
                                     if (entry.missingType === "FOUND") {
                                       handleDeclineFound(e, entry.petCode);
                                     } else {
@@ -490,7 +490,7 @@ function MissingPets() {
                     .filter(function (entry) {
                       return entry.missingType === "FOUND";
                     })
-                    .map((entry) => {
+                    .map(entry => {
                       return (
                         <tr>
                           <td>
@@ -530,7 +530,7 @@ function MissingPets() {
                                   <div>
                                     <a
                                       href="#"
-                                      onClick={(e) => {
+                                      onClick={e => {
                                         if (
                                           entry.approvalStatus === "APPROVED"
                                         ) {
@@ -571,13 +571,13 @@ function MissingPets() {
                               <>
                                 <Button
                                   className="btn btn-success mr-2"
-                                  onClick={(e) => handleApprove(e, entry, true)}
+                                  onClick={e => handleApprove(e, entry, true)}
                                 >
                                   APPROVE
                                 </Button>
                                 <Button
                                   className="btn btn-danger"
-                                  onClick={(e) => {
+                                  onClick={e => {
                                     if (entry.missingType === "FOUND") {
                                       handleDeclineFound(e, entry.petCode);
                                     } else {
@@ -618,7 +618,7 @@ function MissingPets() {
                 id="checkList1"
                 type="checkbox"
                 className="mt-2 pointer"
-                onChange={(e) => setCheckList1(e.target.checked)}
+                onChange={e => setCheckList1(e.target.checked)}
               />
               <Label
                 for="checkList1"
@@ -636,7 +636,7 @@ function MissingPets() {
                 id="checkList2"
                 type="checkbox"
                 className="mt-2 pointer"
-                onChange={(e) => setCheckList2(e.target.checked)}
+                onChange={e => setCheckList2(e.target.checked)}
               />
               <Label
                 for="checkList2"
@@ -654,7 +654,7 @@ function MissingPets() {
                 id="checkList3"
                 type="checkbox"
                 className="mt-2 pointer"
-                onChange={(e) => setCheckList3(e.target.checked)}
+                onChange={e => setCheckList3(e.target.checked)}
               />
               <Label
                 for="checkList3"
@@ -671,7 +671,7 @@ function MissingPets() {
                 id="checkList4"
                 type="checkbox"
                 className="mt-2 pointer"
-                onChange={(e) => setCheckList4(e.target.checked)}
+                onChange={e => setCheckList4(e.target.checked)}
               />
               <Label
                 for="checkList4"
@@ -689,7 +689,7 @@ function MissingPets() {
                 id="checkList5"
                 type="checkbox"
                 className="mt-2 pointer"
-                onChange={(e) => setCheckList5(e.target.checked)}
+                onChange={e => setCheckList5(e.target.checked)}
               />
               <Label
                 for="checkList5"
@@ -734,7 +734,7 @@ function MissingPets() {
                 id="checkList1"
                 type="checkbox"
                 className="mt-2 pointer"
-                onChange={(e) => setCheckList1Decline(e.target.checked)}
+                onChange={e => setCheckList1Decline(e.target.checked)}
               />
               <Label
                 for="checkList1"
@@ -750,7 +750,7 @@ function MissingPets() {
                 id="checkList2"
                 type="checkbox"
                 className="mt-2 pointer"
-                onChange={(e) => setCheckList2Decline(e.target.checked)}
+                onChange={e => setCheckList2Decline(e.target.checked)}
               />
               <Label
                 for="checkList2"
@@ -766,7 +766,7 @@ function MissingPets() {
                 id="checkList3"
                 type="checkbox"
                 className="mt-2 pointer"
-                onChange={(e) => setCheckList3Decline(e.target.checked)}
+                onChange={e => setCheckList3Decline(e.target.checked)}
               />
               <Label
                 for="checkList3"
@@ -782,7 +782,7 @@ function MissingPets() {
                 id="checkList4"
                 type="checkbox"
                 className="mt-2 pointer"
-                onChange={(e) => setCheckList4Decline(e.target.checked)}
+                onChange={e => setCheckList4Decline(e.target.checked)}
               />
               <Label
                 for="checkList4"
@@ -798,7 +798,7 @@ function MissingPets() {
                 id="checkList5"
                 type="checkbox"
                 className="mt-2 pointer"
-                onChange={(e) => setCheckList5Decline(e.target.checked)}
+                onChange={e => setCheckList5Decline(e.target.checked)}
               />
               <Label
                 for="checkList5"

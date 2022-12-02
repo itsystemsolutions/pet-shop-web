@@ -8,6 +8,13 @@ export const typeOptions = [
   { value: "CAT", label: "CAT" },
 ];
 
+export const AgeOptions = [
+  { value: "Year", label: "Year" },
+  { value: "Years", label: "Years" },
+  { value: "Month", label: "Month" },
+  { value: "Months", label: "Months" },
+];
+
 export const breedDog = [
   {
     value: "Aspin",

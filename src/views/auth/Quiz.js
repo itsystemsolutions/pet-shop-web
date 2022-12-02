@@ -49,12 +49,12 @@ function Quiz() {
           "/user/info?id=" +
           localStorage.getItem("user_id")
       )
-      .then((response) => {
+      .then(response => {
         setData(response.data);
       });
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
 
     axios
@@ -127,14 +127,14 @@ function Quiz() {
           },
         }
       )
-      .then((response) => {
+      .then(response => {
         if (response.data.statusCode === "OK") {
           Swal.fire({
             icon: "success",
             title: "Quiz submitted!",
             text: `Please wait for the admin to approve the quiz before adopting a pet`,
             confirmButtonText: "Check EligiblePets",
-          }).then((result) => {
+          }).then(result => {
             if (result.isConfirmed) {
               history.push("/user/dashboard");
             }
@@ -144,7 +144,7 @@ function Quiz() {
             icon: "error",
             text: `Oh no! Something went wrong!`,
             confirmButtonText: "Try again",
-          }).then((result) => {
+          }).then(result => {
             if (result.isConfirmed) {
               history.push("/user/dashboard");
             }
@@ -209,53 +209,121 @@ function Quiz() {
                   />
                 </Col>
               </Col>
-
               <Col md={12} className="font-weight-bold">
                 4. Expectations of the prospective adopter and the reasons for
-                wanting a dog.
+                wanting a pet.
               </Col>
-
-              <Col md={6}>
-                <Input
-                  style={{ cursor: "pointer" }}
-                  name="quiz4"
-                  type="textbox"
-                  required
-                  onChange={(e) => setQuiz4(e.target.value)}
-                />
-              </Col>
-
-              <Col md={12} className="font-weight-bold">
-                5. Long-term costs and commitment associated with dog ownership,
-                including ongoing vaccination, deworming, regular veterinary
-                health checks and other treatments.
-              </Col>
-
               <Col md={12}>
                 <Row className="mx-4">
-                  <Col md={2}>
-                    <FormGroup check inline>
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2">
                       <Input
                         style={{ cursor: "pointer" }}
-                        name="quiz5"
+                        name="quiz4"
                         type="radio"
                         required
-                        onChange={(e) => setQuiz5("Agree")}
+                        onChange={e => setQuiz4("")}
                       />
-                      Agree
+                      Yes, because I have a stable financial support for my
+                      future pet and I have stable job.
                     </FormGroup>
                   </Col>
 
-                  <Col md={2}>
-                    <FormGroup check inline className="ml-2">
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz4"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz4("")}
+                      />
+                      Not compatible in the pets.
+                    </FormGroup>
+                  </Col>
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz4"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz4("")}
+                      />
+                      I want to surprise my partner because she wants a dog to
+                      pet him.
+                    </FormGroup>
+                  </Col>
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz4"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz4("")}
+                      />
+                      To have a playmate.
+                    </FormGroup>
+                  </Col>
+                </Row>
+              </Col>
+
+              <Col md={12} className="font-weight-bold">
+                5. Are you prepared for the responsibility of caring for the
+                pet?
+              </Col>
+              <Col md={12}>
+                <Row className="mx-4">
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz5"
+                        type="radio"
+                        required
+                        onChange={e => setQuiz5("")}
+                      />
+                      No, because I have a work
+                    </FormGroup>
+                  </Col>
+
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
                         name="quiz5"
                         required
                         type="radio"
-                        onChange={(e) => setQuiz5("Disagree")}
+                        onChange={e => setQuiz5("")}
                       />
-                      Disagree
+                      Yes, in terms of financial stability, home space and
+                      experience of having another pet.
+                    </FormGroup>
+                  </Col>
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz5"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz5("")}
+                      />
+                      No, my partner will be responsible for caring because I’m
+                      busy with my work.
+                    </FormGroup>
+                  </Col>
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz5"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz5("")}
+                      />
+                      Yes, but it looks like it's too expensive.
                     </FormGroup>
                   </Col>
                 </Row>
@@ -265,237 +333,548 @@ function Quiz() {
                 6. Give the information and advice specific to your home and new
                 pet.
               </Col>
-
-              <Col md={6}>
-                <Input
-                  style={{ cursor: "pointer" }}
-                  name="quiz6"
-                  type="textbox"
-                  required
-                  onChange={(e) => setQuiz6(e.target.value)}
-                />
-              </Col>
-
-              <Col md={12} className="font-weight-bold">
-                7. Is your home situation stable?
-              </Col>
-
               <Col md={12}>
                 <Row className="mx-4">
-                  <Col md={2}>
-                    <FormGroup check inline>
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2">
                       <Input
                         style={{ cursor: "pointer" }}
-                        required
-                        name="quiz7"
+                        name="quiz6"
                         type="radio"
-                        onChange={(e) => setQuiz7("YES")}
+                        required
+                        onChange={e => setQuiz6("")}
                       />
-                      Yes
+                      I want my pet lonely and not active in everyday routine
                     </FormGroup>
                   </Col>
 
-                  <Col md={2}>
-                    <FormGroup check inline className="ml-2">
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
+                        name="quiz6"
                         required
-                        name="quiz7"
                         type="radio"
-                        onChange={(e) => setQuiz7("NO")}
+                        onChange={e => setQuiz6("")}
                       />
-                      No
+                      I want my pet to be aggressive like Pitbull so that I can
+                      play in dog fighting competition.
+                    </FormGroup>
+                  </Col>
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz6"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz6("")}
+                      />
+                      I want a pet that in good condition and no wounds.
+                    </FormGroup>
+                  </Col>
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz6"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz6("")}
+                      />
+                      Joyful pet, makes me happy every day, smart and easy to
+                      train.
                     </FormGroup>
                   </Col>
                 </Row>
               </Col>
 
-              <Col md={6}>
-                if yes, explain.
-                <Input
-                  style={{ cursor: "pointer" }}
-                  required
-                  name="question1"
-                  type="textbox"
-                  onChange={(e) => setQuiz7Explain(e.target.value)}
-                />
-              </Col>
-
               <Col md={12} className="font-weight-bold">
-                8. Have you ever had a dog or cat before?
+                7. Are you able to provide for the pet consistently?
               </Col>
-
               <Col md={12}>
                 <Row className="mx-4">
-                  <Col md={2}>
-                    <FormGroup check inline>
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2">
                       <Input
                         style={{ cursor: "pointer" }}
-                        required
-                        name="quiz8"
+                        name="quiz7"
                         type="radio"
-                        onChange={(e) => setQuiz8("YES")}
+                        required
+                        onChange={e => setQuiz7("")}
                       />
-                      Yes
+                      No, because I have something to do to my money
                     </FormGroup>
                   </Col>
 
-                  <Col md={2}>
-                    <FormGroup check inline className="ml-2">
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
+                        name="quiz7"
                         required
-                        name="quiz8"
                         type="radio"
-                        onChange={(e) => setQuiz8("NO")}
+                        onChange={e => setQuiz7("")}
                       />
-                      No
+                      Yes, because I have a stable financial support for my
+                      future pet and I have stable job.
+                    </FormGroup>
+                  </Col>
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz7"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz7("")}
+                      />
+                      I don’t think I can provide consistently because I’m so
+                      busy at my work
+                    </FormGroup>
+                  </Col>
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz7"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz7("")}
+                      />
+                      Yes, but with my friends and family.
                     </FormGroup>
                   </Col>
                 </Row>
               </Col>
 
-              <Col md={6}>
-                if yes, ewhere are they now?
-                <Input
-                  style={{ cursor: "pointer" }}
-                  name="quiz8"
-                  required
-                  type="textbox"
-                  onChange={(e) => setQuiz8Explain(e.target.value)}
-                />
+              <Col md={12} className="font-weight-bold">
+                8. What will you do if you had a drastic lifestyle change where
+                you could no longer care for the pet?
+              </Col>
+              <Col md={12}>
+                <Row className="mx-4">
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz8"
+                        type="radio"
+                        required
+                        onChange={e => setQuiz8("")}
+                      />
+                      I will sell my pet to my close friends
+                    </FormGroup>
+                  </Col>
+
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz8"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz8("")}
+                      />
+                      I'll try to ask help from my friends and neighbors.
+                    </FormGroup>
+                  </Col>
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz8"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz8("")}
+                      />
+                      Request help from family members or return them to the
+                      shelter if needed.
+                    </FormGroup>
+                  </Col>
+                </Row>
               </Col>
 
               <Col md={12} className="font-weight-bold">
-                9. Explain any known medical conditions or behavioral special
-                needs of your new pet.
+                9. Do we have permission to visit your home?
               </Col>
-              <Col md={6}>
-                <Input
-                  style={{ cursor: "pointer" }}
-                  name="quiz9"
-                  required
-                  type="textbox"
-                  onChange={(e) => setQuiz9(e.target.value)}
-                />
+              <Col md={12}>
+                <Row className="mx-4">
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz9"
+                        type="radio"
+                        required
+                        onChange={e => setQuiz9("")}
+                      />
+                      Yes, because my home is open to the first family who will
+                      care for my future pet.
+                    </FormGroup>
+                  </Col>
+
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz9"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz9("")}
+                      />
+                      No, because I always be with my friends
+                    </FormGroup>
+                  </Col>
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz9"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz9("")}
+                      />
+                      Yes, but not now because I'm working at office.
+                    </FormGroup>
+                  </Col>
+                </Row>
               </Col>
 
               <Col md={12} className="font-weight-bold">
                 10. Why do they think this is the right time in their lives to
                 adopt a dog/cat?
               </Col>
-              <Col md={6}>
-                <Input
-                  style={{ cursor: "pointer" }}
-                  required
-                  name="quiz10"
-                  type="textbox"
-                  onChange={(e) => setQuiz10(e.target.value)}
-                />
-              </Col>
-              <Col md={12} className="font-weight-bold">
-                11. Do we have permission to visit your home?
-              </Col>
-              <Col md={6}>
-                <Input
-                  style={{ cursor: "pointer" }}
-                  name="quiz11"
-                  required
-                  type="textbox"
-                  onChange={(e) => setQuiz11(e.target.value)}
-                />
-              </Col>
-              <Col md={12} className="font-weight-bold">
-                12. Please describe your household.
-              </Col>
               <Col md={12}>
                 <Row className="mx-4">
-                  <Col md={2}>
-                    <FormGroup check inline>
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2">
                       <Input
                         style={{ cursor: "pointer" }}
-                        name="quiz12"
+                        name="quiz10"
                         type="radio"
                         required
-                        onChange={(e) => setQuiz12("Active")}
+                        onChange={e => setQuiz10("")}
                       />
-                      Active
+                      Just for myself.
                     </FormGroup>
                   </Col>
 
-                  <Col md={2}>
-                    <FormGroup check inline className="ml-2">
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
-                        name="quiz12"
+                        name="quiz10"
                         required
                         type="radio"
-                        onChange={(e) => setQuiz12("Noisy")}
+                        onChange={e => setQuiz10("")}
                       />
-                      Noisy
+                      I want to adopt pet because it’s my birthday gift.
                     </FormGroup>
                   </Col>
-                  <Col md={2}>
-                    <FormGroup check inline className="ml-2">
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
-                        name="quiz12"
+                        name="quiz10"
                         required
                         type="radio"
-                        onChange={(e) => setQuiz12("Quiet")}
+                        onChange={e => setQuiz10("")}
                       />
-                      Quiet
+                      Because I want to try the experience of having a playmate
+                      like dogs/cat.
                     </FormGroup>
                   </Col>
-                  <Col md={2}>
-                    <FormGroup check inline className="ml-2">
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
                       <Input
                         style={{ cursor: "pointer" }}
-                        name="quiz12"
+                        name="quiz10"
                         required
                         type="radio"
-                        onChange={(e) => setQuiz12("Average")}
+                        onChange={e => setQuiz10("")}
                       />
-                      Average
+                      Because I am now dedicated and in a good situation, with a
+                      higher income and financial stability
                     </FormGroup>
                   </Col>
                 </Row>
               </Col>
+
               <Col md={12} className="font-weight-bold">
-                13. Have you ever had a pet euthanized?
+                11. Who will be primarily caretaker of the pet?
               </Col>
-              <Col md={6}>
-                <Input
-                  style={{ cursor: "pointer" }}
-                  name="quiz13"
-                  required
-                  type="textbox"
-                  onChange={(e) => setQuiz13(e.target.value)}
-                />
+              <Col md={12}>
+                <Row className="mx-4">
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz11"
+                        type="radio"
+                        required
+                        onChange={e => setQuiz11("")}
+                      />
+                      Myself, Because I am the one who adopted the pet, I must
+                      accept responsibility for having a new pet.
+                    </FormGroup>
+                  </Col>
+
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz11"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz11("")}
+                      />
+                      My neighbor because I can trust them.
+                    </FormGroup>
+                  </Col>
+                  <Col md={12}>
+                    <FormGroup check inline className="mt-2 ml-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz11"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz11("")}
+                      />
+                      My siblings, cousins or other family member.
+                    </FormGroup>
+                  </Col>
+                </Row>
               </Col>
+
               <Col md={12} className="font-weight-bold">
-                14. Have you ever lost a pet?
+                12. Is your current residence safe to keep the pet indoors?
               </Col>
-              <Col md={6}>
-                <Input
-                  style={{ cursor: "pointer" }}
-                  name="quiz14"
-                  type="textbox"
-                  required
-                  onChange={(e) => setQuiz14(e.target.value)}
-                />
+              <Col md={12}>
+                <Row className="mx-4">
+                  <Col md={12}>
+                    <FormGroup check inline className=" mt-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz12"
+                        type="radio"
+                        required
+                        onChange={e => setQuiz12("Active")}
+                      />
+                      No, because there's a lot of garbage there.
+                    </FormGroup>
+                  </Col>
+
+                  <Col md={12}>
+                    <FormGroup check inline className="ml-2 mt-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz12"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz12("Noisy")}
+                      />
+                      Not now but we will try to build house pet for them
+                      because some random dogs can come in our property
+                    </FormGroup>
+                  </Col>
+                  <Col md={12}>
+                    <FormGroup check inline className="ml-2 mt-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz12"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz12("Quiet")}
+                      />
+                      I do have a large pet-friendly space, as well as a
+                      backyard for my pet to play in.
+                    </FormGroup>
+                  </Col>
+                  <Col md={12}>
+                    <FormGroup check inline className="ml-2 mt-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz12"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz12("Average")}
+                      />
+                      Yes, but there's any pet here like chickens, duck, dove,
+                      etc.
+                    </FormGroup>
+                  </Col>
+                </Row>
               </Col>
+
               <Col md={12} className="font-weight-bold">
-                15. Please state a reason for wanting to adopt a pet?
+                13. For emergencies, who will be carrying for the pet when you
+                cannot??
               </Col>
-              <Col md={6}>
-                <Input
-                  style={{ cursor: "pointer" }}
-                  name="quiz15"
-                  required
-                  type="textbox"
-                  onChange={(e) => setQuiz15(e.target.value)}
-                />
+              <Col md={12}>
+                <Row className="mx-4">
+                  <Col md={12}>
+                    <FormGroup check inline className=" mt-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz13"
+                        type="radio"
+                        required
+                        onChange={e => setQuiz13("Active")}
+                      />
+                      My friends.
+                    </FormGroup>
+                  </Col>
+
+                  <Col md={12}>
+                    <FormGroup check inline className="ml-2 mt-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz13"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz13("Noisy")}
+                      />
+                      Other friends/neighbor who can carry.
+                    </FormGroup>
+                  </Col>
+                  <Col md={12}>
+                    <FormGroup check inline className="ml-2 mt-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz13"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz13("Quiet")}
+                      />
+                      My family since they live with me and can look after my
+                      pet when I am not at home.
+                    </FormGroup>
+                  </Col>
+                </Row>
+              </Col>
+
+              <Col md={12} className="font-weight-bold">
+                14. Have you ever lost a pet before?
+              </Col>
+              <Col md={12}>
+                <Row className="mx-4">
+                  <Col md={12}>
+                    <FormGroup check inline className=" mt-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz14"
+                        type="radio"
+                        required
+                        onChange={e => setQuiz14("Active")}
+                      />
+                      No, since I am very responsible to my pets and have always
+                      considered them like family members.
+                    </FormGroup>
+                  </Col>
+
+                  <Col md={12}>
+                    <FormGroup check inline className="ml-2 mt-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz14"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz14("Noisy")}
+                      />
+                      Yes, because sometimes I forgot to give them a food.
+                    </FormGroup>
+                  </Col>
+                  <Col md={12}>
+                    <FormGroup check inline className="ml-2 mt-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz14"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz14("Quiet")}
+                      />
+                      Yes, I lost my pet because I give it to my friend that I
+                      thought I can trust it to them but they lost it
+                    </FormGroup>
+                  </Col>
+                  <Col md={12}>
+                    <FormGroup check inline className="ml-2 mt-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz14"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz14("Quiet")}
+                      />
+                      No, because I don't have my own pet before.
+                    </FormGroup>
+                  </Col>
+                </Row>
+              </Col>
+
+              <Col md={12} className="font-weight-bold">
+                15. Are you committed for Long-term costs and commitment
+                associated with dog ownership, including ongoing vaccination,
+                deworming, regular veterinary health checks and other
+                treatments??
+              </Col>
+              <Col md={12}>
+                <Row className="mx-4">
+                  <Col md={12}>
+                    <FormGroup check inline className=" mt-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz15"
+                        type="radio"
+                        required
+                        onChange={e => setQuiz15("Active")}
+                      />
+                      No, I'm not fully committed. I also unsure to be the owner
+                      of a dog and cats. I also thinking I will not accomplish
+                      all the responsibilities that is needed.
+                    </FormGroup>
+                  </Col>
+
+                  <Col md={12}>
+                    <FormGroup check inline className="ml-2 mt-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz15"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz15("Noisy")}
+                      />
+                      Yes, I am fully committed and prepared for long-term
+                      objectives, challenges with my future pet.
+                    </FormGroup>
+                  </Col>
+                  <Col md={12}>
+                    <FormGroup check inline className=" ml-2 mt-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz15"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz15("Quiet")}
+                      />
+                      Birthday gift to my girlfriend/boyfriend.
+                    </FormGroup>
+                  </Col>
+                  <Col md={12}>
+                    <FormGroup check inline className="ml-2 mt-2">
+                      <Input
+                        style={{ cursor: "pointer" }}
+                        name="quiz15"
+                        required
+                        type="radio"
+                        onChange={e => setQuiz15("Quiet")}
+                      />
+                      Yes, but it is too expensive so I'll just wait for free
+                      public treatments.
+                    </FormGroup>
+                  </Col>
+                </Row>
               </Col>
 
               <Button

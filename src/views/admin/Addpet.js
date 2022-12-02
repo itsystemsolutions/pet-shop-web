@@ -11,16 +11,7 @@ import {
   Row,
 } from "react-bootstrap";
 
-import {
-  CardBody,
-  CardHeader,
-  Input,
-  Label,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from "reactstrap";
+import { CardBody, CardHeader, Input, Label } from "reactstrap";
 import Swal from "sweetalert2";
 
 import Select from "react-select";
@@ -31,6 +22,7 @@ import {
   genderOptions,
   breedCat,
   typeOptions,
+  AgeOptions,
 } from "./consts";
 
 const axios = require("axios").default;
@@ -38,12 +30,7 @@ const axios = require("axios").default;
 function Addpet() {
   const history = useHistory();
 
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [selected, setSelected] = useState("Select Type");
-  const toggle = () => setDropdownOpen((prevState) => !prevState);
-
   const [name, setName] = useState("");
-  const [petType, setPetType] = useState("");
 
   const [age, setAge] = useState("");
   const [weight, setWeigth] = useState("");
@@ -60,8 +47,8 @@ function Addpet() {
   const [selectedBreed, setSelectedBreed] = useState();
   const [selectedBreedcat, setSelectedBreedCat] = useState();
   const [selectedSize, setSelectedSize] = useState();
-
-  const handleAddpet = (e) => {
+  const [selectedAge, setSelectedAge] = useState();
+  const handleAddpet = e => {
     e.preventDefault();
 
     axios
@@ -91,7 +78,7 @@ function Addpet() {
 
           axios
             .put(process.env.REACT_APP_API_URL + `/pets/upload/image`, formData)
-            .catch((error) => {
+            .catch(error => {
               console.log(error);
             });
 
@@ -104,7 +91,7 @@ function Addpet() {
               process.env.REACT_APP_API_URL + `/pets/upload/vaccine/image`,
               vaccineForm
             )
-            .catch((error) => {
+            .catch(error => {
               console.log(error);
             });
 
@@ -115,7 +102,7 @@ function Addpet() {
             showCancelButton: true,
             cancelButtonText: "YES",
             confirmButtonText: "NO - goto Dashboard",
-          }).then((result) => {
+          }).then(result => {
             if (result.isConfirmed) {
               history.push("/admin/dashboard");
             } else {
@@ -131,7 +118,7 @@ function Addpet() {
       });
   };
 
-  const hanldePetTypeChange = (type) => {
+  const hanldePetTypeChange = type => {
     setSelectType(type);
 
     if (type.value === "DOG") {
@@ -168,7 +155,7 @@ function Addpet() {
                         placeholder="Name"
                         required
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={e => setName(e.target.value)}
                       ></Input>
                     </FormGroup>
                     <FormGroup>
@@ -217,20 +204,38 @@ function Addpet() {
                     ) : (
                       <></>
                     )}
-                    <FormGroup>
-                      <Label for="age">
-                        Age <span className="text-danger">*</span>
-                      </Label>
-                      <Input
-                        type="text"
-                        className="form-control"
-                        placeholder="Age"
-                        required
-                        maxLength={2}
-                        value={age}
-                        onChange={(e) => setAge(e.target.value)}
-                      ></Input>
-                    </FormGroup>
+                    <Row>
+                      <Col md={6}>
+                        <FormGroup>
+                          <Label for="age">
+                            Age <span className="text-danger">*</span>
+                          </Label>
+                          <Input
+                            type="text"
+                            className="form-control"
+                            placeholder="Age"
+                            required
+                            maxLength={2}
+                            value={age}
+                            onChange={e => setAge(e.target.value)}
+                          ></Input>
+                        </FormGroup>
+                      </Col>
+                      <Col md={6}>
+                        <FormGroup>
+                          <Label for="type">
+                            Month Or Year OLD
+                            <span className="text-danger">*</span>
+                          </Label>
+                          <Select
+                            defaultValue={selectedAge}
+                            onChange={setSelectedAge}
+                            options={AgeOptions}
+                            required
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
                     <FormGroup>
                       <Label for="age">
                         Weigth (kg) <span className="text-danger">*</span>
@@ -241,7 +246,7 @@ function Addpet() {
                         placeholder="Weigth"
                         required
                         value={weight}
-                        onChange={(e) => setWeigth(e.target.value)}
+                        onChange={e => setWeigth(e.target.value)}
                       ></Input>
                     </FormGroup>{" "}
                     <FormGroup>
@@ -254,7 +259,7 @@ function Addpet() {
                         placeholder="Color"
                         required
                         value={color}
-                        onChange={(e) => setColor(e.target.value)}
+                        onChange={e => setColor(e.target.value)}
                       ></Input>
                     </FormGroup>
                   </Col>
@@ -282,7 +287,7 @@ function Addpet() {
                         className="form-control"
                         placeholder="Enter Date"
                         value={residency}
-                        onChange={(e) => setResidency(e.target.value)}
+                        onChange={e => setResidency(e.target.value)}
                       ></Input>
                     </FormGroup>
                     <FormGroup>
@@ -295,7 +300,7 @@ function Addpet() {
                         placeholder="Condition"
                         required
                         value={condition}
-                        onChange={(e) => setCondition(e.target.value)}
+                        onChange={e => setCondition(e.target.value)}
                       ></Input>
                     </FormGroup>
                     <FormGroup>
@@ -316,7 +321,7 @@ function Addpet() {
                       <Input
                         type="file"
                         required
-                        onChange={(e) => setImage(e.target.files[0])}
+                        onChange={e => setImage(e.target.files[0])}
                       />
                     </FormGroup>
                     <FormGroup>
@@ -327,7 +332,7 @@ function Addpet() {
                       <Input
                         type="file"
                         required
-                        onChange={(e) => setVacineImage(e.target.files[0])}
+                        onChange={e => setVacineImage(e.target.files[0])}
                       />
                     </FormGroup>
                   </Col>

@@ -23,7 +23,7 @@ function Adoptpet() {
   const [isUserValidToAdopt, setIsUserValidForAdopt] = useState(false);
 
   useEffect(() => {
-    axios.get(process.env.REACT_APP_API_URL + "/pets").then((response) => {
+    axios.get(process.env.REACT_APP_API_URL + "/pets").then(response => {
       setData(response.data);
     });
 
@@ -33,7 +33,7 @@ function Adoptpet() {
           "/user/info?id=" +
           localStorage.getItem("user_id")
       )
-      .then((response) => {
+      .then(response => {
         if (response.data.userValid !== null) {
           setIsUserValidForAdopt(response.data.userValid);
         }
@@ -48,7 +48,7 @@ function Adoptpet() {
         userId: localStorage.getItem("user_id"),
         petCode: petCode,
       })
-      .then((response) => {
+      .then(response => {
         if (response.status === 204) {
           Swal.fire({
             icon: "success",
@@ -68,7 +68,7 @@ function Adoptpet() {
       <CardBody className="mt-3">
         <Row>
           {isUserValidToAdopt &&
-            data.map((pet) => {
+            data.map(pet => {
               return (
                 <Col md={3}>
                   <Card>
@@ -134,10 +134,10 @@ function Adoptpet() {
                           <b>Type:</b> {pet.type}
                         </p>
                         <p>
-                          <b>Price:</b> {pet.price}
+                          <b>Price:</b> ₱{pet.price}
                         </p>
                         <p>
-                          <b>Weight:</b> {pet.weight}
+                          <b>Weight:</b> {pet.weight} KG
                         </p>
                         <p>
                           <b>Color:</b> {pet.color}

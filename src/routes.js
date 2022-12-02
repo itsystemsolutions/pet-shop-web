@@ -2,6 +2,7 @@ import Dashboard from "views/Dashboard.js";
 import Appointments from "views/admin/Appointments";
 import ForPickup from "views/admin/ForPickup";
 import Users from "views/admin/Users";
+import Reports from "views/admin/Report";
 import Zoom from "views/admin/Zoom";
 import PickUpForm from "views/admin/PickUpForm";
 import Addpet from "views/admin/Addpet";
@@ -57,6 +58,15 @@ const dashboardRoutes = [
     component: Users,
     layout: "/admin",
   },
+
+  {
+    path: "/reports",
+    name: "Reports",
+    icon: "nc-icon nc-single-02",
+    component: Reports,
+    layout: "/admin",
+  },
+
   {
     path: "/missing/pets",
     name: "Lost and Found",
