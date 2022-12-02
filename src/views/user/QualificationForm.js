@@ -143,7 +143,7 @@ function QualificationForm() {
             console.log(error);
           });
 
-        if (response.data > 12) {
+        if (response.data >= 14) {
           Swal.fire({
             icon: "success",
             title: "Congratulations you passed the exam!",
@@ -157,7 +157,7 @@ function QualificationForm() {
         } else {
           Swal.fire({
             icon: "error",
-            text: `Oh no! You have failed the assesment questions`,
+            title: `Oh no! You have not react the assesment passing grade`,
             text: `Your score was ${response.data}`,
             confirmButtonText: "Try again",
           }).then((result) => {
@@ -298,7 +298,7 @@ function QualificationForm() {
               </Col>
             </Row>
             <h4 className="text-center">
-              QUESTIONAIRE (passsing score - 60% above)
+              QUESTIONAIRE (passsing score - 75% above)
             </h4>
           </Col>
         </CardHeader>

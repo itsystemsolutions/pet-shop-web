@@ -68,6 +68,12 @@ function PetInformation() {
                   <Col md={8}>{data.breed}</Col>
                   <Col md={4}>Shelter Resident Year:</Col>
                   <Col md={8}>{data.shelterResidentYear}</Col>
+                  <Col md={4}>Color:</Col>
+                  <Col md={8}>{data.color}</Col>
+                  <Col md={4}>Condition:</Col>
+                  <Col md={8}>{data.petCondition}</Col>
+                  <Col md={4}>Weigth:</Col>
+                  <Col md={8}>{data.weigth}</Col>
                   <Col md={12} className="mt-4">
                     Vaccine Record
                   </Col>

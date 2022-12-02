@@ -148,52 +148,110 @@ function MyMissingPets() {
               </Table>
             </TabPane>
             <TabPane tabId="2">
-              <Row>
-                <Col sm="6">
-                  <Card body>
-                    <CardTitle>Special Title Treatment</CardTitle>
-                    <CardText>
-                      With supporting text below as a natural lead-in to
-                      additional content.
-                    </CardText>
-                    <Button>Go somewhere</Button>
-                  </Card>
-                </Col>
-                <Col sm="6">
-                  <Card body>
-                    <CardTitle>Special Title Treatment</CardTitle>
-                    <CardText>
-                      With supporting text below as a natural lead-in to
-                      additional content.
-                    </CardText>
-                    <Button>Go somewhere</Button>
-                  </Card>
-                </Col>
-              </Row>
+              <Table className="table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th className="border-0">Image</th>
+                    <th className="border-0">Pet Code</th>
+                    <th className="border-0">Gender</th>
+                    <th className="border-0">Breed</th>
+                    <th className="border-0">Description</th>
+                    <th className="border-0">Last Seen</th>
+                    <th className="border-0">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data
+                    .filter(function (entry) {
+                      return entry.missingType === "MISSING";
+                    })
+                    .map((entry) => {
+                      return (
+                        <tr>
+                          <td>
+                            <a
+                              href={`${process.env.REACT_APP_URL}/user/pet/info/${entry.petCode}`}
+                              target="_blank"
+                            >
+                              <img
+                                src={`${process.env.REACT_APP_API_URL}/images/pets/${entry.petCode}.jpg`}
+                                alt=""
+                                height={110}
+                                className="mb-3"
+                              />
+                            </a>
+                          </td>
+                          <td>
+                            <a
+                              href={`${process.env.REACT_APP_URL}/user/pet/info/${entry.petCode}`}
+                              target="_blank"
+                            >
+                              {entry.petCode}
+                            </a>
+                          </td>
+                          <td>{entry.gender}</td>
+                          <td>{entry.breed}</td>
+                          <td>{entry.description}</td>
+                          <td>{entry.lastSeen}</td>
+                          <td>{entry.approvalStatus}</td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </Table>
             </TabPane>
-            <TabPane tabId="2">
-              <Row>
-                <Col sm="6">
-                  <Card body>
-                    <CardTitle>Special Title Treatment</CardTitle>
-                    <CardText>
-                      With supporting text below as a natural lead-in to
-                      additional content.
-                    </CardText>
-                    <Button>Go somewhere</Button>
-                  </Card>
-                </Col>
-                <Col sm="6">
-                  <Card body>
-                    <CardTitle>Special Title Treatment</CardTitle>
-                    <CardText>
-                      With supporting text below as a natural lead-in to
-                      additional content.
-                    </CardText>
-                    <Button>Go somewhere</Button>
-                  </Card>
-                </Col>
-              </Row>
+            <TabPane tabId="3">
+              <Table className="table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th className="border-0">Image</th>
+                    <th className="border-0">Pet Code</th>
+                    <th className="border-0">Gender</th>
+                    <th className="border-0">Breed</th>
+                    <th className="border-0">Description</th>
+                    <th className="border-0">Last Seen</th>
+                    <th className="border-0">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data
+                    .filter(function (entry) {
+                      return entry.missingType === "FOUND";
+                    })
+                    .map((entry) => {
+                      return (
+                        <tr>
+                          <td>
+                            <a
+                              href={`${process.env.REACT_APP_URL}/user/pet/info/${entry.petCode}`}
+                              target="_blank"
+                            >
+                              <img
+                                src={`${process.env.REACT_APP_API_URL}/images/pets/${entry.petCode}.jpg`}
+                                alt=""
+                                height={110}
+                                className="mb-3"
+                              />
+                            </a>
+                          </td>
+                          <td>
+                            <a
+                              href={`${process.env.REACT_APP_URL}/user/pet/info/${entry.petCode}`}
+                              target="_blank"
+                            >
+                              {entry.petCode}
+                            </a>
+                          </td>
+                          <td>{entry.gender}</td>
+                          <td>{entry.breed}</td>
+                          <td>{entry.description}</td>
+                          <td>{entry.lastSeen}</td>
+                          <td>{entry.approvalStatus}</td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </Table>
             </TabPane>
           </TabContent>
         </CardBody>

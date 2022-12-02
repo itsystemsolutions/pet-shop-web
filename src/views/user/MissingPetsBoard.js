@@ -24,7 +24,7 @@ function MissingPetsBoard() {
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_API_URL + "/pets/missing/approved")
-      .then(response => {
+      .then((response) => {
         setData(response.data);
       });
     axios
@@ -33,7 +33,7 @@ function MissingPetsBoard() {
           "/user/info?id=" +
           localStorage.getItem("user_id")
       )
-      .then(response => {
+      .then((response) => {
         if (response.data.userValid !== null) {
           setIsUserValidForAdopt(response.data.userValid);
         }
@@ -56,7 +56,7 @@ function MissingPetsBoard() {
         userId: localStorage.getItem("user_id"),
         petCode: petCode,
       })
-      .then(response => {
+      .then((response) => {
         if (response.status === 204) {
           Swal.fire({
             icon: "success",
@@ -66,7 +66,7 @@ function MissingPetsBoard() {
           history.push("/user/eligible-pets");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         Swal.fire({
           icon: "danger",
           title: `FAILED `,
@@ -82,7 +82,7 @@ function MissingPetsBoard() {
       </CardHeader>
       <CardBody className="mt-3">
         <Row>
-          {data.map(pet => {
+          {data.map((pet) => {
             return (
               <Col md={3}>
                 <Card>
@@ -109,7 +109,7 @@ function MissingPetsBoard() {
                       </Button> */}
                     </CardTitle>
                     <CardTitle className="text-center" tag="h3">
-                      {pet.status}
+                      {pet.missingType}
                     </CardTitle>
                     <div>
                       <p className="text-center h3">

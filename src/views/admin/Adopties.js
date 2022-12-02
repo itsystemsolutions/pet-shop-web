@@ -82,10 +82,16 @@ function Adopties() {
     if (entry.formAnswer.answer12 === "HOUSE") {
       score = score + 5;
     }
-    if (entry.formAnswer.answer13 === "YES") {
+    if (
+      entry.formAnswer.answer13 === "YES" ||
+      entry.formAnswer.answer13 === "NO"
+    ) {
       score = score + 5;
     }
-    if (entry.formAnswer.answer14 === "YES") {
+    if (
+      entry.formAnswer.answer14 === "YES" ||
+      entry.formAnswer.answer14 === "NO"
+    ) {
       score = score + 5;
     }
     if (entry.formAnswer.answer15 === "YES") {
@@ -382,7 +388,11 @@ function Adopties() {
                   <td className="w-50">Do you rent?</td>
                   <td>{answers.answer13}</td>
                   <td>
-                    <b>{answers.answer13 === "YES" && "5%"}</b>
+                    <b>
+                      {(answers.answer13 === "YES" ||
+                        answers.answer13 === "NO") &&
+                        "5%"}
+                    </b>
                   </td>
                 </tr>
                 <tr>
@@ -404,7 +414,11 @@ function Adopties() {
                     </div>
                   </td>
                   <td>
-                    <b>{answers.answer14 === "YES" && "5%"}</b>
+                    <b>
+                      {(answers.answer14 === "YES" ||
+                        answers.answer14 === "NO") &&
+                        "5%"}
+                    </b>
                   </td>
                 </tr>
                 <tr>

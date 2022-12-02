@@ -12,7 +12,6 @@ import {
   CardHeader,
   CardBody,
   CardTitle,
-  Row,
   Modal,
   ModalBody,
   Input,
@@ -21,7 +20,6 @@ import {
   NavLink,
   TabContent,
   TabPane,
-  CardText,
   Label,
   FormGroup,
   ModalHeader,
@@ -37,7 +35,6 @@ function MissingPets() {
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showDeclineModal, setShowDeclineModal] = useState(false);
 
-  const [approveModalFound, setApproveModalFound] = useState(false);
   const [approveModal, setApproveModal] = useState(false);
   const [declineModal, setDeclineModal] = useState(false);
 
@@ -141,9 +138,8 @@ function MissingPets() {
   const handleApprove = (e, entry, isForApprove) => {
     e.preventDefault();
 
-    console.log(entry.missingType);
     if (isForApprove) {
-      if (entry.missingType === "MISSING") {
+      if (entry.missingType === "FOUND") {
         setIsMissingPetFound(true);
       } else {
         setIsMissingPetFound(false);
@@ -290,7 +286,7 @@ function MissingPets() {
                                     href="#"
                                     onClick={(e) => {
                                       if (entry.approvalStatus === "APPROVED") {
-                                        if (entry.missingType === "MISSING") {
+                                        if (entry.missingType === "FOUND") {
                                           setIsMissingPetFound(false);
                                         } else {
                                           setIsMissingPetFound(true);
@@ -301,7 +297,7 @@ function MissingPets() {
                                           entry.approvedChecklist
                                         );
                                       } else {
-                                        if (entry.missingType === "MISSING") {
+                                        if (entry.missingType === "FOUND") {
                                           toggleShowDeclineModal();
                                         } else {
                                         }
@@ -312,13 +308,10 @@ function MissingPets() {
                                       }
                                     }}
                                   >
-                                    {entry.approvalStatus === "MISSING" &&
-                                    entry.missingType === "FOUND"
-                                      ? ""
-                                      : "Show Checklist"}
+                                    {!entry.declineReason && "Show Checklist"}
                                   </a>
                                   {entry.approvalStatus !== "APPROVED" &&
-                                    entry.missingType === "FOUND" &&
+                                    entry.missingType === "MISSING" &&
                                     "Reason: " + entry.declineReason}
                                 </div>
                               </div>
@@ -334,7 +327,7 @@ function MissingPets() {
                               <Button
                                 className="btn btn-danger"
                                 onClick={(e) => {
-                                  if (entry.missingType === "FOUND") {
+                                  if (entry.missingType === "MISSING") {
                                     handleDeclineFound(e, entry.petCode);
                                   } else {
                                     handleApprove(e, entry, false);
@@ -352,53 +345,256 @@ function MissingPets() {
                 </tbody>
               </Table>
             </TabPane>
+
             <TabPane tabId="2">
-              <Row>
-                <Col sm="6">
-                  <Card body>
-                    <CardTitle>Special Title Treatment</CardTitle>
-                    <CardText>
-                      With supporting text below as a natural lead-in to
-                      additional content.
-                    </CardText>
-                    <Button>Go somewhere</Button>
-                  </Card>
-                </Col>
-                <Col sm="6">
-                  <Card body>
-                    <CardTitle>Special Title Treatment</CardTitle>
-                    <CardText>
-                      With supporting text below as a natural lead-in to
-                      additional content.
-                    </CardText>
-                    <Button>Go somewhere</Button>
-                  </Card>
-                </Col>
-              </Row>
+              <Table className="table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th className="border-0">Image</th>
+                    <th className="border-0">User</th>
+                    <th className="border-0">Pet Code</th>
+                    <th className="border-0">Gender</th>
+                    <th className="border-0">Breed</th>
+                    <th className="border-0">Description</th>
+                    <th className="border-0">Last Seen</th>
+                    <th className="border-0">Approve ?</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data
+                    .filter(function (entry) {
+                      return entry.missingType === "MISSING";
+                    })
+                    .map((entry) => {
+                      return (
+                        <tr>
+                          <td>
+                            <img
+                              src={`${process.env.REACT_APP_API_URL}/images/pets/${entry.petCode}.jpg`}
+                              alt=""
+                              height={110}
+                              className="mb-3"
+                            />
+                          </td>
+                          <td>
+                            <p>Name: {entry.user.name}</p>
+                            <p>Email: {entry.user.email}</p>
+                            <p>Mobile: {entry.user.mobile}</p>
+                          </td>
+                          <td>{entry.petCode}</td>
+                          <td>{entry.gender}</td>
+                          <td>{entry.breed}</td>
+                          <td>{entry.description}</td>
+                          <td>{entry.lastSeen}</td>
+                          <td>
+                            {entry.approvalStatus !== "PENDING" ? (
+                              <>
+                                <div className="d-flex flex-column">
+                                  <div>
+                                    <Badge
+                                      color={`${
+                                        entry.approvalStatus === "APPROVED"
+                                          ? "success"
+                                          : "danger"
+                                      }`}
+                                    >
+                                      {entry.approvalStatus}
+                                    </Badge>
+                                  </div>
+                                  <br />
+                                  <div>
+                                    <a
+                                      href="#"
+                                      onClick={(e) => {
+                                        if (
+                                          entry.approvalStatus === "APPROVED"
+                                        ) {
+                                          if (entry.missingType === "MISSING") {
+                                            setIsMissingPetFound(false);
+                                          } else {
+                                            setIsMissingPetFound(true);
+                                          }
+
+                                          toggleShowApproveModal();
+                                          setSelectedCheckList(
+                                            entry.approvedChecklist
+                                          );
+                                        } else {
+                                          if (entry.missingType === "MISSING") {
+                                            toggleShowDeclineModal();
+                                          } else {
+                                          }
+
+                                          setSelectedCheckList(
+                                            entry.declineChecklist
+                                          );
+                                        }
+                                      }}
+                                    >
+                                      {entry.approvalStatus === "MISSING" &&
+                                      entry.missingType === "FOUND"
+                                        ? ""
+                                        : "Show Checklist"}
+                                    </a>
+                                    {entry.approvalStatus !== "APPROVED" &&
+                                      entry.missingType === "FOUND" &&
+                                      "Reason: " + entry.declineReason}
+                                  </div>
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <Button
+                                  className="btn btn-success mr-2"
+                                  onClick={(e) => handleApprove(e, entry, true)}
+                                >
+                                  APPROVE
+                                </Button>
+                                <Button
+                                  className="btn btn-danger"
+                                  onClick={(e) => {
+                                    if (entry.missingType === "FOUND") {
+                                      handleDeclineFound(e, entry.petCode);
+                                    } else {
+                                      handleApprove(e, entry, false);
+                                    }
+                                  }}
+                                >
+                                  DECLINE
+                                </Button>
+                              </>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </Table>
             </TabPane>
-            <TabPane tabId="2">
-              <Row>
-                <Col sm="6">
-                  <Card body>
-                    <CardTitle>Special Title Treatment</CardTitle>
-                    <CardText>
-                      With supporting text below as a natural lead-in to
-                      additional content.
-                    </CardText>
-                    <Button>Go somewhere</Button>
-                  </Card>
-                </Col>
-                <Col sm="6">
-                  <Card body>
-                    <CardTitle>Special Title Treatment</CardTitle>
-                    <CardText>
-                      With supporting text below as a natural lead-in to
-                      additional content.
-                    </CardText>
-                    <Button>Go somewhere</Button>
-                  </Card>
-                </Col>
-              </Row>
+            <TabPane tabId="3">
+              <Table className="table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th className="border-0">Image</th>
+                    <th className="border-0">User</th>
+                    <th className="border-0">Pet Code</th>
+                    <th className="border-0">Gender</th>
+                    <th className="border-0">Breed</th>
+                    <th className="border-0">Description</th>
+                    <th className="border-0">Last Seen</th>
+                    <th className="border-0">Approve ?</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data
+                    .filter(function (entry) {
+                      return entry.missingType === "FOUND";
+                    })
+                    .map((entry) => {
+                      return (
+                        <tr>
+                          <td>
+                            <img
+                              src={`${process.env.REACT_APP_API_URL}/images/pets/${entry.petCode}.jpg`}
+                              alt=""
+                              height={110}
+                              className="mb-3"
+                            />
+                          </td>
+                          <td>
+                            <p>Name: {entry.user.name}</p>
+                            <p>Email: {entry.user.email}</p>
+                            <p>Mobile: {entry.user.mobile}</p>
+                          </td>
+                          <td>{entry.petCode}</td>
+                          <td>{entry.gender}</td>
+                          <td>{entry.breed}</td>
+                          <td>{entry.description}</td>
+                          <td>{entry.lastSeen}</td>
+                          <td>
+                            {entry.approvalStatus !== "PENDING" ? (
+                              <>
+                                <div className="d-flex flex-column">
+                                  <div>
+                                    <Badge
+                                      color={`${
+                                        entry.approvalStatus === "APPROVED"
+                                          ? "success"
+                                          : "danger"
+                                      }`}
+                                    >
+                                      {entry.approvalStatus}
+                                    </Badge>
+                                  </div>
+                                  <br />
+                                  <div>
+                                    <a
+                                      href="#"
+                                      onClick={(e) => {
+                                        if (
+                                          entry.approvalStatus === "APPROVED"
+                                        ) {
+                                          if (entry.missingType === "MISSING") {
+                                            setIsMissingPetFound(false);
+                                          } else {
+                                            setIsMissingPetFound(true);
+                                          }
+
+                                          toggleShowApproveModal();
+                                          setSelectedCheckList(
+                                            entry.approvedChecklist
+                                          );
+                                        } else {
+                                          if (entry.missingType === "MISSING") {
+                                            toggleShowDeclineModal();
+                                          } else {
+                                          }
+
+                                          setSelectedCheckList(
+                                            entry.declineChecklist
+                                          );
+                                        }
+                                      }}
+                                    >
+                                      {entry.approvalStatus === "MISSING" &&
+                                      entry.missingType === "FOUND"
+                                        ? ""
+                                        : "Show Checklist"}
+                                    </a>
+                                    {entry.approvalStatus !== "APPROVED" &&
+                                      entry.missingType === "FOUND" &&
+                                      "Reason: " + entry.declineReason}
+                                  </div>
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <Button
+                                  className="btn btn-success mr-2"
+                                  onClick={(e) => handleApprove(e, entry, true)}
+                                >
+                                  APPROVE
+                                </Button>
+                                <Button
+                                  className="btn btn-danger"
+                                  onClick={(e) => {
+                                    if (entry.missingType === "FOUND") {
+                                      handleDeclineFound(e, entry.petCode);
+                                    } else {
+                                      handleApprove(e, entry, false);
+                                    }
+                                  }}
+                                >
+                                  DECLINE
+                                </Button>
+                              </>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </Table>
             </TabPane>
           </TabContent>
         </CardBody>
@@ -502,7 +698,7 @@ function MissingPets() {
                 style={{ fontSize: 18 }}
               >
                 {!isMissingPetFound
-                  ? "Is this person the rightful owner of the lost pet?"
+                  ? "Is the person cooperative and informed for the interview?"
                   : "Is it possible for the volunteer to save the aforementioned report?"}
               </Label>
             </FormGroup>
@@ -657,7 +853,7 @@ function MissingPets() {
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
-                {!isMissingPetFound
+                {isMissingPetFound
                   ? "Is the reported pet currently held in this shelter?"
                   : "Is the report accurate?"}
               </Label>
@@ -676,7 +872,7 @@ function MissingPets() {
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
-                {!isMissingPetFound
+                {isMissingPetFound
                   ? "Is the said report accurate with all of the information provided?"
                   : "The shelter has confirmed the information provided."}
               </Label>
@@ -713,7 +909,7 @@ function MissingPets() {
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
-                {!isMissingPetFound
+                {isMissingPetFound
                   ? "Is this person the rightful owner of the lost pet?"
                   : "Did the rescuer verify the reported claim from the shelter?"}
               </Label>
@@ -732,8 +928,8 @@ function MissingPets() {
                 className="font-weight-bold"
                 style={{ fontSize: 18 }}
               >
-                {!isMissingPetFound
-                  ? "Is this person the rightful owner of the lost pet?"
+                {isMissingPetFound
+                  ? "Is the person cooperative and informed for the interview?"
                   : "Is it possible for the volunteer to save the aforementioned report?"}
               </Label>
             </FormGroup>
