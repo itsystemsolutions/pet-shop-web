@@ -10,13 +10,10 @@ import {
   Table,
   Container,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
   Row,
   Col,
-  Button,
-  Form,
   FormGroup,
   Input,
   Label,
@@ -27,31 +24,23 @@ import Swal from "sweetalert2";
 const axios = require("axios").default;
 
 function Users() {
-  const history = useHistory();
-
-  const [petData, setPetData] = useState([]);
-
   const [userName, setUsername] = useState("");
   const [answers, setAnswers] = useState();
   const [modal, setModal] = useState(false);
 
-  const [modalTitle, setModalTitle] = useState();
-  const [enableCheckbox, setIsShowCheckBox] = useState(false);
-  const [selectedId, setSelectedId] = useState();
-
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [mobile, setMobile] = useState();
   const [address, setAddress] = useState();
+  const [petCode, setPetCode] = useState();
+  const [petName, setPetName] = useState();
+  const [petAdaption, setPetAdaption] = useState();
+  const [petPickup, setPetPickup] = useState();
+  const [petPrice, setPetPrice] = useState();
 
   const toggle = () => setModal(!modal);
 
-  const showAnswers = (e, entry, title) => {
+  const showReports = (e, entry, title) => {
     e.preventDefault();
 
     setUsername(entry.username);
-    setAnswers(entry.qualificationAnswers);
-    setSelectedId(entry.id);
     setAddress(entry.address);
 
     toggle();
@@ -70,8 +59,7 @@ function Users() {
   const handleAccountApproval = (e, entry) => {
     e.preventDefault();
 
-    showAnswers(e, entry, "Check all valid answers of ");
-    setIsShowCheckBox(true);
+    showReports(e, entry, "Check all valid answers of ");
   };
 
   return (
@@ -101,7 +89,7 @@ function Users() {
                       <a
                         href="#"
                         onClick={e => {
-                          showAnswers(e, entry, "Qualification Answers of ");
+                          showReports(e, entry, "Qualification Answers of ");
                         }}
                       >
                         Show Reports
@@ -118,7 +106,6 @@ function Users() {
         className="pb-5"
         isOpen={modal}
         toggle={toggle}
-        scrollable={true}
         size="lg"
         style={{ transform: "translate(0, 0%)" }}
       >
@@ -134,22 +121,14 @@ function Users() {
                     <Col md={4}>
                       <FormGroup>
                         <Label for="username">UserName</Label>
-                        <Input
-                          defaultValue={userName}
-                          disabled
-                          onChange={e => setUsername(e.target.value)}
-                        />
+                        <Input defaultValue={userName} disabled />
                       </FormGroup>
                     </Col>
 
                     <Col md={8}>
                       <FormGroup>
                         <Label for="Mobile">Address</Label>
-                        <Input
-                          disabled
-                          defaultValue={address}
-                          onChange={e => setAddress(e.target.value)}
-                        />
+                        <Input disabled defaultValue={address} />
                       </FormGroup>
                     </Col>
                   </Row>
@@ -165,39 +144,28 @@ function Users() {
                     <Col md={4}>
                       <FormGroup>
                         <Label for="username">Pet Name</Label>
-                        <Input
-                          disabled
-                          onChange={e => setIsUserValidForAdopt(e.target.value)}
-                        />
+                        <Input disabled />
                       </FormGroup>
                     </Col>
 
                     <Col md={4}>
                       <FormGroup>
                         <Label for="username">Price</Label>
-                        <Input
-                          disabled
-                          onChange={e => setIsUserValidForAdopt(e.target.value)}
-                        />
+                        <Input disabled />
                       </FormGroup>
                     </Col>
                   </Row>
+
                   <Row>
                     <Col md={4}>
                       <FormGroup>
                         <Label for="username">Date of Pick Up</Label>
-                        <Input
-                          disabled
-                          onChange={e => setIsUserValidForAdopt(e.target.value)}
-                        />
+                        <Input disabled />
                       </FormGroup>
                       <div>
                         <FormGroup>
                           <Label for="username">PET CODE</Label>
-                          <Input
-                            disabled
-                            onChange={e => setAddress(e.target.value)}
-                          />
+                          <Input disabled defaultValue={petCode} />
                         </FormGroup>
                       </div>
                     </Col>
