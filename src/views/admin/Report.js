@@ -29,17 +29,6 @@ const axios = require("axios").default;
 function Users() {
   const history = useHistory();
 
-  const [userdata, setUserData] = useState({
-    name: "",
-    username: "",
-    email: "",
-    mobile: "",
-    age: "",
-    address: "",
-    occupation: "",
-    social: "",
-  });
-
   const [petData, setPetData] = useState([]);
 
   const [userName, setUsername] = useState("");
@@ -53,16 +42,17 @@ function Users() {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [mobile, setMobile] = useState();
+  const [address, setAddress] = useState();
 
   const toggle = () => setModal(!modal);
 
   const showAnswers = (e, entry, title) => {
     e.preventDefault();
 
-    setModalTitle(title);
     setUsername(entry.username);
     setAnswers(entry.qualificationAnswers);
     setSelectedId(entry.id);
+    setAddress(entry.address);
 
     toggle();
   };
@@ -84,51 +74,11 @@ function Users() {
     setIsShowCheckBox(true);
   };
 
-  const handleApproveModal = e => {
-    e.preventDefault();
-
-    axios
-      .put(
-        process.env.REACT_APP_API_URL + "/user/valid/checklist/" + selectedId,
-        {}
-      )
-      .then(() => {
-        Swal.fire({
-          icon: "success",
-          title: `SUCCESS! `,
-          text: `Record is updated!`,
-        }).then(result => {
-          if (result.isConfirmed) {
-            window.location.reload();
-          }
-        });
-      });
-  };
-
-  useEffect(() => {
-    axios
-      .get(
-        process.env.REACT_APP_API_URL +
-          "/user/info?id=" +
-          localStorage.getItem("user_id")
-      )
-      .then(response => {
-        setUserData(response.data);
-      });
-  }, []);
-
-  axios.put(process.env.REACT_APP_API_URL + "/user", {
-    id: localStorage.getItem("user_id"),
-    name: name,
-    email: email,
-    mobile: mobile,
-  });
-
   return (
     <Container fluid>
       <Card className="strpied-tabled-with-hover">
         <CardHeader>
-          <CardTitle as="h4">Reports</CardTitle>
+          <CardTitle as="h4">REPORTS</CardTitle>
         </CardHeader>
         <CardBody className="table-full-width table-responsive px-0">
           <Table className="table-hover table-striped">
@@ -184,7 +134,11 @@ function Users() {
                     <Col md={4}>
                       <FormGroup>
                         <Label for="username">UserName</Label>
-                        <Input defaultValue={userdata.username} disabled />
+                        <Input
+                          defaultValue={userName}
+                          disabled
+                          onChange={e => setUsername(e.target.value)}
+                        />
                       </FormGroup>
                     </Col>
 
@@ -192,7 +146,8 @@ function Users() {
                       <FormGroup>
                         <Label for="Mobile">Address</Label>
                         <Input
-                          defaultValue={userdata.address}
+                          disabled
+                          defaultValue={address}
                           onChange={e => setAddress(e.target.value)}
                         />
                       </FormGroup>
@@ -202,39 +157,61 @@ function Users() {
                   <Row>
                     <Col md={4}>
                       <FormGroup>
-                        <Label for="username">UserName</Label>
+                        <Label for="username">Date Of Adaption</Label>
                         <Input disabled />
                       </FormGroup>
                     </Col>
 
                     <Col md={4}>
                       <FormGroup>
-                        <Label for="username">UserName</Label>
-                        <Input disabled />
+                        <Label for="username">Pet Name</Label>
+                        <Input
+                          disabled
+                          onChange={e => setIsUserValidForAdopt(e.target.value)}
+                        />
                       </FormGroup>
                     </Col>
 
                     <Col md={4}>
                       <FormGroup>
-                        <Label for="username">UserName</Label>
-                        <Input disabled />
+                        <Label for="username">Price</Label>
+                        <Input
+                          disabled
+                          onChange={e => setIsUserValidForAdopt(e.target.value)}
+                        />
                       </FormGroup>
                     </Col>
                   </Row>
                   <Row>
                     <Col md={4}>
                       <FormGroup>
-                        <Label for="username">UserName</Label>
-                        <Input disabled />
+                        <Label for="username">Date of Pick Up</Label>
+                        <Input
+                          disabled
+                          onChange={e => setIsUserValidForAdopt(e.target.value)}
+                        />
                       </FormGroup>
+                      <div>
+                        <FormGroup>
+                          <Label for="username">PET CODE</Label>
+                          <Input
+                            disabled
+                            onChange={e => setAddress(e.target.value)}
+                          />
+                        </FormGroup>
+                      </div>
                     </Col>
-                  </Row>
-                  <Row>
-                    <Col md={4}>
-                      <FormGroup>
-                        <Label for="username">UserName</Label>
-                        <Input disabled />
-                      </FormGroup>
+
+                    <Col md={8}>
+                      <Card
+                        style={{
+                          backgroundImage: `url(
+                            ${process.env.REACT_APP_API_URL}/images/pets/${data.petCode}.jpg)`,
+                          minHeight: "250px",
+                          backgroundSize: "cover",
+                          backgroundRepeat: "no-repeat",
+                        }}
+                      ></Card>
                     </Col>
                   </Row>
                 </Col>
