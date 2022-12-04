@@ -484,7 +484,7 @@ function Users() {
                   </th>
 
                   <td className="w-50">Age ?</td>
-                  <td>{}</td>
+                  <td>{quiz1.answer} </td>
                   <td>
                     <b>{"4%"}</b>
                   </td>
