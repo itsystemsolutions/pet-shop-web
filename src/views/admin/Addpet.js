@@ -48,7 +48,7 @@ function Addpet() {
   const [selectedBreedcat, setSelectedBreedCat] = useState();
   const [selectedSize, setSelectedSize] = useState();
   const [selectedAge, setSelectedAge] = useState();
-  const handleAddpet = e => {
+  const handleAddpet = (e) => {
     e.preventDefault();
 
     axios
@@ -57,6 +57,7 @@ function Addpet() {
         type: selectType?.value,
         gender: selectedGender?.value,
         size: selectedSize?.value,
+        ageUnit: selectedAge?.value,
         weight: weight,
         breed:
           selectType?.value === "DOG"
@@ -78,7 +79,7 @@ function Addpet() {
 
           axios
             .put(process.env.REACT_APP_API_URL + `/pets/upload/image`, formData)
-            .catch(error => {
+            .catch((error) => {
               console.log(error);
             });
 
@@ -91,7 +92,7 @@ function Addpet() {
               process.env.REACT_APP_API_URL + `/pets/upload/vaccine/image`,
               vaccineForm
             )
-            .catch(error => {
+            .catch((error) => {
               console.log(error);
             });
 
@@ -102,7 +103,7 @@ function Addpet() {
             showCancelButton: true,
             cancelButtonText: "YES",
             confirmButtonText: "NO - goto Dashboard",
-          }).then(result => {
+          }).then((result) => {
             if (result.isConfirmed) {
               history.push("/admin/dashboard");
             } else {
@@ -118,7 +119,7 @@ function Addpet() {
       });
   };
 
-  const hanldePetTypeChange = type => {
+  const hanldePetTypeChange = (type) => {
     setSelectType(type);
 
     if (type.value === "DOG") {
@@ -155,7 +156,7 @@ function Addpet() {
                         placeholder="Name"
                         required
                         value={name}
-                        onChange={e => setName(e.target.value)}
+                        onChange={(e) => setName(e.target.value)}
                       ></Input>
                     </FormGroup>
                     <FormGroup>
@@ -217,7 +218,7 @@ function Addpet() {
                             required
                             maxLength={2}
                             value={age}
-                            onChange={e => setAge(e.target.value)}
+                            onChange={(e) => setAge(e.target.value)}
                           ></Input>
                         </FormGroup>
                       </Col>
@@ -246,7 +247,7 @@ function Addpet() {
                         placeholder="Weigth"
                         required
                         value={weight}
-                        onChange={e => setWeigth(e.target.value)}
+                        onChange={(e) => setWeigth(e.target.value)}
                       ></Input>
                     </FormGroup>{" "}
                     <FormGroup>
@@ -259,7 +260,7 @@ function Addpet() {
                         placeholder="Color"
                         required
                         value={color}
-                        onChange={e => setColor(e.target.value)}
+                        onChange={(e) => setColor(e.target.value)}
                       ></Input>
                     </FormGroup>
                   </Col>
@@ -287,7 +288,7 @@ function Addpet() {
                         className="form-control"
                         placeholder="Enter Date"
                         value={residency}
-                        onChange={e => setResidency(e.target.value)}
+                        onChange={(e) => setResidency(e.target.value)}
                       ></Input>
                     </FormGroup>
                     <FormGroup>
@@ -300,7 +301,7 @@ function Addpet() {
                         placeholder="Condition"
                         required
                         value={condition}
-                        onChange={e => setCondition(e.target.value)}
+                        onChange={(e) => setCondition(e.target.value)}
                       ></Input>
                     </FormGroup>
                     <FormGroup>
@@ -321,7 +322,7 @@ function Addpet() {
                       <Input
                         type="file"
                         required
-                        onChange={e => setImage(e.target.files[0])}
+                        onChange={(e) => setImage(e.target.files[0])}
                       />
                     </FormGroup>
                     <FormGroup>
@@ -332,7 +333,7 @@ function Addpet() {
                       <Input
                         type="file"
                         required
-                        onChange={e => setVacineImage(e.target.files[0])}
+                        onChange={(e) => setVacineImage(e.target.files[0])}
                       />
                     </FormGroup>
                   </Col>

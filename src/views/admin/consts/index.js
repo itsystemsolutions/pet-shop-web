@@ -9,9 +9,9 @@ export const typeOptions = [
 ];
 
 export const AgeOptions = [
-  { value: "Years", label: "Years" },
+  { value: "YEARS", label: "Years" },
 
-  { value: "Months", label: "Months" },
+  { value: "MONTH", label: "Months" },
 ];
 
 export const breedDog = [
