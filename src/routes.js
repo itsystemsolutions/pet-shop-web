@@ -58,20 +58,18 @@ const dashboardRoutes = [
     component: Users,
     layout: "/admin",
   },
-
-  {
-    path: "/reports",
-    name: "Reports",
-    icon: "nc-icon nc-single-02",
-    component: Reports,
-    layout: "/admin",
-  },
-
   {
     path: "/missing/pets",
     name: "Lost and Found",
     icon: "nc-icon nc-single-02",
     component: MissingPets,
+    layout: "/admin",
+  },
+  {
+    path: "/reports",
+    name: "Reports",
+    icon: "nc-icon nc-single-02",
+    component: Reports,
     layout: "/admin",
   },
   {

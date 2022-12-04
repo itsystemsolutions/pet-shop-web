@@ -247,6 +247,45 @@ function Users() {
       valid: entry.qualificationAnswers.quiz15.valid,
     });
 
+    let scoreCount = 12;
+    if (entry.qualificationAnswers.quiz4.answer === "A") {
+      scoreCount = scoreCount + 3;
+    }
+    if (entry.qualificationAnswers.quiz5.answer === "B") {
+      scoreCount = scoreCount + 10;
+    }
+    if (entry.qualificationAnswers.quiz6.answer === "D") {
+      scoreCount = scoreCount + 3;
+    }
+    if (entry.qualificationAnswers.quiz7.answer === "B") {
+      scoreCount = scoreCount + 10;
+    }
+    if (entry.qualificationAnswers.quiz8.answer === "C") {
+      scoreCount = scoreCount + 4;
+    }
+    if (entry.qualificationAnswers.quiz9.answer === "A") {
+      scoreCount = scoreCount + 10;
+    }
+    if (entry.qualificationAnswers.quiz10.answer === "D") {
+      scoreCount = scoreCount + 4;
+    }
+    if (entry.qualificationAnswers.quiz11.answer === "A") {
+      scoreCount = scoreCount + 10;
+    }
+    if (entry.qualificationAnswers.quiz12.answer === "C") {
+      scoreCount = scoreCount + 4;
+    }
+    if (entry.qualificationAnswers.quiz13.answer === "C") {
+      scoreCount = scoreCount + 10;
+    }
+    if (entry.qualificationAnswers.quiz14.answer === "A") {
+      scoreCount = scoreCount + 10;
+    }
+    if (entry.qualificationAnswers.quiz15.answer === "B") {
+      scoreCount = scoreCount + 10;
+    }
+
+    setTotalScore(scoreCount);
     toggle();
   };
 
@@ -255,7 +294,7 @@ function Users() {
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_API_URL + "/user?type=USER")
-      .then(response => {
+      .then((response) => {
         setData(response.data);
       });
   }, []);
@@ -267,7 +306,7 @@ function Users() {
     setIsShowCheckBox(true);
   };
 
-  const handleApproveModal = e => {
+  const handleApproveModal = (e) => {
     e.preventDefault();
 
     axios
@@ -296,7 +335,7 @@ function Users() {
           icon: "success",
           title: `SUCCESS! `,
           text: `Record is updated!`,
-        }).then(result => {
+        }).then((result) => {
           if (result.isConfirmed) {
             window.location.reload();
           }
@@ -316,7 +355,7 @@ function Users() {
       showCancelButton: true,
       confirmButtonText: "Submit",
       showLoaderOnConfirm: true,
-      preConfirm: reason => {
+      preConfirm: (reason) => {
         return axios
           .put(
             process.env.REACT_APP_API_URL +
@@ -330,13 +369,13 @@ function Users() {
               icon: "success",
               title: `SUCCESS! `,
               text: `Record updated!`,
-            }).then(result => {
+            }).then((result) => {
               if (result.isConfirmed) {
                 window.location.reload();
               }
             });
           })
-          .catch(error => {
+          .catch((error) => {
             Swal.showValidationMessage(`Request failed: ${error}`);
           });
       },
@@ -368,7 +407,7 @@ function Users() {
               </tr>
             </thead>
             <tbody>
-              {data.map(entry => {
+              {data.map((entry) => {
                 return (
                   <tr>
                     <td>{entry.name}</td>
@@ -383,7 +422,7 @@ function Users() {
                     <td>
                       <span
                         className="pointer text-info"
-                        onClick={e =>
+                        onClick={(e) =>
                           history.push("/admin/user/pets/" + entry.id)
                         }
                       >
@@ -394,7 +433,7 @@ function Users() {
                       {entry.qualificationAnswers !== null && (
                         <a
                           href="#"
-                          onClick={e => {
+                          onClick={(e) => {
                             showAnswers(e, entry, "Qualification Answers of ");
                             setIsShowCheckBox(false);
                           }}
@@ -409,13 +448,13 @@ function Users() {
                           <div className="d-flex">
                             <Button
                               className="btn btn-success mr-2"
-                              onClick={e => handleAccountApproval(e, entry)}
+                              onClick={(e) => handleAccountApproval(e, entry)}
                             >
                               Approve
                             </Button>
                             <Button
                               className="btn btn-danger"
-                              onClick={e => handleAccountDenied(e, entry.id)}
+                              onClick={(e) => handleAccountDenied(e, entry.id)}
                             >
                               Deny
                             </Button>
@@ -476,7 +515,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz1.valid = e.target.checked)}
+                      onChange={(e) => (quiz1.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz1.valid}
                     />{" "}
@@ -494,7 +533,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz2.valid = e.target.checked)}
+                      onChange={(e) => (quiz2.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz2.valid}
                     />{" "}
@@ -511,7 +550,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz2.valid = e.target.checked)}
+                      onChange={(e) => (quiz2.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz3.valid}
                     />{" "}
@@ -528,7 +567,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz4.valid = e.target.checked)}
+                      onChange={(e) => (quiz4.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz4.valid}
                     />{" "}
@@ -548,7 +587,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz5.valid = e.target.checked)}
+                      onChange={(e) => (quiz5.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz5.valid}
                     />{" "}
@@ -568,7 +607,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz6.valid = e.target.checked)}
+                      onChange={(e) => (quiz6.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz6.valid}
                     />{" "}
@@ -589,7 +628,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz7.valid = e.target.checked)}
+                      onChange={(e) => (quiz7.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz7.valid}
                     />{" "}
@@ -608,7 +647,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz8.valid = e.target.checked)}
+                      onChange={(e) => (quiz8.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz8.valid}
                     />{" "}
@@ -628,7 +667,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz9.valid = e.target.checked)}
+                      onChange={(e) => (quiz9.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz9.valid}
                     />{" "}
@@ -648,7 +687,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz10.valid = e.target.checked)}
+                      onChange={(e) => (quiz10.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz10.valid}
                     />{" "}
@@ -668,7 +707,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz11.valid = e.target.checked)}
+                      onChange={(e) => (quiz11.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz11.valid}
                     />{" "}
@@ -687,7 +726,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz12.valid = e.target.checked)}
+                      onChange={(e) => (quiz12.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz12.valid}
                     />{" "}
@@ -706,7 +745,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz13.valid = e.target.checked)}
+                      onChange={(e) => (quiz13.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz13.valid}
                     />
@@ -726,7 +765,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz14.valid = e.target.checked)}
+                      onChange={(e) => (quiz14.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz14.valid}
                     />
@@ -743,7 +782,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz15.valid = e.target.checked)}
+                      onChange={(e) => (quiz15.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz15.valid}
                     />
@@ -780,7 +819,13 @@ function Users() {
           <div className="text-right w-100">
             Total Score:{" "}
             <b>
-              {totalScore} ({totalScore >= 75 ? "PASSED" : "FAILED"})
+              {totalScore} (
+              {totalScore >= 75 ? (
+                <span className="text-success">PASSED</span>
+              ) : (
+                <span className="text-danger">FAILED</span>
+              )}
+              )
             </b>
           </div>
         </ModalFooter>
