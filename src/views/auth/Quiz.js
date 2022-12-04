@@ -49,12 +49,12 @@ function Quiz() {
           "/user/info?id=" +
           localStorage.getItem("user_id")
       )
-      .then(response => {
+      .then((response) => {
         setData(response.data);
       });
   }, []);
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     axios
@@ -127,24 +127,42 @@ function Quiz() {
           },
         }
       )
-      .then(response => {
-        if (response.data.statusCode === "OK") {
+      .then((response) => {
+        console.log(response.data);
+        if (response.data === 0) {
           Swal.fire({
-            icon: "success",
-            title: "Quiz submitted!",
-            text: `Please wait for the admin to approve the quiz before adopting a pet`,
-            confirmButtonText: "Check EligiblePets",
-          }).then(result => {
+            icon: "error",
+            title: "Quiz Failed!",
+            text: `You have missed the correct answer to an important question.`,
+            confirmButtonText: "Continue",
+            allowOutsideClick: false,
+          }).then((result) => {
             if (result.isConfirmed) {
               history.push("/user/dashboard");
             }
           });
-        } else {
+        } else if (response.data >= 75) {
+          Swal.fire({
+            icon: "success",
+            title: "Success You have Passed the Quiz!",
+            text: `You can now adopt pets, Your score was ` + response.data,
+            confirmButtonText: "Check EligiblePets",
+            allowOutsideClick: false,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              history.push("/user/dashboard");
+            }
+          });
+        } else if (response.data < 75) {
           Swal.fire({
             icon: "error",
-            text: `Oh no! Something went wrong!`,
-            confirmButtonText: "Try again",
-          }).then(result => {
+            title: "Quiz Failed!",
+            text:
+              `You have not react the passing score, Your score was ` +
+              response.data,
+            confirmButtonText: "Continue",
+            allowOutsideClick: false,
+          }).then((result) => {
             if (result.isConfirmed) {
               history.push("/user/dashboard");
             }
@@ -222,7 +240,7 @@ function Quiz() {
                         name="quiz4"
                         type="radio"
                         required
-                        onChange={e => setQuiz4("")}
+                        onChange={(e) => setQuiz4("A")}
                       />
                       Yes, because I have a stable financial support for my
                       future pet and I have stable job.
@@ -236,7 +254,7 @@ function Quiz() {
                         name="quiz4"
                         required
                         type="radio"
-                        onChange={e => setQuiz4("")}
+                        onChange={(e) => setQuiz4("B")}
                       />
                       Not compatible in the pets.
                     </FormGroup>
@@ -248,7 +266,7 @@ function Quiz() {
                         name="quiz4"
                         required
                         type="radio"
-                        onChange={e => setQuiz4("")}
+                        onChange={(e) => setQuiz4("C")}
                       />
                       I want to surprise my partner because she wants a dog to
                       pet him.
@@ -261,7 +279,7 @@ function Quiz() {
                         name="quiz4"
                         required
                         type="radio"
-                        onChange={e => setQuiz4("")}
+                        onChange={(e) => setQuiz4("D")}
                       />
                       To have a playmate.
                     </FormGroup>
@@ -282,7 +300,7 @@ function Quiz() {
                         name="quiz5"
                         type="radio"
                         required
-                        onChange={e => setQuiz5("")}
+                        onChange={(e) => setQuiz5("A")}
                       />
                       No, because I have a work
                     </FormGroup>
@@ -295,7 +313,7 @@ function Quiz() {
                         name="quiz5"
                         required
                         type="radio"
-                        onChange={e => setQuiz5("")}
+                        onChange={(e) => setQuiz5("B")}
                       />
                       Yes, in terms of financial stability, home space and
                       experience of having another pet.
@@ -308,7 +326,7 @@ function Quiz() {
                         name="quiz5"
                         required
                         type="radio"
-                        onChange={e => setQuiz5("")}
+                        onChange={(e) => setQuiz5("C")}
                       />
                       No, my partner will be responsible for caring because I’m
                       busy with my work.
@@ -321,7 +339,7 @@ function Quiz() {
                         name="quiz5"
                         required
                         type="radio"
-                        onChange={e => setQuiz5("")}
+                        onChange={(e) => setQuiz5("D")}
                       />
                       Yes, but it looks like it's too expensive.
                     </FormGroup>
@@ -342,7 +360,7 @@ function Quiz() {
                         name="quiz6"
                         type="radio"
                         required
-                        onChange={e => setQuiz6("")}
+                        onChange={(e) => setQuiz6("A")}
                       />
                       I want my pet lonely and not active in everyday routine
                     </FormGroup>
@@ -355,7 +373,7 @@ function Quiz() {
                         name="quiz6"
                         required
                         type="radio"
-                        onChange={e => setQuiz6("")}
+                        onChange={(e) => setQuiz6("B")}
                       />
                       I want my pet to be aggressive like Pitbull so that I can
                       play in dog fighting competition.
@@ -368,7 +386,7 @@ function Quiz() {
                         name="quiz6"
                         required
                         type="radio"
-                        onChange={e => setQuiz6("")}
+                        onChange={(e) => setQuiz6("C")}
                       />
                       I want a pet that in good condition and no wounds.
                     </FormGroup>
@@ -380,7 +398,7 @@ function Quiz() {
                         name="quiz6"
                         required
                         type="radio"
-                        onChange={e => setQuiz6("")}
+                        onChange={(e) => setQuiz6("D")}
                       />
                       Joyful pet, makes me happy every day, smart and easy to
                       train.
@@ -401,7 +419,7 @@ function Quiz() {
                         name="quiz7"
                         type="radio"
                         required
-                        onChange={e => setQuiz7("")}
+                        onChange={(e) => setQuiz7("A")}
                       />
                       No, because I have something to do to my money
                     </FormGroup>
@@ -414,7 +432,7 @@ function Quiz() {
                         name="quiz7"
                         required
                         type="radio"
-                        onChange={e => setQuiz7("")}
+                        onChange={(e) => setQuiz7("B")}
                       />
                       Yes, because I have a stable financial support for my
                       future pet and I have stable job.
@@ -427,7 +445,7 @@ function Quiz() {
                         name="quiz7"
                         required
                         type="radio"
-                        onChange={e => setQuiz7("")}
+                        onChange={(e) => setQuiz7("C")}
                       />
                       I don’t think I can provide consistently because I’m so
                       busy at my work
@@ -440,7 +458,7 @@ function Quiz() {
                         name="quiz7"
                         required
                         type="radio"
-                        onChange={e => setQuiz7("")}
+                        onChange={(e) => setQuiz7("D")}
                       />
                       Yes, but with my friends and family.
                     </FormGroup>
@@ -461,7 +479,7 @@ function Quiz() {
                         name="quiz8"
                         type="radio"
                         required
-                        onChange={e => setQuiz8("")}
+                        onChange={(e) => setQuiz8("A")}
                       />
                       I will sell my pet to my close friends
                     </FormGroup>
@@ -474,7 +492,7 @@ function Quiz() {
                         name="quiz8"
                         required
                         type="radio"
-                        onChange={e => setQuiz8("")}
+                        onChange={(e) => setQuiz8("C")}
                       />
                       I'll try to ask help from my friends and neighbors.
                     </FormGroup>
@@ -486,7 +504,7 @@ function Quiz() {
                         name="quiz8"
                         required
                         type="radio"
-                        onChange={e => setQuiz8("")}
+                        onChange={(e) => setQuiz8("C")}
                       />
                       Request help from family members or return them to the
                       shelter if needed.
@@ -507,7 +525,7 @@ function Quiz() {
                         name="quiz9"
                         type="radio"
                         required
-                        onChange={e => setQuiz9("")}
+                        onChange={(e) => setQuiz9("A")}
                       />
                       Yes, because my home is open to the first family who will
                       care for my future pet.
@@ -521,7 +539,7 @@ function Quiz() {
                         name="quiz9"
                         required
                         type="radio"
-                        onChange={e => setQuiz9("")}
+                        onChange={(e) => setQuiz9("B")}
                       />
                       No, because I always be with my friends
                     </FormGroup>
@@ -533,7 +551,7 @@ function Quiz() {
                         name="quiz9"
                         required
                         type="radio"
-                        onChange={e => setQuiz9("")}
+                        onChange={(e) => setQuiz9("C")}
                       />
                       Yes, but not now because I'm working at office.
                     </FormGroup>
@@ -554,7 +572,7 @@ function Quiz() {
                         name="quiz10"
                         type="radio"
                         required
-                        onChange={e => setQuiz10("")}
+                        onChange={(e) => setQuiz10("A")}
                       />
                       Just for myself.
                     </FormGroup>
@@ -567,7 +585,7 @@ function Quiz() {
                         name="quiz10"
                         required
                         type="radio"
-                        onChange={e => setQuiz10("")}
+                        onChange={(e) => setQuiz10("B")}
                       />
                       I want to adopt pet because it’s my birthday gift.
                     </FormGroup>
@@ -579,7 +597,7 @@ function Quiz() {
                         name="quiz10"
                         required
                         type="radio"
-                        onChange={e => setQuiz10("")}
+                        onChange={(e) => setQuiz10("C")}
                       />
                       Because I want to try the experience of having a playmate
                       like dogs/cat.
@@ -592,7 +610,7 @@ function Quiz() {
                         name="quiz10"
                         required
                         type="radio"
-                        onChange={e => setQuiz10("")}
+                        onChange={(e) => setQuiz10("D")}
                       />
                       Because I am now dedicated and in a good situation, with a
                       higher income and financial stability
@@ -613,7 +631,7 @@ function Quiz() {
                         name="quiz11"
                         type="radio"
                         required
-                        onChange={e => setQuiz11("")}
+                        onChange={(e) => setQuiz11("A")}
                       />
                       Myself, Because I am the one who adopted the pet, I must
                       accept responsibility for having a new pet.
@@ -627,7 +645,7 @@ function Quiz() {
                         name="quiz11"
                         required
                         type="radio"
-                        onChange={e => setQuiz11("")}
+                        onChange={(e) => setQuiz11("B")}
                       />
                       My neighbor because I can trust them.
                     </FormGroup>
@@ -639,7 +657,7 @@ function Quiz() {
                         name="quiz11"
                         required
                         type="radio"
-                        onChange={e => setQuiz11("")}
+                        onChange={(e) => setQuiz11("C")}
                       />
                       My siblings, cousins or other family member.
                     </FormGroup>
@@ -659,7 +677,7 @@ function Quiz() {
                         name="quiz12"
                         type="radio"
                         required
-                        onChange={e => setQuiz12("Active")}
+                        onChange={(e) => setQuiz12("A")}
                       />
                       No, because there's a lot of garbage there.
                     </FormGroup>
@@ -672,7 +690,7 @@ function Quiz() {
                         name="quiz12"
                         required
                         type="radio"
-                        onChange={e => setQuiz12("Noisy")}
+                        onChange={(e) => setQuiz12("B")}
                       />
                       Not now but we will try to build house pet for them
                       because some random dogs can come in our property
@@ -685,7 +703,7 @@ function Quiz() {
                         name="quiz12"
                         required
                         type="radio"
-                        onChange={e => setQuiz12("Quiet")}
+                        onChange={(e) => setQuiz12("C")}
                       />
                       I do have a large pet-friendly space, as well as a
                       backyard for my pet to play in.
@@ -698,7 +716,7 @@ function Quiz() {
                         name="quiz12"
                         required
                         type="radio"
-                        onChange={e => setQuiz12("Average")}
+                        onChange={(e) => setQuiz12("D")}
                       />
                       Yes, but there's any pet here like chickens, duck, dove,
                       etc.
@@ -720,7 +738,7 @@ function Quiz() {
                         name="quiz13"
                         type="radio"
                         required
-                        onChange={e => setQuiz13("Active")}
+                        onChange={(e) => setQuiz13("A")}
                       />
                       My friends.
                     </FormGroup>
@@ -733,7 +751,7 @@ function Quiz() {
                         name="quiz13"
                         required
                         type="radio"
-                        onChange={e => setQuiz13("Noisy")}
+                        onChange={(e) => setQuiz13("B")}
                       />
                       Other friends/neighbor who can carry.
                     </FormGroup>
@@ -745,7 +763,7 @@ function Quiz() {
                         name="quiz13"
                         required
                         type="radio"
-                        onChange={e => setQuiz13("Quiet")}
+                        onChange={(e) => setQuiz13("C")}
                       />
                       My family since they live with me and can look after my
                       pet when I am not at home.
@@ -766,7 +784,7 @@ function Quiz() {
                         name="quiz14"
                         type="radio"
                         required
-                        onChange={e => setQuiz14("Active")}
+                        onChange={(e) => setQuiz14("A")}
                       />
                       No, since I am very responsible to my pets and have always
                       considered them like family members.
@@ -780,7 +798,7 @@ function Quiz() {
                         name="quiz14"
                         required
                         type="radio"
-                        onChange={e => setQuiz14("Noisy")}
+                        onChange={(e) => setQuiz14("B")}
                       />
                       Yes, because sometimes I forgot to give them a food.
                     </FormGroup>
@@ -792,7 +810,7 @@ function Quiz() {
                         name="quiz14"
                         required
                         type="radio"
-                        onChange={e => setQuiz14("Quiet")}
+                        onChange={(e) => setQuiz14("C")}
                       />
                       Yes, I lost my pet because I give it to my friend that I
                       thought I can trust it to them but they lost it
@@ -805,7 +823,7 @@ function Quiz() {
                         name="quiz14"
                         required
                         type="radio"
-                        onChange={e => setQuiz14("Quiet")}
+                        onChange={(e) => setQuiz14("D")}
                       />
                       No, because I don't have my own pet before.
                     </FormGroup>
@@ -828,7 +846,7 @@ function Quiz() {
                         name="quiz15"
                         type="radio"
                         required
-                        onChange={e => setQuiz15("Active")}
+                        onChange={(e) => setQuiz15("A")}
                       />
                       No, I'm not fully committed. I also unsure to be the owner
                       of a dog and cats. I also thinking I will not accomplish
@@ -843,7 +861,7 @@ function Quiz() {
                         name="quiz15"
                         required
                         type="radio"
-                        onChange={e => setQuiz15("Noisy")}
+                        onChange={(e) => setQuiz15("B")}
                       />
                       Yes, I am fully committed and prepared for long-term
                       objectives, challenges with my future pet.
@@ -856,7 +874,7 @@ function Quiz() {
                         name="quiz15"
                         required
                         type="radio"
-                        onChange={e => setQuiz15("Quiet")}
+                        onChange={(e) => setQuiz15("C")}
                       />
                       Birthday gift to my girlfriend/boyfriend.
                     </FormGroup>
@@ -868,7 +886,7 @@ function Quiz() {
                         name="quiz15"
                         required
                         type="radio"
-                        onChange={e => setQuiz15("Quiet")}
+                        onChange={(e) => setQuiz15("D")}
                       />
                       Yes, but it is too expensive so I'll just wait for free
                       public treatments.

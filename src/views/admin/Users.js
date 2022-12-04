@@ -24,6 +24,18 @@ import Swal from "sweetalert2";
 
 const axios = require("axios").default;
 
+const map1 = new Map();
+map1.set(
+  "4_A",
+  "Yes, because I have a stable financial support for my future pet and I have stable job."
+);
+map1.set("4_B", "Not compatible in the pets");
+map1.set(
+  "4_C",
+  "I want to surprise my partner because she wants a dog to pet him."
+);
+map1.set("4_D", "To have a playmate");
+
 function Users() {
   const history = useHistory();
 
@@ -46,6 +58,8 @@ function Users() {
   const [quiz13, setQuiz13] = useState();
   const [quiz14, setQuiz14] = useState();
   const [quiz15, setQuiz15] = useState();
+
+  const [answer4, setAnswer4] = useState();
 
   const [modalTitle, setModalTitle] = useState();
   const [enableCheckbox, setIsShowCheckBox] = useState(false);
@@ -131,7 +145,7 @@ function Users() {
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_API_URL + "/user?type=USER")
-      .then(response => {
+      .then((response) => {
         setData(response.data);
       });
   }, []);
@@ -143,7 +157,7 @@ function Users() {
     setIsShowCheckBox(true);
   };
 
-  const handleApproveModal = e => {
+  const handleApproveModal = (e) => {
     e.preventDefault();
 
     axios
@@ -172,7 +186,7 @@ function Users() {
           icon: "success",
           title: `SUCCESS! `,
           text: `Record is updated!`,
-        }).then(result => {
+        }).then((result) => {
           if (result.isConfirmed) {
             window.location.reload();
           }
@@ -192,7 +206,7 @@ function Users() {
       showCancelButton: true,
       confirmButtonText: "Submit",
       showLoaderOnConfirm: true,
-      preConfirm: reason => {
+      preConfirm: (reason) => {
         return axios
           .put(
             process.env.REACT_APP_API_URL +
@@ -206,13 +220,13 @@ function Users() {
               icon: "success",
               title: `SUCCESS! `,
               text: `Record updated!`,
-            }).then(result => {
+            }).then((result) => {
               if (result.isConfirmed) {
                 window.location.reload();
               }
             });
           })
-          .catch(error => {
+          .catch((error) => {
             Swal.showValidationMessage(`Request failed: ${error}`);
           });
       },
@@ -244,7 +258,7 @@ function Users() {
               </tr>
             </thead>
             <tbody>
-              {data.map(entry => {
+              {data.map((entry) => {
                 return (
                   <tr>
                     <td>{entry.name}</td>
@@ -259,7 +273,7 @@ function Users() {
                     <td>
                       <span
                         className="pointer text-info"
-                        onClick={e =>
+                        onClick={(e) =>
                           history.push("/admin/user/pets/" + entry.id)
                         }
                       >
@@ -270,7 +284,7 @@ function Users() {
                       {entry.qualificationAnswers !== null && (
                         <a
                           href="#"
-                          onClick={e => {
+                          onClick={(e) => {
                             showAnswers(e, entry, "Qualification Answers of ");
                             setIsShowCheckBox(false);
                           }}
@@ -285,13 +299,13 @@ function Users() {
                           <div className="d-flex">
                             <Button
                               className="btn btn-success mr-2"
-                              onClick={e => handleAccountApproval(e, entry)}
+                              onClick={(e) => handleAccountApproval(e, entry)}
                             >
                               Approve
                             </Button>
                             <Button
                               className="btn btn-danger"
-                              onClick={e => handleAccountDenied(e, entry.id)}
+                              onClick={(e) => handleAccountDenied(e, entry.id)}
                             >
                               Deny
                             </Button>
@@ -340,7 +354,7 @@ function Users() {
             <Table>
               <thead>
                 <tr>
-                  <th>#</th>
+                  <th style={{ width: "5%" }}>#</th>
                   <th>Question</th>
                   <th>Answer</th>
                   <th>Equivalent</th>
@@ -352,7 +366,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz1.valid = e.target.checked)}
+                      onChange={(e) => (quiz1.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz1.valid}
                     />{" "}
@@ -360,9 +374,9 @@ function Users() {
                   </th>
 
                   <td className="w-50">Age ?</td>
-                  <td>{quiz1.answer}</td>
+                  <td>{}</td>
                   <td>
-                    <b>{answers.answer1 === "MYSELF" && "2%"}</b>
+                    <b>{"4%"}</b>
                   </td>
                 </tr>
                 <tr>
@@ -370,7 +384,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz2.valid = e.target.checked)}
+                      onChange={(e) => (quiz2.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz2.valid}
                     />{" "}
@@ -379,7 +393,7 @@ function Users() {
                   <td className="w-50">Current Occupation ?</td>
                   <td>{quiz2.answer} </td>
                   <td>
-                    <b>{answers.answer1 === "MYSELF" && "2%"}</b>
+                    <b>{"4%"}</b>
                   </td>
                 </tr>
                 <tr>
@@ -387,7 +401,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz2.valid = e.target.checked)}
+                      onChange={(e) => (quiz2.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz3.valid}
                     />{" "}
@@ -396,7 +410,7 @@ function Users() {
                   <td className="w-50">Valid Id ?</td>
                   <td>See Below</td>
                   <td>
-                    <b>{answers.answer1 === "MYSELF" && "2%"}</b>
+                    <b>{"4%"}</b>
                   </td>
                 </tr>
                 <tr>
@@ -404,7 +418,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz4.valid = e.target.checked)}
+                      onChange={(e) => (quiz4.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz4.valid}
                     />{" "}
@@ -414,9 +428,9 @@ function Users() {
                     Expectations of the prospective adopter and the reasons for
                     wanting a pet.
                   </td>
-                  <td>{quiz4.answer}</td>
+                  <td>{map1.get("4_" + quiz4.answer)}</td>
                   <td>
-                    <b>{answers.answer1 === "MYSELF" && "1%"}</b>
+                    <b>{quiz4.answer === "A" && "3%"}</b>
                   </td>
                 </tr>
                 <tr>
@@ -424,7 +438,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz5.valid = e.target.checked)}
+                      onChange={(e) => (quiz5.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz5.valid}
                     />{" "}
@@ -436,7 +450,7 @@ function Users() {
                   </td>
                   <td>{quiz5.answer}</td>
                   <td>
-                    <b>{answers.answer1 === "MYSELF" && "10%"}</b>
+                    <b>{quiz5.answer === "B" && "10%"}</b>
                   </td>
                 </tr>
                 <tr>
@@ -444,7 +458,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz6.valid = e.target.checked)}
+                      onChange={(e) => (quiz6.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz6.valid}
                     />{" "}
@@ -456,7 +470,7 @@ function Users() {
                   </td>
                   <td>{quiz6.answer}</td>
                   <td>
-                    <b>{answers.answer1 === "MYSELF" && "1%"}</b>
+                    <b>{quiz6.answer === "D" && "3%"}</b>
                   </td>
                 </tr>
                 <tr>
@@ -465,7 +479,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz7.valid = e.target.checked)}
+                      onChange={(e) => (quiz7.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz7.valid}
                     />{" "}
@@ -476,7 +490,7 @@ function Users() {
                   </td>
                   <td>{quiz7.answer}</td>
                   <td>
-                    <b>{answers.answer1 === "MYSELF" && "10%"}</b>
+                    <b>{quiz7.answer === "B" && "10%"}</b>
                   </td>
                 </tr>
                 <tr>
@@ -484,7 +498,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz8.valid = e.target.checked)}
+                      onChange={(e) => (quiz8.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz8.valid}
                     />{" "}
@@ -496,7 +510,7 @@ function Users() {
                   </td>
                   <td>{quiz8.answer}</td>
                   <td>
-                    <b>{answers.answer1 === "MYSELF" && "2%"}</b>
+                    <b>{quiz8.answer === "C" && "4%"}</b>
                   </td>
                 </tr>
                 <tr>
@@ -504,7 +518,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz9.valid = e.target.checked)}
+                      onChange={(e) => (quiz9.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz9.valid}
                     />{" "}
@@ -515,7 +529,7 @@ function Users() {
                   </td>
                   <td>{quiz9.answer}</td>
                   <td>
-                    <b>{answers.answer1 === "MYSELF" && "10%"}</b>
+                    <b>{quiz9.answer === "A" && "10%"}</b>
                   </td>
                 </tr>
                 <tr>
@@ -524,7 +538,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz10.valid = e.target.checked)}
+                      onChange={(e) => (quiz10.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz10.valid}
                     />{" "}
@@ -536,7 +550,7 @@ function Users() {
                   </td>
                   <td>{quiz10.answer}</td>
                   <td>
-                    <b>{answers.answer1 === "MYSELF" && "2%"}</b>
+                    <b>{quiz10.answer === "D" && "4%"}</b>
                   </td>
                 </tr>
                 <tr>
@@ -544,7 +558,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz11.valid = e.target.checked)}
+                      onChange={(e) => (quiz11.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz11.valid}
                     />{" "}
@@ -555,7 +569,7 @@ function Users() {
                   </td>
                   <td>{quiz11.answer}</td>
                   <td>
-                    <b>{answers.answer1 === "MYSELF" && "10%"}</b>
+                    <b>{quiz11.answer === "A" && "10%"}</b>
                   </td>
                 </tr>
                 <tr>
@@ -563,7 +577,7 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz12.valid = e.target.checked)}
+                      onChange={(e) => (quiz12.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz12.valid}
                     />{" "}
@@ -574,7 +588,7 @@ function Users() {
                   </td>
                   <td>{quiz12.answer}</td>
                   <td>
-                    <b>{answers.answer1 === "MYSELF" && "2%"}</b>
+                    <b>{quiz12.answer === "C" && "10%"}</b>
                   </td>
                 </tr>
                 <tr>
@@ -582,10 +596,10 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz13.valid = e.target.checked)}
+                      onChange={(e) => (quiz13.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz13.valid}
-                    />{" "}
+                    />
                     13
                   </th>
                   <td className="w-50">
@@ -594,24 +608,24 @@ function Users() {
                   </td>
                   <td>{quiz13.answer}</td>
                   <td>
-                    <b>{answers.answer1 === "MYSELF" && "10%"}</b>
+                    <b>{quiz13.answer === "C" && "10%"}</b>
                   </td>
                 </tr>
                 <tr>
                   <th scope="row">
                     <Input
                       className="pointer mt-2"
-                      type="checkbox"
-                      onChange={e => (quiz14.valid = e.target.checked)}
+                      type="checkbuox"
+                      onChange={(e) => (quiz14.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz14.valid}
-                    />{" "}
+                    />
                     14
                   </th>
                   <td className="w-50">Have you ever lost a pet before?</td>
                   <td>{quiz14.answer}</td>
                   <td>
-                    <b>{answers.answer1 === "MYSELF" && "10%"}</b>
+                    <b>{quiz14.answer === "A" && "10%"}</b>
                   </td>
                 </tr>
                 <tr>
@@ -619,10 +633,10 @@ function Users() {
                     <Input
                       className="pointer mt-2"
                       type="checkbox"
-                      onChange={e => (quiz15.valid = e.target.checked)}
+                      onChange={(e) => (quiz15.valid = e.target.checked)}
                       disabled={!enableCheckbox}
                       defaultChecked={quiz15.valid}
-                    />{" "}
+                    />
                     15
                   </th>
                   <td className="w-50">
@@ -633,7 +647,7 @@ function Users() {
                   </td>
                   <td>{quiz15.answer}</td>
                   <td>
-                    <b>{answers.answer1 === "MYSELF" && "10%"}</b>
+                    <b>{quiz15.answer === "B" && "10%"}</b>
                   </td>
                 </tr>
                 <tr>
@@ -651,15 +665,15 @@ function Users() {
               </tbody>
             </Table>
           ) : null}
-          <ModalFooter>
-            <div className="text-right w-100">
-              Total Score:{" "}
-              <b>
-                {totalScore} ({totalScore >= 75 ? "PASSED" : "FAILED"})
-              </b>
-            </div>
-          </ModalFooter>
         </ModalBody>
+        <ModalFooter>
+          <div className="text-right w-100">
+            Total Score:{" "}
+            <b>
+              {totalScore} ({totalScore >= 75 ? "PASSED" : "FAILED"})
+            </b>
+          </div>
+        </ModalFooter>
 
         {enableCheckbox && (
           <ModalFooter>
